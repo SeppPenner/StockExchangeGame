@@ -45,6 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Generic\DatabaseAdapter.cs" />
+    <Compile Include="Database\Generic\EntityController.cs" />
+    <Compile Include="Database\Generic\IDatabaseAdapter.cs" />
+    <Compile Include="Database\Generic\IEntityController.cs" />
+    <Compile Include="Database\Generic\SQLite.cs" />
+    <Compile Include="Database\Generic\SQLiteAsync.cs" />
+    <Compile Include="Database\Models\AbstractEntity.cs" />
+    <Compile Include="Database\Models\Dish.cs" />
+    <Compile Include="Database\Models\Ingredient.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +71,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
