@@ -44,6 +44,7 @@ namespace StockExchangeGame
         private void LogDatabaseInitializationError(List<CreateTablesResult> results)
         {
             var ex = new InitializationException(_lang.GetWord("ErrorInDatabaseInit"), results);
+            MessageBox.Show(ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
             _log.Error(ex);
         }
 
