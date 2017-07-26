@@ -12,7 +12,6 @@ namespace StockExchangeGame
     public partial class Main : Form
     {
         private readonly IDatabaseAdapter _databaseAdapter = new DatabaseAdapter();
-
         private readonly ILanguageManager _lm = new LanguageManager();
         private Language _lang;
 
