@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using StockExchangeGame.Database.Generic;
 
 namespace StockExchangeGame.Exceptions
 {
@@ -19,5 +21,14 @@ namespace StockExchangeGame.Exceptions
             : base(message, inner)
         {
         }
+
+        public InitializationException(string message, List<CreateTablesResult> results)
+            : base(message)
+        {
+            Results = results;
+        }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
+        private List<CreateTablesResult> Results { get;}
     }
 }
