@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Languages.Implementation;
+using Languages.Interfaces;
 using StockExchangeGame.Database.Generic;
 using StockExchangeGame.Exceptions;
 
@@ -10,6 +12,10 @@ namespace StockExchangeGame
     public partial class Main : Form
     {
         private readonly IDatabaseAdapter _databaseAdapter = new DatabaseAdapter();
+
+        private readonly ILanguageManager _lm = new LanguageManager();
+        private Language _lang;
+
         public Main()
         {
             InitializeComponent();
@@ -29,13 +35,8 @@ namespace StockExchangeGame
         {
             var result = _databaseAdapter.CreateAllTables();
             if (result.Result.Any(x => x.Results == null))
-            {
                 throw new InitializationException("");
-            }
         }
-
-        private readonly ILanguageManager _lm = new LanguageManager();
-        private Language _lang;
 
         private void InitializeLanguageManager()
         {
@@ -61,5 +62,4 @@ namespace StockExchangeGame
             labelSelectLanguage.Text = _lang.GetWord("SelectLanguage");
         }
     }
-}
 }
