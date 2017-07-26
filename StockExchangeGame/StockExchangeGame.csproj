@@ -64,6 +64,7 @@
     <Compile Include="Database\Models\StockMarket.cs" />
     <Compile Include="Database\Models\Surnames.cs" />
     <Compile Include="Database\Models\Taxes.cs" />
+    <Compile Include="Exceptions\InitializationException.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
