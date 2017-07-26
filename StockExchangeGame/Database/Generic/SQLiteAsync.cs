@@ -389,7 +389,12 @@ namespace StockExchangeGame.Database.Generic
 	{
 		public Dictionary<Type, int> Results { get; private set; }
 
-		internal CreateTablesResult ()
+	    public override string ToString()
+	    {
+	        return "<Result: " + string.Join(",", Results) + " Result/>";
+	    }
+
+	    internal CreateTablesResult ()
 		{
 			this.Results = new Dictionary<Type, int> ();
 		}
