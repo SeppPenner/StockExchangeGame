@@ -35,7 +35,7 @@ namespace StockExchangeGame
         {
             var result = _databaseAdapter.CreateAllTables();
             if (result.Result.Any(x => x.Results == null))
-                throw new InitializationException("");
+                throw new InitializationException(_lang.GetWord("ErrorInDatabaseInit"));
         }
 
         private void InitializeLanguageManager()
