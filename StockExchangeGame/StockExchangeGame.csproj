@@ -52,8 +52,18 @@
     <Compile Include="Database\Generic\SQLite.cs" />
     <Compile Include="Database\Generic\SQLiteAsync.cs" />
     <Compile Include="Database\Models\AbstractEntity.cs" />
-    <Compile Include="Database\Models\Dish.cs" />
-    <Compile Include="Database\Models\Ingredient.cs" />
+    <Compile Include="Database\Models\Sold.cs" />
+    <Compile Include="Database\Models\Bought.cs" />
+    <Compile Include="Database\Models\CompanyEndings.cs" />
+    <Compile Include="Database\Models\CompanyNames.cs" />
+    <Compile Include="Database\Models\DummyCompany.cs" />
+    <Compile Include="Database\Models\Merchant.cs" />
+    <Compile Include="Database\Models\Names.cs" />
+    <Compile Include="Database\Models\Stock.cs" />
+    <Compile Include="Database\Models\StockHistory.cs" />
+    <Compile Include="Database\Models\StockMarket.cs" />
+    <Compile Include="Database\Models\Surnames.cs" />
+    <Compile Include="Database\Models\Taxes.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
