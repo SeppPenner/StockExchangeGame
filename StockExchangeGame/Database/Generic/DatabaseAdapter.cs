@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using StockExchangeGame.Database.Models;
 using System.IO;
 using System.Reflection;
@@ -79,6 +80,25 @@ namespace StockExchangeGame.Database.Generic
         public async Task<CreateTablesResult> CreateTaxesTable()
         {
             return await GetConnection().CreateTableAsync<Taxes>();
+        }
+
+        public async Task<List<CreateTablesResult>> CreateAllTables()
+        {
+            return new List<CreateTablesResult>
+            {
+                await CreateBoughtTable(),
+                await CreateCompanyEndingsTable(),
+                await CreateCompanyNamesTable(),
+                await CreateDummyCompanyTable(),
+                await CreateMerchantTable(),
+                await CreateNamesTable(),
+                await CreateSoldTable(),
+                await CreateStockTable(),
+                await CreateStockHistoryTable(),
+                await CreateStockMarketTable(),
+                await CreateSurnamesTable(),
+                await CreateTaxesTable()
+            };
         }
     }
 }
