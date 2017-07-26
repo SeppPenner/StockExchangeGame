@@ -4,7 +4,6 @@ using StockExchangeGame.Database.Generic;
 
 namespace StockExchangeGame.Exceptions
 {
-
     // ReSharper disable once UnusedMember.Global
     public class InitializationException : Exception
     {
@@ -32,7 +31,7 @@ namespace StockExchangeGame.Exceptions
         }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        private List<CreateTablesResult> Results { get;}
+        private List<CreateTablesResult> Results { get; }
 
         // ReSharper disable once UnusedMember.Global
         public override string ToString()

@@ -17,7 +17,8 @@ namespace StockExchangeGame.Database.Generic
         Task<T> Get(int id);
 
         // ReSharper disable once UnusedMember.Global
-        Task<ObservableCollection<T>> Get<TValue>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, TValue>> orderBy = null);
+        Task<ObservableCollection<T>> Get<TValue>(Expression<Func<T, bool>> predicate = null,
+            Expression<Func<T, TValue>> orderBy = null);
 
         // ReSharper disable once UnusedMember.Global
         Task<T> Get(Expression<Func<T, bool>> predicate);

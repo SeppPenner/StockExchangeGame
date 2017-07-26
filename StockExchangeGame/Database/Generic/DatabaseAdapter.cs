@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using StockExchangeGame.Database.Models;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
+using StockExchangeGame.Database.Models;
 
 namespace StockExchangeGame.Database.Generic
 {
     // ReSharper disable once UnusedMember.Global
-    public class DatabaseAdapter: IDatabaseAdapter
+    public class DatabaseAdapter : IDatabaseAdapter
     {
         private const string SqlDbFileName = "StockGame.db3";
 
         public string GetDatabasePath()
         {
             var location = Assembly.GetExecutingAssembly().Location;
-            return location != null ? Path.Combine(Directory.GetParent(location).FullName, SqlDbFileName) : string.Empty;
+            return location != null
+                ? Path.Combine(Directory.GetParent(location).FullName, SqlDbFileName)
+                : string.Empty;
         }
 
         public SQLiteAsyncConnection GetConnection()

@@ -5,13 +5,19 @@ namespace StockExchangeGame.Database.Models
     // ReSharper disable once UnusedMember.Global
     public class Taxes : AbstractEntity
     {
+        private DateTime _dateTaxWasDue;
+
+        private double _dueInEuro;
+
+        private long _merchantId;
+
+        private double _payedInEuro;
+
         public Taxes()
         {
             CreatedAt = DateTime.Now;
             ModifiedAt = DateTime.Now;
         }
-
-        private long _merchantId;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -22,15 +28,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_merchantId))
-                {
                     return;
-                }
                 _merchantId = value;
                 OnPropertyChanged();
             }
         }
-
-        private DateTime _dateTaxWasDue;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -41,15 +43,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_dateTaxWasDue))
-                {
                     return;
-                }
                 _dateTaxWasDue = value;
                 OnPropertyChanged();
             }
         }
-
-        private double _dueInEuro;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -60,15 +58,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_dueInEuro))
-                {
                     return;
-                }
                 _dueInEuro = value;
                 OnPropertyChanged();
             }
         }
-
-        private double _payedInEuro;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -79,9 +73,7 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_payedInEuro))
-                {
                     return;
-                }
                 _payedInEuro = value;
                 OnPropertyChanged();
             }

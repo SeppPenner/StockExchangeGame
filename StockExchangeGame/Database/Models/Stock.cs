@@ -3,15 +3,19 @@
 namespace StockExchangeGame.Database.Models
 {
     // ReSharper disable once UnusedMember.Global
-    public class Stock: AbstractEntity
+    public class Stock : AbstractEntity
     {
+        private string _name;
+
+        private int _total;
+
+        private int _used;
+
         public Stock()
         {
             CreatedAt = DateTime.Now;
             ModifiedAt = DateTime.Now;
         }
-
-        private string _name;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -21,15 +25,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_name))
-                {
                     return;
-                }
                 _name = value;
                 OnPropertyChanged();
             }
         }
-
-        private int _total;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -40,15 +40,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_total))
-                {
                     return;
-                }
                 _total = value;
                 OnPropertyChanged();
             }
         }
-
-        private int _used;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -59,9 +55,7 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_used))
-                {
                     return;
-                }
                 _used = value;
                 OnPropertyChanged();
             }

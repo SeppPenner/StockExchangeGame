@@ -6,6 +6,16 @@ namespace StockExchangeGame.Database.Models
     {
         private DateTime _priceDate;
 
+        private double _pricePerStock;
+
+        private long _stockId;
+
+        public StockHistory()
+        {
+            CreatedAt = DateTime.Now;
+            ModifiedAt = DateTime.Now;
+        }
+
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global
@@ -15,15 +25,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_priceDate))
-                {
                     return;
-                }
                 _priceDate = value;
                 OnPropertyChanged();
             }
         }
-
-        private long _stockId;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -34,15 +40,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_stockId))
-                {
                     return;
-                }
                 _stockId = value;
                 OnPropertyChanged();
             }
         }
-
-        private double _pricePerStock;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -53,18 +55,10 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_pricePerStock))
-                {
                     return;
-                }
                 _pricePerStock = value;
                 OnPropertyChanged();
             }
-        }
-
-        public StockHistory()
-        {
-            CreatedAt = DateTime.Now;
-            ModifiedAt = DateTime.Now;
         }
     }
 }

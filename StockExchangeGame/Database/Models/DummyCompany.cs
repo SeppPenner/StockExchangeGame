@@ -5,13 +5,19 @@ namespace StockExchangeGame.Database.Models
     // ReSharper disable once UnusedMember.Global
     public class DummyCompany : AbstractEntity
     {
+        private bool _active;
+
+        private long _merchantId;
+
+        private string _name;
+
+        private double _sumInEuro;
+
         public DummyCompany()
         {
             CreatedAt = DateTime.Now;
             ModifiedAt = DateTime.Now;
         }
-
-        private string _name;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -22,15 +28,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_name))
-                {
                     return;
-                }
                 _name = value;
                 OnPropertyChanged();
             }
         }
-
-        private long _merchantId;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -41,15 +43,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_merchantId))
-                {
                     return;
-                }
                 _merchantId = value;
                 OnPropertyChanged();
             }
         }
-
-        private double _sumInEuro;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -60,15 +58,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_sumInEuro))
-                {
                     return;
-                }
                 _sumInEuro = value;
                 OnPropertyChanged();
             }
         }
-
-        private bool _active;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -79,9 +73,7 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_active))
-                {
                     return;
-                }
                 _active = value;
                 OnPropertyChanged();
             }

@@ -28,17 +28,6 @@ namespace StockExchangeGame.Database.Generic
             return await query.CountAsync();
         }
 
-        private AsyncTableQuery<T> QueryIfPredicateNotNull(Expression<Func<T, bool>> predicate)
-        {
-            var query = _db.Table<T>();
-            return predicate != null ? query.Where(predicate) : query;
-        }
-
-        private AsyncTableQuery<T> OrderByIfNotNull<TValue>(AsyncTableQuery<T>  query, Expression<Func<T, TValue>> orderBy)
-        {
-            return orderBy != null ? query.OrderBy(orderBy) : query;
-        }
-
         public async Task<int> Delete(T entity)
         {
             return await _db.DeleteAsync(entity);
@@ -67,6 +56,28 @@ namespace StockExchangeGame.Database.Generic
             return await GetCollection(query);
         }
 
+        public async Task<int> Insert(T entity)
+        {
+            return await _db.InsertAsync(entity);
+        }
+
+        public async Task<int> Update(T entity)
+        {
+            return await _db.UpdateAsync(entity);
+        }
+
+        private AsyncTableQuery<T> QueryIfPredicateNotNull(Expression<Func<T, bool>> predicate)
+        {
+            var query = _db.Table<T>();
+            return predicate != null ? query.Where(predicate) : query;
+        }
+
+        private AsyncTableQuery<T> OrderByIfNotNull<TValue>(AsyncTableQuery<T> query,
+            Expression<Func<T, TValue>> orderBy)
+        {
+            return orderBy != null ? query.OrderBy(orderBy) : query;
+        }
+
         private async Task<ObservableCollection<T>> GetCollection(AsyncTableQuery<T> query)
         {
             var items = await query.ToListAsync();
@@ -77,20 +88,8 @@ namespace StockExchangeGame.Database.Generic
         {
             var collection = new ObservableCollection<T>();
             foreach (var item in items)
-            {
                 collection.Add(item);
-            }
             return collection;
-        }
-
-        public async Task<int> Insert(T entity)
-        {
-            return await _db.InsertAsync(entity);
-        }
-
-        public async Task<int> Update(T entity)
-        {
-            return await _db.UpdateAsync(entity);
         }
     }
 }

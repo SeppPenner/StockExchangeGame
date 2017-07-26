@@ -16,8 +16,8 @@ namespace StockExchangeGame
     {
         private readonly IDatabaseAdapter _databaseAdapter = new DatabaseAdapter();
         private readonly ILanguageManager _lm = new LanguageManager();
-        private Language _lang;
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private Language _lang;
 
         public Main()
         {

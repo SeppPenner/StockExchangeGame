@@ -7,19 +7,16 @@ namespace StockExchangeGame.Database.Models
 {
     public class AbstractEntity : INotifyPropertyChanged
     {
-        [PrimaryKey, AutoIncrement]
+        private DateTime _createdAt;
+
+        private bool _deleted;
+
+        private DateTime _modifiedAt;
+
+        [PrimaryKey]
+        [AutoIncrement]
         // ReSharper disable once UnusedMember.Global
         public long Id { get; set; }
-
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private DateTime _createdAt;
 
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global
@@ -29,15 +26,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_createdAt))
-                {
                     return;
-                }
                 _createdAt = value;
                 OnPropertyChanged();
             }
         }
-
-        private DateTime _modifiedAt;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -48,15 +41,11 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_modifiedAt))
-                {
                     return;
-                }
                 _modifiedAt = value;
                 OnPropertyChanged();
             }
         }
-
-        private bool _deleted;
 
         // ReSharper disable once UnusedMember.Global
         public bool Deleted
@@ -65,14 +54,20 @@ namespace StockExchangeGame.Database.Models
             set
             {
                 if (value.Equals(_deleted))
-                {
                     return;
-                }
                 _deleted = value;
                 OnPropertyChanged();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        // ReSharper disable once MemberCanBePrivate.Global
+        // ReSharper disable once MemberCanBeProtected.Global
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
