@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
+using log4net;
 using Languages.Implementation;
 using Languages.Interfaces;
 using StockExchangeGame.Database.Generic;
@@ -14,6 +17,7 @@ namespace StockExchangeGame
         private readonly IDatabaseAdapter _databaseAdapter = new DatabaseAdapter();
         private readonly ILanguageManager _lm = new LanguageManager();
         private Language _lang;
+        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public Main()
         {
@@ -33,8 +37,14 @@ namespace StockExchangeGame
         private void CreateAllTables()
         {
             var result = _databaseAdapter.CreateAllTables();
-            if (result.Result.Any(x => x.Results == null))
-                throw new InitializationException(_lang.GetWord("ErrorInDatabaseInit"));
+            if (result.Result.All(x => x.Results != null)) return;
+            LogDatabaseInitializationError(result.Result);
+        }
+
+        private void LogDatabaseInitializationError(List<CreateTablesResult> results)
+        {
+            var ex = new InitializationException(_lang.GetWord("ErrorInDatabaseInit"), results);
+            _log.Error(ex);
         }
 
         private void InitializeLanguageManager()
