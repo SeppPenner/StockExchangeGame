@@ -9,6 +9,7 @@ using Languages.Implementation;
 using Languages.Interfaces;
 using StockExchangeGame.Database.Generic;
 using StockExchangeGame.Exceptions;
+using StockExchangeGame.Views;
 
 namespace StockExchangeGame
 {
@@ -24,7 +25,7 @@ namespace StockExchangeGame
             InitializeComponent();
             InitializeLanguageManager();
             LoadLanguagesToCombo();
-            InitializeDatabaseIfNecessary();
+            //InitializeDatabaseIfNecessary();
         }
 
         private void InitializeDatabaseIfNecessary()
@@ -70,6 +71,56 @@ namespace StockExchangeGame
         {
             _lang = _lm.GetCurrentLanguage();
             labelSelectLanguage.Text = _lang.GetWord("SelectLanguage");
+        }
+
+        private void buttonMarketView_Click(object sender, EventArgs e)
+        {
+            if (CanCurrentViewClose())
+            {
+                var v = new MarketView();
+                SwitchView(v);
+            }
+            else
+            {
+                MessageBox.Show("Current View can not close!");
+            }
+        }
+
+        private bool CanCurrentViewClose()
+        {
+            if(groupBoxViews.Controls.Count == 0)
+                return true;
+
+            var v = groupBoxViews.Controls[0] as IView;
+            return v != null && v.CanClose();
+        }
+
+        private void SwitchView(UserControl newView)
+        {
+            if (newView == null) throw new ArgumentNullException(nameof(newView));
+            if (groupBoxViews.Controls.Count > 0)
+            {
+                var oldView = groupBoxViews.Controls[0] as UserControl;
+                if (oldView == null) return;
+                groupBoxViews.Controls.Remove(oldView);
+                oldView.Dispose();
+            }
+            groupBoxViews.Controls.Add(newView);
+            newView.Dock = DockStyle.Fill;
+            groupBoxViews.Refresh();
+        }
+
+        private void buttonPersonalView_Click(object sender, EventArgs e)
+        {
+            if (CanCurrentViewClose())
+            {
+                var v = new PersonalView();
+                SwitchView(v);
+            }
+            else
+            {
+                MessageBox.Show("Current View can not close!");
+            }
         }
     }
 }
