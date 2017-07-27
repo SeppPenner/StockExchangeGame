@@ -3,7 +3,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using StockExchangeGame.Database.Models;
-using StockExchangeGame.Database.SQLite;
 
 namespace StockExchangeGame.Database.Generic
 {
@@ -20,9 +19,9 @@ namespace StockExchangeGame.Database.Generic
                 : string.Empty;
         }
 
-        public SQLiteAsyncConnection GetConnection()
+        public SqLiteAsyncConnection GetConnection()
         {
-            return new SQLiteAsyncConnection(GetDatabasePath());
+            return new SqLiteAsyncConnection(GetDatabasePath());
         }
 
         public async Task<CreateTablesResult> CreateBoughtTable()
