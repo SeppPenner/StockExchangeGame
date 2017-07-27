@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using System.Linq;
 using System.Linq.Expressions;
 using StockExchangeGame.Database.Models;
 
@@ -17,7 +18,7 @@ namespace StockExchangeGame.Database.Generic
             _connection = new SQLiteConnection(connectionString);
         }
 
-        public int CreateTable<TBought>()
+        public int CreateTable()
         {
             int result;
             var sql = GetCreateTableSQL();
@@ -28,20 +29,6 @@ namespace StockExchangeGame.Database.Generic
             }
             _connection.Close();
             return result;
-        }
-
-        private string GetCreateTableSQL()
-        {
-            return "CREATE TABLE Bought (" +
-                   "Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                   "Amount INTEGER NOT NULL," +
-                   "CreatedAt TEXT NOT NULL," +
-                   "DateBought TEXT NOT NULL," +
-                   "Deleted BOOLEAN NOT NULL," +
-                   "MerchantId INTEGER NOT NULL," +
-                   "ModifiedAt TEXT NOT NULL," +
-                   "StockId INTEGER NOT NULL," +
-                   "ValuePerStockInEuro DOUBLE NOT NULL)";
         }
 
         public List<Bought> Get()
@@ -74,15 +61,88 @@ namespace StockExchangeGame.Database.Generic
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                    {
                         return GetBoughtFromReader(reader);
-                    }
                 }
             }
             _connection.Close();
             return null;
         }
-        
+
+        public ObservableCollection<Bought> Get<TValue>(Expression<Func<Bought, bool>> predicate = null,
+            Expression<Func<Bought, TValue>> orderBy = null)
+        {
+            if (predicate == null && orderBy == null)
+                return GetCollection(Get());
+            if (predicate != null && orderBy == null)
+                return GetCollection(GetQueryable().Where(predicate).ToList());
+            return GetCollection(predicate == null
+                ? GetQueryable().OrderBy(orderBy).ToList()
+                : GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
+        }
+
+        public Bought Get(Expression<Func<Bought, bool>> predicate)
+        {
+            return GetQueryable().Where(predicate).FirstOrDefault();
+        }
+
+        public int Insert(Bought bought)
+        {
+            int result;
+            _connection.Open();
+            using (var command = new SQLiteCommand(_connection))
+            {
+                PrepareCommandInsert(command, bought);
+                result = command.ExecuteNonQuery();
+            }
+            _connection.Close();
+            return result;
+        }
+
+        public int Update(Bought bought)
+        {
+            int result;
+            _connection.Open();
+            using (var command = new SQLiteCommand(_connection))
+            {
+                PrepareCommandUpdate(command, bought);
+                result = command.ExecuteNonQuery();
+            }
+            _connection.Close();
+            return result;
+        }
+
+        public int Delete(Bought bought)
+        {
+            int result;
+            _connection.Open();
+            using (var command = new SQLiteCommand(_connection))
+            {
+                PrepareDeletCommand(command, bought);
+                result = command.ExecuteNonQuery();
+            }
+            _connection.Close();
+            return result;
+        }
+
+        public int Count(Expression<Func<Bought, bool>> predicate = null)
+        {
+            return predicate == null ? Get().Count : GetQueryable().Where(predicate).Count();
+        }
+
+        private string GetCreateTableSQL()
+        {
+            return "CREATE TABLE Bought (" +
+                   "Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                   "Amount INTEGER NOT NULL," +
+                   "CreatedAt TEXT NOT NULL," +
+                   "DateBought TEXT NOT NULL," +
+                   "Deleted BOOLEAN NOT NULL," +
+                   "MerchantId INTEGER NOT NULL," +
+                   "ModifiedAt TEXT NOT NULL," +
+                   "StockId INTEGER NOT NULL," +
+                   "ValuePerStockInEuro DOUBLE NOT NULL)";
+        }
+
         private void PrepareCommandSelect(SQLiteCommand command, long id)
         {
             command.Prepare();
@@ -105,27 +165,12 @@ namespace StockExchangeGame.Database.Generic
             };
         }
 
-        public ObservableCollection<Bought> Get<TValue>(Expression<Func<Bought, bool>> predicate = null, Expression<Func<Bought, TValue>> orderBy = null)
+        private ObservableCollection<Bought> GetCollection(IEnumerable<Bought> oldList)
         {
-            throw new NotImplementedException();
-        }
-
-        public Bought Get(Expression<Func<Bought, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Insert(Bought bought)
-        {
-            int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
-            {
-                PrepareCommandInsert(command, bought);
-                result = command.ExecuteNonQuery();
-            }
-            _connection.Close();
-            return result;
+            var collection = new ObservableCollection<Bought>();
+            foreach (var item in oldList)
+                collection.Add(item);
+            return collection;
         }
 
         private void PrepareCommandInsert(SQLiteCommand command, Bought bought)
@@ -141,33 +186,21 @@ namespace StockExchangeGame.Database.Generic
         {
             command.Parameters.AddWithValue("@Id", bought.Id);
             command.Parameters.AddWithValue("@Amount", bought.Amount);
-            command.Parameters.AddWithValue("@CreatedAt", bought.CreatedAt);
-            command.Parameters.AddWithValue("@DateBought", bought.DateBought);
+            command.Parameters.AddWithValue("@CreatedAt", bought.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@DateBought", bought.DateBought.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", bought.Deleted);
             command.Parameters.AddWithValue("@MerchantId", bought.MerchantId);
-            command.Parameters.AddWithValue("@ModifiedAt", bought.ModifiedAt);
+            command.Parameters.AddWithValue("@ModifiedAt", bought.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@StockId", bought.StockId);
             command.Parameters.AddWithValue("@ValuePerStockInEuro", bought.ValuePerStockInEuro);
         }
 
-        public int Update(Bought bought)
-        {
-            int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
-            {
-                PrepareCommandUpdate(command, bought);
-                result = command.ExecuteNonQuery();
-            }
-            _connection.Close();
-            return result;
-        }
-
         private void PrepareCommandUpdate(SQLiteCommand command, Bought bought)
         {
-            command.CommandText = "UPDATE Bought SET Amount = @Amount, CreatedAt = @CreatedAt, DateBought = @DateBought," +
-                                  " Deleted = @Deleted, MerchantId = @MerchantId, ModifiedAt = @ModifiedAt, StockId = @StockId, " +
-                                  "ValuePerStockInEuro = @ValuePerStockInEuro WHERE Id = @Id";
+            command.CommandText =
+                "UPDATE Bought SET Amount = @Amount, CreatedAt = @CreatedAt, DateBought = @DateBought," +
+                " Deleted = @Deleted, MerchantId = @MerchantId, ModifiedAt = @ModifiedAt, StockId = @StockId, " +
+                "ValuePerStockInEuro = @ValuePerStockInEuro WHERE Id = @Id";
             command.Prepare();
             AddParametersUpdate(command, bought);
         }
@@ -175,26 +208,13 @@ namespace StockExchangeGame.Database.Generic
         private void AddParametersUpdate(SQLiteCommand command, Bought bought)
         {
             command.Parameters.AddWithValue("@Amount", bought.Amount);
-            command.Parameters.AddWithValue("@CreatedAt", bought.CreatedAt);
-            command.Parameters.AddWithValue("@DateBought", bought.DateBought);
+            command.Parameters.AddWithValue("@CreatedAt", bought.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@DateBought", bought.DateBought.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", bought.Deleted);
             command.Parameters.AddWithValue("@MerchantId", bought.MerchantId);
-            command.Parameters.AddWithValue("@ModifiedAt", bought.ModifiedAt);
+            command.Parameters.AddWithValue("@ModifiedAt", bought.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@StockId", bought.StockId);
             command.Parameters.AddWithValue("@ValuePerStockInEuro", bought.ValuePerStockInEuro);
-        }
-
-        public int Delete(Bought bought)
-        {
-            int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
-            {
-                PrepareDeletCommand(command, bought);
-                result = command.ExecuteNonQuery();
-            }
-            _connection.Close();
-            return result;
         }
 
         private void PrepareDeletCommand(SQLiteCommand command, Bought bought)
@@ -204,9 +224,9 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@Id", bought.Id);
         }
 
-        public int Count(Expression<Func<Bought, bool>> predicate = null)
+        private IQueryable<Bought> GetQueryable()
         {
-            throw new NotImplementedException();
+            return Get().AsQueryable();
         }
     }
 }
