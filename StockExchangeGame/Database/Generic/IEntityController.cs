@@ -8,6 +8,9 @@ namespace StockExchangeGame.Database.Generic
     // ReSharper disable once UnusedMember.Global
     public interface IEntityController<T>
     {
+        // ReSharper disable once UnusedMethodReturnValue.Global
+        int CreateTable();
+
         // ReSharper disable once UnusedMember.Global
         List<T> Get();
 
