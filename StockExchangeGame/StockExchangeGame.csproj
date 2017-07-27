@@ -68,12 +68,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\Attributes\AutoIncrementAttribute.cs" />
+    <Compile Include="Database\Attributes\PrimaryKeyAttribute.cs" />
     <Compile Include="Database\Generic\DatabaseAdapter.cs" />
     <Compile Include="Database\Generic\EntityController.cs" />
     <Compile Include="Database\Generic\IDatabaseAdapter.cs" />
     <Compile Include="Database\Generic\IEntityController.cs" />
-    <Compile Include="Database\Generic\SQLite.cs" />
-    <Compile Include="Database\Generic\SQLiteAsync.cs" />
+    <Compile Include="Database\Generic\SQLiteAsyncConnection.cs" />
     <Compile Include="Database\Models\AbstractEntity.cs" />
     <Compile Include="Database\Models\Sold.cs" />
     <Compile Include="Database\Models\Bought.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Database\Models\Surnames.cs" />
     <Compile Include="Database\Models\Taxes.cs" />
     <Compile Include="Exceptions\InitializationException.cs" />
+    <Compile Include="Exceptions\ViewCannotBeClosedException.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

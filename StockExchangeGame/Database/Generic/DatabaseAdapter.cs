@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace StockExchangeGame.Database.Generic
     // ReSharper disable once UnusedMember.Global
     public class DatabaseAdapter : IDatabaseAdapter
     {
-        private const string SqlDbFileName = "StockGame.db3";
+        private const string SqlDbFileName = "StockGame.sqlite";
 
         public string GetDatabasePath()
         {
@@ -19,13 +20,16 @@ namespace StockExchangeGame.Database.Generic
                 : string.Empty;
         }
 
-        public SqLiteAsyncConnection GetConnection()
+        public SQLiteConnection GetConnection()
         {
-            return new SqLiteAsyncConnection(GetDatabasePath());
+            return new SQLiteConnection(GetDatabasePath());
         }
 
         public async Task<CreateTablesResult> CreateBoughtTable()
         {
+            var connection = GetConnection();
+            
+
             return await GetConnection().CreateTableAsync<Bought>();
         }
 

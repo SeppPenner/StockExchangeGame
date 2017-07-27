@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Threading.Tasks;
 
 namespace StockExchangeGame.Database.Generic
@@ -9,7 +10,7 @@ namespace StockExchangeGame.Database.Generic
         string GetDatabasePath();
 
         // ReSharper disable once UnusedMemberInSuper.Global
-        SqLiteAsyncConnection GetConnection();
+        SQLiteConnection GetConnection();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
