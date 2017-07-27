@@ -5,7 +5,7 @@ namespace StockExchangeGame.Database.Models
     // ReSharper disable once UnusedMember.Global
     public class Bought : AbstractEntity
     {
-        private int _amount;
+        private long _amount;
 
         private DateTime _dateBought;
 
@@ -54,7 +54,7 @@ namespace StockExchangeGame.Database.Models
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global
-        public int Amount
+        public long Amount
         {
             get => _amount;
             set
