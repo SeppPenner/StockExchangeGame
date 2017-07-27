@@ -8,12 +8,16 @@ namespace StockExchangeGame.Database.Generic
     public class DatabaseAdapter : IDatabaseAdapter
     {
         private readonly IEntityController<Bought> _boughtController;
+        private readonly IEntityController<CompanyEndings> _companyEndingsController;
+        private readonly IEntityController<CompanyNames> _companyNamesController;
         private const string SqlDbFileName = "StockGame.sqlite";
 
         public DatabaseAdapter()
         {
             var connectionString = GetConnectionString();
             _boughtController = new BoughtController(connectionString);
+            _companyEndingsController = new CompanyEndingsController(connectionString);
+            _companyNamesController = new CompanyNamesController(connectionString);
         }
 
         public string GetConnectionString()
@@ -37,12 +41,12 @@ namespace StockExchangeGame.Database.Generic
 
         public void CreateCompanyEndingsTable()
         {
-            return await GetConnection().CreateTableAsync<CompanyEndings>();
+            _companyEndingsController.CreateTable();
         }
 
         public void CreateCompanyNamesTable()
         {
-            return await GetConnection().CreateTableAsync<CompanyNames>();
+            _companyNamesController.CreateTable();
         }
 
         public void CreateDummyCompanyTable()
