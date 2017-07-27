@@ -8,13 +8,40 @@ using StockExchangeGame.Database.Models;
 namespace StockExchangeGame.Database.Generic
 {
     // ReSharper disable once UnusedMember.Global
-    public class BoughtController<T> : IEntityController<Bought>
+    public class BoughtController : IEntityController<Bought>
     {
         private readonly SQLiteConnection _connection;
 
-        public BoughtController(SQLiteConnection connection)
+        public BoughtController(string connectionString)
         {
-            _connection = connection;
+            _connection = new SQLiteConnection(connectionString);
+        }
+
+        public int CreateTable<TBought>()
+        {
+            int result;
+            var sql = GetCreateTableSQL();
+            _connection.Open();
+            using (var command = new SQLiteCommand(sql, _connection))
+            {
+                result = command.ExecuteNonQuery();
+            }
+            _connection.Close();
+            return result;
+        }
+
+        private string GetCreateTableSQL()
+        {
+            return "CREATE TABLE Bought (" +
+                   "Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+                   "Amount INTEGER NOT NULL," +
+                   "CreatedAt TEXT NOT NULL," +
+                   "DateBought TEXT NOT NULL," +
+                   "Deleted BOOLEAN NOT NULL," +
+                   "MerchantId INTEGER NOT NULL," +
+                   "ModifiedAt TEXT NOT NULL," +
+                   "StockId INTEGER NOT NULL," +
+                   "ValuePerStockInEuro DOUBLE NOT NULL)";
         }
 
         public List<Bought> Get()
@@ -39,7 +66,6 @@ namespace StockExchangeGame.Database.Generic
 
         public Bought Get(long id)
         {
-            Bought bought = null;
             var sql = "SELECT * FROM Bought WHERE Id = @Id";
             _connection.Open();
             using (var command = new SQLiteCommand(sql, _connection))
@@ -49,12 +75,12 @@ namespace StockExchangeGame.Database.Generic
                 {
                     while (reader.Read())
                     {
-                        bought = GetBoughtFromReader(reader);
+                        return GetBoughtFromReader(reader);
                     }
                 }
             }
             _connection.Close();
-            return bought;
+            return null;
         }
         
         private void PrepareCommandSelect(SQLiteCommand command, long id)
@@ -173,7 +199,7 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareDeletCommand(SQLiteCommand command, Bought bought)
         {
-            command.CommandText = $"DELETE FROM {typeof(T).Name} WHERE Id = @Id";
+            command.CommandText = "DELETE FROM Bought WHERE Id = @Id";
             command.Prepare();
             command.Parameters.AddWithValue("@Id", bought.Id);
         }
