@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using StockExchangeGame.Database.Models;
+using StockExchangeGame.Database.SQLite;
 
 namespace StockExchangeGame.Database.Generic
 {

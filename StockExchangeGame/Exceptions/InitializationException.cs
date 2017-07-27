@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using StockExchangeGame.Database.Generic;
+using StockExchangeGame.Database.SQLite;
 
 namespace StockExchangeGame.Exceptions
 {

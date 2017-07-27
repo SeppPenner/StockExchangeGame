@@ -9,7 +9,7 @@ namespace StockExchangeGame.Database.Generic
         string GetDatabasePath();
 
         // ReSharper disable once UnusedMemberInSuper.Global
-        SQLiteAsyncConnection GetConnection();
+        SqLiteAsyncConnection GetConnection();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global

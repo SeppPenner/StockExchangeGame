@@ -8,6 +8,7 @@ using log4net;
 using Languages.Implementation;
 using Languages.Interfaces;
 using StockExchangeGame.Database.Generic;
+using StockExchangeGame.Database.SQLite;
 using StockExchangeGame.Exceptions;
 using StockExchangeGame.Views;
 

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using StockExchangeGame.Database.Models;
+using StockExchangeGame.Database.SQLite;
 
 namespace StockExchangeGame.Database.Generic
 {

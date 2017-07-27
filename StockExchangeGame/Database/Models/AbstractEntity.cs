@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using StockExchangeGame.Database.Generic;
+using StockExchangeGame.Database.Attributes;
 
 namespace StockExchangeGame.Database.Models
 {

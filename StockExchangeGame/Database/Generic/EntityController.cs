@@ -10,9 +10,9 @@ namespace StockExchangeGame.Database.Generic
     // ReSharper disable once UnusedMember.Global
     public class EntityController<T> : IEntityController<T> where T : AbstractEntity, new()
     {
-        private readonly SQLiteAsyncConnection _db;
+        private readonly SqLiteAsyncConnection _db;
 
-        public EntityController(SQLiteAsyncConnection db)
+        public EntityController(SqLiteAsyncConnection db)
         {
             _db = db;
         }
