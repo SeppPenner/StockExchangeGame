@@ -85,39 +85,39 @@ namespace StockExchangeGame.Database.Generic
             return GetQueryable().Where(predicate).FirstOrDefault();
         }
 
-        public int Insert(CompanyEndings companyEndings)
+        public int Insert(CompanyEndings entity)
         {
             int result;
             _connection.Open();
             using (var command = new SQLiteCommand(_connection))
             {
-                PrepareCommandInsert(command, companyEndings);
+                PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
             _connection.Close();
             return result;
         }
 
-        public int Update(CompanyEndings companyEndings)
+        public int Update(CompanyEndings entity)
         {
             int result;
             _connection.Open();
             using (var command = new SQLiteCommand(_connection))
             {
-                PrepareCommandUpdate(command, companyEndings);
+                PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
             _connection.Close();
             return result;
         }
 
-        public int Delete(CompanyEndings companyEndings)
+        public int Delete(CompanyEndings entity)
         {
             int result;
             _connection.Open();
             using (var command = new SQLiteCommand(_connection))
             {
-                PrepareDeletCommand(command, companyEndings);
+                PrepareDeletCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
             _connection.Close();

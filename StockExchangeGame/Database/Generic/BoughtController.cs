@@ -85,39 +85,39 @@ namespace StockExchangeGame.Database.Generic
             return GetQueryable().Where(predicate).FirstOrDefault();
         }
 
-        public int Insert(Bought bought)
+        public int Insert(Bought entity)
         {
             int result;
             _connection.Open();
             using (var command = new SQLiteCommand(_connection))
             {
-                PrepareCommandInsert(command, bought);
+                PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
             _connection.Close();
             return result;
         }
 
-        public int Update(Bought bought)
+        public int Update(Bought entity)
         {
             int result;
             _connection.Open();
             using (var command = new SQLiteCommand(_connection))
             {
-                PrepareCommandUpdate(command, bought);
+                PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
             _connection.Close();
             return result;
         }
 
-        public int Delete(Bought bought)
+        public int Delete(Bought entity)
         {
             int result;
             _connection.Open();
             using (var command = new SQLiteCommand(_connection))
             {
-                PrepareDeletCommand(command, bought);
+                PrepareDeletCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
             _connection.Close();
