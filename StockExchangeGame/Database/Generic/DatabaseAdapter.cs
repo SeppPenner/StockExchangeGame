@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Data.SQLite;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using StockExchangeGame.Database.Models;
 
 namespace StockExchangeGame.Database.Generic
@@ -10,7 +7,20 @@ namespace StockExchangeGame.Database.Generic
     // ReSharper disable once UnusedMember.Global
     public class DatabaseAdapter : IDatabaseAdapter
     {
+        private readonly IEntityController<Bought> _boughtController;
         private const string SqlDbFileName = "StockGame.sqlite";
+
+        public DatabaseAdapter()
+        {
+            var connectionString = GetConnectionString();
+            _boughtController = new BoughtController(connectionString);
+        }
+
+        public string GetConnectionString()
+        {
+            return @"Data Source=" + GetDatabasePath() + "; " +
+                @"Version=3; FailIfMissing=True; Foreign Keys=True;";
+        }
 
         public string GetDatabasePath()
         {
@@ -20,91 +30,80 @@ namespace StockExchangeGame.Database.Generic
                 : string.Empty;
         }
 
-        public SQLiteConnection GetConnection()
+        public void CreateBoughtTable()
         {
-            return new SQLiteConnection(GetDatabasePath());
+            _boughtController.CreateTable();
         }
 
-        public async Task<CreateTablesResult> CreateBoughtTable()
-        {
-            var connection = GetConnection();
-            
-
-            return await GetConnection().CreateTableAsync<Bought>();
-        }
-
-        public async Task<CreateTablesResult> CreateCompanyEndingsTable()
+        public void CreateCompanyEndingsTable()
         {
             return await GetConnection().CreateTableAsync<CompanyEndings>();
         }
 
-        public async Task<CreateTablesResult> CreateCompanyNamesTable()
+        public void CreateCompanyNamesTable()
         {
             return await GetConnection().CreateTableAsync<CompanyNames>();
         }
 
-        public async Task<CreateTablesResult> CreateDummyCompanyTable()
+        public void CreateDummyCompanyTable()
         {
             return await GetConnection().CreateTableAsync<DummyCompany>();
         }
 
-        public async Task<CreateTablesResult> CreateMerchantTable()
+        public void CreateMerchantTable()
         {
             return await GetConnection().CreateTableAsync<Merchant>();
         }
 
-        public async Task<CreateTablesResult> CreateNamesTable()
+        public void CreateNamesTable()
         {
             return await GetConnection().CreateTableAsync<Names>();
         }
 
-        public async Task<CreateTablesResult> CreateSoldTable()
+        public void CreateSoldTable()
         {
             return await GetConnection().CreateTableAsync<Sold>();
         }
 
-        public async Task<CreateTablesResult> CreateStockTable()
+        public void CreateStockTable()
         {
             return await GetConnection().CreateTableAsync<Stock>();
         }
 
-        public async Task<CreateTablesResult> CreateStockHistoryTable()
+        public void CreateStockHistoryTable()
         {
             return await GetConnection().CreateTableAsync<StockHistory>();
         }
 
-        public async Task<CreateTablesResult> CreateStockMarketTable()
+        public void CreateStockMarketTable()
         {
             return await GetConnection().CreateTableAsync<StockMarket>();
         }
 
-        public async Task<CreateTablesResult> CreateSurnamesTable()
+        public void CreateSurnamesTable()
         {
             return await GetConnection().CreateTableAsync<Surnames>();
         }
 
-        public async Task<CreateTablesResult> CreateTaxesTable()
+        public void CreateTaxesTable()
         {
             return await GetConnection().CreateTableAsync<Taxes>();
         }
 
-        public async Task<List<CreateTablesResult>> CreateAllTables()
+        public void CreateAllTables()
         {
-            return new List<CreateTablesResult>
-            {
-                await CreateBoughtTable(),
-                await CreateCompanyEndingsTable(),
-                await CreateCompanyNamesTable(),
-                await CreateDummyCompanyTable(),
-                await CreateMerchantTable(),
-                await CreateNamesTable(),
-                await CreateSoldTable(),
-                await CreateStockTable(),
-                await CreateStockHistoryTable(),
-                await CreateStockMarketTable(),
-                await CreateSurnamesTable(),
-                await CreateTaxesTable()
-            };
+            CreateBoughtTable();
+            CreateCompanyEndingsTable();
+            CreateCompanyNamesTable();
+            CreateDummyCompanyTable();
+            CreateMerchantTable();
+            CreateNamesTable();
+            CreateSoldTable();
+            CreateStockTable();
+            CreateStockHistoryTable();
+            CreateStockMarketTable();
+            CreateSurnamesTable();
+            CreateTaxesTable();
         }
     }
 }

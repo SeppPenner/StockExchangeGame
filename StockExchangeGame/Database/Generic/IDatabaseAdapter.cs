@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Threading.Tasks;
-
+﻿
 namespace StockExchangeGame.Database.Generic
 {
     public interface IDatabaseAdapter
@@ -9,59 +6,60 @@ namespace StockExchangeGame.Database.Generic
         // ReSharper disable once UnusedMemberInSuper.Global
         string GetDatabasePath();
 
+        // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        SQLiteConnection GetConnection();
+        string GetConnectionString();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateBoughtTable();
+        void CreateBoughtTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateCompanyEndingsTable();
+        void CreateCompanyEndingsTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateCompanyNamesTable();
+        void CreateCompanyNamesTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateDummyCompanyTable();
+        void CreateDummyCompanyTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateMerchantTable();
+        void CreateMerchantTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateNamesTable();
+        void CreateNamesTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateSoldTable();
+        void CreateSoldTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateStockTable();
+        void CreateStockTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateStockHistoryTable();
+        void CreateStockHistoryTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateStockMarketTable();
+        void CreateStockMarketTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateSurnamesTable();
+        void CreateSurnamesTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<CreateTablesResult> CreateTaxesTable();
+        void CreateTaxesTable();
 
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        Task<List<CreateTablesResult>> CreateAllTables();
+        void CreateAllTables();
     }
 }
