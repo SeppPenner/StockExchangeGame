@@ -39,14 +39,13 @@ namespace StockExchangeGame
         {
             var result = _databaseAdapter.CreateAllTables();
             if (result.Result.All(x => x.Results != null)) return;
-            LogDatabaseInitializationError(result.Result);
+            LogDatabaseInitializationException(result.Result);
         }
 
-        private void LogDatabaseInitializationError(List<CreateTablesResult> results)
+        private void LogDatabaseInitializationException(List<CreateTablesResult> results)
         {
             var ex = new InitializationException(_lang.GetWord("ErrorInDatabaseInit"), results);
-            MessageBox.Show(ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            _log.Error(ex);
+            LogError(ex);
         }
 
         private void InitializeLanguageManager()
@@ -77,12 +76,23 @@ namespace StockExchangeGame
         {
             if (CanCurrentViewClose())
             {
-                var v = new MarketView();
-                SwitchView(v);
+                TrySwitchView(new MarketView());
             }
             else
             {
-                MessageBox.Show("Current View can not close!");
+                LogViewCannotBeClosedException();
+            }
+        }
+
+        private void TrySwitchView(UserControl newView)
+        {
+            try
+            {
+                SwitchView(newView);
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
             }
         }
 
@@ -97,30 +107,50 @@ namespace StockExchangeGame
 
         private void SwitchView(UserControl newView)
         {
-            if (newView == null) throw new ArgumentNullException(nameof(newView));
             if (groupBoxViews.Controls.Count > 0)
             {
-                var oldView = groupBoxViews.Controls[0] as UserControl;
-                if (oldView == null) return;
-                groupBoxViews.Controls.Remove(oldView);
-                oldView.Dispose();
+                DisposeOldView();
             }
+            AddNewView(newView);
+        }
+
+        private void AddNewView(UserControl newView)
+        {
             groupBoxViews.Controls.Add(newView);
             newView.Dock = DockStyle.Fill;
             groupBoxViews.Refresh();
+        }
+
+        private void DisposeOldView()
+        {
+            var oldView = groupBoxViews.Controls[0] as UserControl;
+            if (oldView == null) return;
+            groupBoxViews.Controls.Remove(oldView);
+            oldView.Dispose();
         }
 
         private void buttonPersonalView_Click(object sender, EventArgs e)
         {
             if (CanCurrentViewClose())
             {
-                var v = new PersonalView();
-                SwitchView(v);
+                TrySwitchView(new PersonalView());
             }
             else
             {
-                MessageBox.Show("Current View can not close!");
+                LogViewCannotBeClosedException();
             }
+        }
+
+        private void LogViewCannotBeClosedException()
+        {
+            var ex = new ViewCannotBeClosedException(_lang.GetWord("CurrentViewCannotBeClosed"));
+            LogError(ex);
+        }
+
+        private void LogError(Exception ex)
+        {
+            _log.Error(ex);
+            MessageBox.Show(ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }
