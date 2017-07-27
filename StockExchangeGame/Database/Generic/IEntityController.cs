@@ -12,6 +12,7 @@ namespace StockExchangeGame.Database.Generic
         int CreateTable();
 
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedMemberInSuper.Global
         List<T> Get();
 
         // ReSharper disable once UnusedMember.Global
@@ -25,13 +26,13 @@ namespace StockExchangeGame.Database.Generic
         T Get(Expression<Func<T, bool>> predicate);
 
         // ReSharper disable once UnusedMember.Global
-        int Insert(T entity);
+        int Insert(T companyEndings);
 
         // ReSharper disable once UnusedMember.Global
-        int Update(T entity);
+        int Update(T companyEndings);
 
         // ReSharper disable once UnusedMember.Global
-        int Delete(T bought);
+        int Delete(T companyEndings);
 
         // ReSharper disable once UnusedMember.Global
         int Count(Expression<Func<T, bool>> predicate = null);
