@@ -10,6 +10,7 @@ namespace StockExchangeGame.Database.Generic
         private readonly IEntityController<Bought> _boughtController;
         private readonly IEntityController<CompanyEndings> _companyEndingsController;
         private readonly IEntityController<CompanyNames> _companyNamesController;
+        private readonly IEntityController<DummyCompany> _dummyCompanyController;
         private const string SqlDbFileName = "StockGame.sqlite";
 
         public DatabaseAdapter()
@@ -51,7 +52,7 @@ namespace StockExchangeGame.Database.Generic
 
         public void CreateDummyCompanyTable()
         {
-            return await GetConnection().CreateTableAsync<DummyCompany>();
+            _dummyCompanyController.CreateTable();
         }
 
         public void CreateMerchantTable()
