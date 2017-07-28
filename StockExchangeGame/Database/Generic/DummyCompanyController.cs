@@ -92,17 +92,49 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<DummyCompany, TValue>> orderBy = null)
         {
             if (predicate == null && orderBy == null)
-                return GetCollection(Get());
+                return GetNoPredicateNoOrderBy();
             if (predicate != null && orderBy == null)
-                return GetCollection(GetQueryable().Where(predicate).ToList());
-            return GetCollection(predicate == null
-                ? GetQueryable().OrderBy(orderBy).ToList()
-                : GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
+                return GetPredicateOnly(predicate);
+            return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
+        }
+
+        private ObservableCollection<DummyCompany> GetNoPredicateNoOrderBy()
+        {
+            var result = GetCollection(Get());
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", null, null, result));
+            return result;
+        }
+
+        private ObservableCollection<DummyCompany> GetPredicateOnly(Expression<Func<DummyCompany, bool>> predicate = null)
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var result = GetCollection(GetQueryable().Where(predicate).ToList());
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", predicate, null, result));
+            return result;
+        }
+
+        private ObservableCollection<DummyCompany> GetOrderByOnly<TValue>(Expression<Func<DummyCompany, TValue>> orderBy = null)
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var result = GetCollection(GetQueryable().OrderBy(orderBy).ToList());
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", null, orderBy, result));
+            return result;
+        }
+
+        private ObservableCollection<DummyCompany> GetPredicateAndOrderBy<TValue>(Expression<Func<DummyCompany, bool>> predicate = null,
+            Expression<Func<DummyCompany, TValue>> orderBy = null)
+        {
+            // ReSharper disable AssignNullToNotNullAttribute
+            var result = GetCollection(GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", predicate, orderBy, result));
+            return result;
         }
 
         public DummyCompany Get(Expression<Func<DummyCompany, bool>> predicate)
         {
-            return GetQueryable().Where(predicate).FirstOrDefault();
+            var result = GetQueryable().Where(predicate).FirstOrDefault();
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "DummyCompany", predicate, result));
+            return result;
         }
 
         public int Insert(DummyCompany entity)
