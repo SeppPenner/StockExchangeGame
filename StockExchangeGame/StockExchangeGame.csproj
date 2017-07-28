@@ -64,6 +64,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\Attributes\AutoIncrementAttribute.cs" />
@@ -96,6 +97,36 @@
     <Compile Include="Database\Models\StockMarket.cs" />
     <Compile Include="Database\Models\Surnames.cs" />
     <Compile Include="Database\Models\Taxes.cs" />
+    <Compile Include="Dialogs\BuyStocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\BuyStocks.Designer.cs">
+      <DependentUpon>BuyStocks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\CapitalIncrease.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\CapitalIncrease.Designer.cs">
+      <DependentUpon>CapitalIncrease.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\CreateNewDummyCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\CreateNewDummyCompany.Designer.cs">
+      <DependentUpon>CreateNewDummyCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\MoveFundsToDummyCompany.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\MoveFundsToDummyCompany.Designer.cs">
+      <DependentUpon>MoveFundsToDummyCompany.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\SellStocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\SellStocks.Designer.cs">
+      <DependentUpon>SellStocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Exceptions\InitializationException.cs" />
     <Compile Include="Exceptions\ViewCannotBeClosedException.cs" />
     <Compile Include="Main.cs">

@@ -79,7 +79,7 @@
             // 
             this.groupBoxViews.Location = new System.Drawing.Point(132, 85);
             this.groupBoxViews.Name = "groupBoxViews";
-            this.groupBoxViews.Size = new System.Drawing.Size(302, 200);
+            this.groupBoxViews.Size = new System.Drawing.Size(737, 432);
             this.groupBoxViews.TabIndex = 5;
             this.groupBoxViews.TabStop = false;
             this.groupBoxViews.Text = "groupBox1";
@@ -88,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 338);
+            this.ClientSize = new System.Drawing.Size(896, 546);
             this.Controls.Add(this.groupBoxViews);
             this.Controls.Add(this.buttonPersonalView);
             this.Controls.Add(this.buttonMarketView);
