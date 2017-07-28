@@ -280,7 +280,7 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareDeletCommand(SQLiteCommand command, Taxes taxes)
         {
-            command.CommandText = "DELETE FROM Taxes WHERE Id = @Id";
+            command.CommandText = "UPDATE Taxes SET Deleted = true WHERE Id = @Id";
             command.Prepare();
             command.Parameters.AddWithValue("@Id", taxes.Id);
         }

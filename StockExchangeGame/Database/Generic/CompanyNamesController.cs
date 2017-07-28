@@ -271,7 +271,7 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareDeletCommand(SQLiteCommand command, CompanyNames companyNames)
         {
-            command.CommandText = "DELETE FROM CompanyNames WHERE Id = @Id";
+            command.CommandText = "UPDATE CompanyNames SET Deleted = true WHERE Id = @Id";
             command.Prepare();
             command.Parameters.AddWithValue("@Id", companyNames.Id);
         }
