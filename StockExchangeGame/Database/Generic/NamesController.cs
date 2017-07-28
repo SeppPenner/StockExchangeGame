@@ -161,9 +161,10 @@ namespace StockExchangeGame.Database.Generic
 
         private int CountPredicate(Expression<Func<Names, bool>> predicate = null)
         {
-            var count2 = GetQueryable().Where(predicate).Count();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Names", predicate, count2));
-            return count2;
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var count = GetQueryable().Where(predicate).Count();
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Names", predicate, count));
+            return count;
         }
 
         private string GetCreateTableSQL()
