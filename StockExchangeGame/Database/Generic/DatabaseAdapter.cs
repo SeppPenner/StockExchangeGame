@@ -15,6 +15,7 @@ namespace StockExchangeGame.Database.Generic
         private readonly IEntityController<Names> _namesController;
         private readonly IEntityController<Sold> _soldController;
         private readonly IEntityController<Stock> _stockController;
+        private readonly IEntityController<StockHistory> _stockHistoryController;
         private const string SqlDbFileName = "StockGame.sqlite3";
 
         public DatabaseAdapter()
@@ -28,6 +29,7 @@ namespace StockExchangeGame.Database.Generic
             _namesController = new NamesController(connectionString);
             _soldController = new SoldController(connectionString);
             _stockController = new StockController(connectionString);
+            _stockHistoryController = new StockHistoryController(connectionString);
         }
 
         public string GetConnectionString()
@@ -86,7 +88,7 @@ namespace StockExchangeGame.Database.Generic
 
         public void CreateStockHistoryTable()
         {
-            return await GetConnection().CreateTableAsync<StockHistory>();
+            _stockHistoryController.CreateTable();
         }
 
         public void CreateStockMarketTable()
