@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -27,6 +28,12 @@ namespace StockExchangeGame.Database.Generic
         private IEntityController<Surnames> _surnamesController;
         private IEntityController<Taxes> _taxesController;
 
+        public DatabaseAdapter()
+        {
+            InitializeControllers(GetConnectionString());
+            CreateDatabaseFileIfNotExists();
+        }
+
         public void SetCurrentLanguage(ILanguage language)
         {
             _currentLanguage = language;
@@ -36,13 +43,6 @@ namespace StockExchangeGame.Database.Generic
         public ILanguage GetCurrentLanguage()
         {
             return _currentLanguage;
-        }
-
-        public void Init(ILanguage language)
-        {
-            CreateDatabaseFileIfNotExists();
-            InitializeControllers(GetConnectionString());
-            SetCurrentLanguage(language);
         }
 
         public string GetConnectionString()
@@ -264,7 +264,11 @@ namespace StockExchangeGame.Database.Generic
         private void CreateDatabaseFileIfNotExists()
         {
             var databasePath = GetDatabasePath();
-            if (File.Exists(databasePath)) return;
+            if (File.Exists(databasePath))
+            {
+                CreateAllTables();
+                return;
+            }
             CreateDatabaseAndTables(databasePath);
         }
 

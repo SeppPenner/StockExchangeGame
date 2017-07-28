@@ -16,10 +16,6 @@ namespace StockExchangeGame.Database.Generic
         // ReSharper disable once UnusedMemberInSuper.Global
         ILanguage GetCurrentLanguage();
 
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once UnusedMemberInSuper.Global
-        void Init(ILanguage language);
-
         // ReSharper disable once UnusedMemberInSuper.Global
         string GetDatabasePath();
 
