@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Database\Attributes\AutoIncrementAttribute.cs" />
     <Compile Include="Database\Attributes\PrimaryKeyAttribute.cs" />
+    <Compile Include="Database\Generic\TaxesController.cs" />
     <Compile Include="Database\Generic\SurnamesController.cs" />
     <Compile Include="Database\Generic\StockMarketController.cs" />
     <Compile Include="Database\Generic\StockHistoryController.cs" />
