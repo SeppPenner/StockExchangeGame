@@ -65,6 +65,17 @@
             this.StocksSoldStockIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StocksSoldStockColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StocksSoldValuePerStockColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtAmountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtCreatedAtColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtDateBoughtColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtDeletedColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtMerchantIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtMerchantColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtModifiedAtColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtStockIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtStockColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StocksBoughtValuePerStockColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelTopLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCurrentStocks)).BeginInit();
@@ -175,6 +186,18 @@
             this.dataGridViewBoughtStocks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridViewBoughtStocks.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewBoughtStocks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewBoughtStocks.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.StocksBoughtIdColumn,
+            this.StocksBoughtAmountColumn,
+            this.StocksBoughtCreatedAtColumn,
+            this.StocksBoughtDateBoughtColumn,
+            this.StocksBoughtDeletedColumn,
+            this.StocksBoughtMerchantIdColumn,
+            this.StocksBoughtMerchantColumn,
+            this.StocksBoughtModifiedAtColumn,
+            this.StocksBoughtStockIdColumn,
+            this.StocksBoughtStockColumn,
+            this.StocksBoughtValuePerStockColumn});
             this.dataGridViewBoughtStocks.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewBoughtStocks.Location = new System.Drawing.Point(3, 23);
             this.dataGridViewBoughtStocks.Name = "dataGridViewBoughtStocks";
@@ -448,6 +471,7 @@
             this.StocksSoldIdColumn.Name = "StocksSoldIdColumn";
             this.StocksSoldIdColumn.ReadOnly = true;
             this.StocksSoldIdColumn.Visible = false;
+            this.StocksSoldIdColumn.Width = 41;
             // 
             // StocksSoldAmountColumn
             // 
@@ -462,6 +486,7 @@
             this.StocksSoldCreatedAtColumn.Name = "StocksSoldCreatedAtColumn";
             this.StocksSoldCreatedAtColumn.ReadOnly = true;
             this.StocksSoldCreatedAtColumn.Visible = false;
+            this.StocksSoldCreatedAtColumn.Width = 79;
             // 
             // StocksSoldDateSoldColumn
             // 
@@ -475,6 +500,7 @@
             this.StocksSoldDeletedColumn.HeaderText = "Deleted";
             this.StocksSoldDeletedColumn.Name = "StocksSoldDeletedColumn";
             this.StocksSoldDeletedColumn.ReadOnly = true;
+            this.StocksSoldDeletedColumn.Visible = false;
             this.StocksSoldDeletedColumn.Width = 69;
             // 
             // StocksSoldMerchantIdColumn
@@ -483,6 +509,7 @@
             this.StocksSoldMerchantIdColumn.Name = "StocksSoldMerchantIdColumn";
             this.StocksSoldMerchantIdColumn.ReadOnly = true;
             this.StocksSoldMerchantIdColumn.Visible = false;
+            this.StocksSoldMerchantIdColumn.Width = 86;
             // 
             // StocksSoldMerchantColumn
             // 
@@ -497,6 +524,7 @@
             this.StocksSoldModifiedAtColumn.Name = "StocksSoldModifiedAtColumn";
             this.StocksSoldModifiedAtColumn.ReadOnly = true;
             this.StocksSoldModifiedAtColumn.Visible = false;
+            this.StocksSoldModifiedAtColumn.Width = 82;
             // 
             // StocksSoldStockIdColumn
             // 
@@ -504,6 +532,7 @@
             this.StocksSoldStockIdColumn.Name = "StocksSoldStockIdColumn";
             this.StocksSoldStockIdColumn.ReadOnly = true;
             this.StocksSoldStockIdColumn.Visible = false;
+            this.StocksSoldStockIdColumn.Width = 69;
             // 
             // StocksSoldStockColumn
             // 
@@ -518,6 +547,89 @@
             this.StocksSoldValuePerStockColumn.Name = "StocksSoldValuePerStockColumn";
             this.StocksSoldValuePerStockColumn.ReadOnly = true;
             this.StocksSoldValuePerStockColumn.Width = 103;
+            // 
+            // StocksBoughtIdColumn
+            // 
+            this.StocksBoughtIdColumn.HeaderText = "Id";
+            this.StocksBoughtIdColumn.Name = "StocksBoughtIdColumn";
+            this.StocksBoughtIdColumn.ReadOnly = true;
+            this.StocksBoughtIdColumn.Visible = false;
+            this.StocksBoughtIdColumn.Width = 41;
+            // 
+            // StocksBoughtAmountColumn
+            // 
+            this.StocksBoughtAmountColumn.HeaderText = "Amount";
+            this.StocksBoughtAmountColumn.Name = "StocksBoughtAmountColumn";
+            this.StocksBoughtAmountColumn.ReadOnly = true;
+            this.StocksBoughtAmountColumn.Width = 68;
+            // 
+            // StocksBoughtCreatedAtColumn
+            // 
+            this.StocksBoughtCreatedAtColumn.HeaderText = "CreatedAt";
+            this.StocksBoughtCreatedAtColumn.Name = "StocksBoughtCreatedAtColumn";
+            this.StocksBoughtCreatedAtColumn.ReadOnly = true;
+            this.StocksBoughtCreatedAtColumn.Visible = false;
+            this.StocksBoughtCreatedAtColumn.Width = 79;
+            // 
+            // StocksBoughtDateBoughtColumn
+            // 
+            this.StocksBoughtDateBoughtColumn.HeaderText = "DateBought";
+            this.StocksBoughtDateBoughtColumn.Name = "StocksBoughtDateBoughtColumn";
+            this.StocksBoughtDateBoughtColumn.ReadOnly = true;
+            this.StocksBoughtDateBoughtColumn.Width = 89;
+            // 
+            // StocksBoughtDeletedColumn
+            // 
+            this.StocksBoughtDeletedColumn.HeaderText = "Deleted";
+            this.StocksBoughtDeletedColumn.Name = "StocksBoughtDeletedColumn";
+            this.StocksBoughtDeletedColumn.ReadOnly = true;
+            this.StocksBoughtDeletedColumn.Visible = false;
+            this.StocksBoughtDeletedColumn.Width = 69;
+            // 
+            // StocksBoughtMerchantIdColumn
+            // 
+            this.StocksBoughtMerchantIdColumn.HeaderText = "MerchantId";
+            this.StocksBoughtMerchantIdColumn.Name = "StocksBoughtMerchantIdColumn";
+            this.StocksBoughtMerchantIdColumn.ReadOnly = true;
+            this.StocksBoughtMerchantIdColumn.Visible = false;
+            this.StocksBoughtMerchantIdColumn.Width = 86;
+            // 
+            // StocksBoughtMerchantColumn
+            // 
+            this.StocksBoughtMerchantColumn.HeaderText = "Merchant";
+            this.StocksBoughtMerchantColumn.Name = "StocksBoughtMerchantColumn";
+            this.StocksBoughtMerchantColumn.ReadOnly = true;
+            this.StocksBoughtMerchantColumn.Width = 77;
+            // 
+            // StocksBoughtModifiedAtColumn
+            // 
+            this.StocksBoughtModifiedAtColumn.HeaderText = "ModifiedAt";
+            this.StocksBoughtModifiedAtColumn.Name = "StocksBoughtModifiedAtColumn";
+            this.StocksBoughtModifiedAtColumn.ReadOnly = true;
+            this.StocksBoughtModifiedAtColumn.Visible = false;
+            this.StocksBoughtModifiedAtColumn.Width = 82;
+            // 
+            // StocksBoughtStockIdColumn
+            // 
+            this.StocksBoughtStockIdColumn.HeaderText = "StockId";
+            this.StocksBoughtStockIdColumn.Name = "StocksBoughtStockIdColumn";
+            this.StocksBoughtStockIdColumn.ReadOnly = true;
+            this.StocksBoughtStockIdColumn.Visible = false;
+            this.StocksBoughtStockIdColumn.Width = 69;
+            // 
+            // StocksBoughtStockColumn
+            // 
+            this.StocksBoughtStockColumn.HeaderText = "Stock";
+            this.StocksBoughtStockColumn.Name = "StocksBoughtStockColumn";
+            this.StocksBoughtStockColumn.ReadOnly = true;
+            this.StocksBoughtStockColumn.Width = 60;
+            // 
+            // StocksBoughtValuePerStockColumn
+            // 
+            this.StocksBoughtValuePerStockColumn.HeaderText = "ValuePerStock";
+            this.StocksBoughtValuePerStockColumn.Name = "StocksBoughtValuePerStockColumn";
+            this.StocksBoughtValuePerStockColumn.ReadOnly = true;
+            this.StocksBoughtValuePerStockColumn.Width = 103;
             // 
             // PersonalView
             // 
@@ -582,6 +694,17 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelSmallBottomLeftRightSide;
         private System.Windows.Forms.Button buttonSellStocks;
         private System.Windows.Forms.Button buttonBuyNewStocks;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtAmountColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtCreatedAtColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtDateBoughtColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtDeletedColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtMerchantIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtMerchantColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtModifiedAtColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtStockIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtStockColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StocksBoughtValuePerStockColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn StocksSoldIdColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn StocksSoldAmountColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn StocksSoldCreatedAtColumn;

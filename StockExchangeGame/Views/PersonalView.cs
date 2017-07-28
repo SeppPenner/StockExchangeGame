@@ -30,6 +30,38 @@ namespace StockExchangeGame.Views
         private void DataLoaderWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
             AddSolds();
+            AddBoughts();
+        }
+
+        private void AddBoughts()
+        {
+            var boughts = DatabaseAdapter.Get<Bought>();
+            foreach (var bought in boughts)
+            {
+                AddBoughtsToDataGridView(bought);
+            }
+        }
+
+        private void AddBoughtsToDataGridView(Bought bought)
+        {
+            var merchant = DatabaseAdapter.Get<Merchant>(bought.MerchantId);
+            var stock = DatabaseAdapter.Get<Stock>(bought.StockId);
+            this.UiThreadInvoke(() =>
+            {
+                dataGridViewBoughtStocks.Rows.Add(
+                    bought.Id.ToString(),
+                    bought.Amount.ToString(),
+                    bought.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                    bought.DateBought.ToString("yyyy-MM-dd HH:mm:ss"),
+                    bought.Deleted.ToString(),
+                    bought.MerchantId.ToString(),
+                    merchant.Name,
+                    bought.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                    bought.StockId.ToString(),
+                    stock.Name,
+                    bought.ValuePerStockInEuro
+                );
+            });
         }
 
         private void AddSolds()
