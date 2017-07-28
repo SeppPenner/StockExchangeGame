@@ -24,7 +24,7 @@ namespace StockExchangeGame.DummyData
             var names = _databaseAdapter.Insert(GenerateNames);
             var solds = _databaseAdapter.Insert(GenerateSolds);
             var stocks = _databaseAdapter.Insert(GenerateStocks);
-            var stockHistories = _databaseAdapter.Insert(GenerateStockHistory);
+            var stockHistories = _databaseAdapter.Insert(GenerateStockHistories);
             var stockMarkets = _databaseAdapter.Insert(GenerateStockMarkets);
             var surnames = _databaseAdapter.Insert(GenerateSurnames);
             var taxes = _databaseAdapter.Insert(GenerateTaxes);
@@ -98,7 +98,7 @@ namespace StockExchangeGame.DummyData
             }
         };
 
-        private List<StockHistory> GenerateStockHistory { get; } = new List<StockHistory>
+        private List<StockHistory> GenerateStockHistories { get; } = new List<StockHistory>
         {
             new StockHistory
             {
