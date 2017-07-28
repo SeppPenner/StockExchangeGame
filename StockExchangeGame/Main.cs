@@ -12,14 +12,14 @@ namespace StockExchangeGame
 {
     public partial class Main : Form
     {
-        private readonly IDatabaseAdapter _databaseAdapter = new DatabaseAdapter();
+        private IDatabaseAdapter _databaseAdapter;
         private readonly ILanguageManager _lm = new LanguageManager();
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private ILanguage _lang;
 
         public Main()
         {
-            InitializeComponent();
+            InitializeComponent();  
             InitializeLanguageManager();
             LoadLanguagesToCombo();
             InitDatabase();
@@ -29,7 +29,7 @@ namespace StockExchangeGame
         {
             try
             {
-                _databaseAdapter.Init(_lang);
+                _databaseAdapter = new DatabaseAdapter();
             }
             catch (Exception ex)
             {
@@ -65,6 +65,12 @@ namespace StockExchangeGame
         {
             _lang = _lm.GetCurrentLanguage();
             labelSelectLanguage.Text = _lang.GetWord("SelectLanguage");
+            SetDatabaseAdapterLanguageIfNotNull();
+        }
+
+        private void SetDatabaseAdapterLanguageIfNotNull()
+        {
+            if (_lang == null || _databaseAdapter == null) return;
             _databaseAdapter.SetCurrentLanguage(_lang);
         }
 
