@@ -89,12 +89,15 @@ namespace StockExchangeGame.Database.Generic
         T Get<T>(Expression<Func<T, bool>> predicate);
 
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedMemberInSuper.Global
         int Insert<T>(T entity);
 
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedMemberInSuper.Global
         int Update<T>(T entity);
 
         // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedMemberInSuper.Global
         int Delete<T>(T entity);
 
         // ReSharper disable once UnusedMember.Global
