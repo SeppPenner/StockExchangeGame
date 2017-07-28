@@ -7,9 +7,9 @@ namespace StockExchangeGame.Database.Models
     {
         private string _name;
 
-        private int _total;
+        private long _total;
 
-        private int _used;
+        private long _used;
 
         public Stock()
         {
@@ -34,7 +34,7 @@ namespace StockExchangeGame.Database.Models
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global
-        public int Total
+        public long Total
         {
             get => _total;
             set
@@ -49,7 +49,7 @@ namespace StockExchangeGame.Database.Models
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global
-        public int Used
+        public long Used
         {
             get => _used;
             set
