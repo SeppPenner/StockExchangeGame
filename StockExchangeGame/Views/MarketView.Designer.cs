@@ -28,24 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelMarkets = new System.Windows.Forms.Label();
+            this.comboBoxMarkets = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // label1
+            // labelMarkets
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(43, 40);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Market";
+            this.labelMarkets.AutoSize = true;
+            this.labelMarkets.Location = new System.Drawing.Point(32, 24);
+            this.labelMarkets.Name = "labelMarkets";
+            this.labelMarkets.Size = new System.Drawing.Size(43, 13);
+            this.labelMarkets.TabIndex = 0;
+            this.labelMarkets.Text = "Market:";
+            // 
+            // comboBoxMarkets
+            // 
+            this.comboBoxMarkets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMarkets.FormattingEnabled = true;
+            this.comboBoxMarkets.Location = new System.Drawing.Point(35, 40);
+            this.comboBoxMarkets.Name = "comboBoxMarkets";
+            this.comboBoxMarkets.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxMarkets.TabIndex = 1;
             // 
             // MarketView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.comboBoxMarkets);
+            this.Controls.Add(this.labelMarkets);
             this.Name = "MarketView";
+            this.Size = new System.Drawing.Size(580, 389);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -58,6 +70,7 @@
             return true;
         }
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelMarkets;
+        private System.Windows.Forms.ComboBox comboBoxMarkets;
     }
 }

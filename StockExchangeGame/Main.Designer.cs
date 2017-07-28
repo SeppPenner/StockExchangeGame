@@ -40,7 +40,7 @@
             // 
             this.comboBoxLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLanguage.FormattingEnabled = true;
-            this.comboBoxLanguage.Location = new System.Drawing.Point(45, 34);
+            this.comboBoxLanguage.Location = new System.Drawing.Point(210, 26);
             this.comboBoxLanguage.Name = "comboBoxLanguage";
             this.comboBoxLanguage.Size = new System.Drawing.Size(121, 21);
             this.comboBoxLanguage.TabIndex = 0;
@@ -49,7 +49,7 @@
             // labelSelectLanguage
             // 
             this.labelSelectLanguage.AutoSize = true;
-            this.labelSelectLanguage.Location = new System.Drawing.Point(172, 37);
+            this.labelSelectLanguage.Location = new System.Drawing.Point(363, 34);
             this.labelSelectLanguage.Name = "labelSelectLanguage";
             this.labelSelectLanguage.Size = new System.Drawing.Size(107, 13);
             this.labelSelectLanguage.TabIndex = 1;
@@ -96,7 +96,9 @@
             this.Controls.Add(this.comboBoxLanguage);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "StockExchangeGame";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
             this.PerformLayout();
 
