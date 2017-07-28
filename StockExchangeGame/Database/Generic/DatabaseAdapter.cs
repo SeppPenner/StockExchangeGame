@@ -7,23 +7,28 @@ namespace StockExchangeGame.Database.Generic
     // ReSharper disable once UnusedMember.Global
     public class DatabaseAdapter : IDatabaseAdapter
     {
-        private readonly IEntityController<Bought> _boughtController;
-        private readonly IEntityController<CompanyEndings> _companyEndingsController;
-        private readonly IEntityController<CompanyNames> _companyNamesController;
-        private readonly IEntityController<DummyCompany> _dummyCompanyController;
-        private readonly IEntityController<Merchant> _merchantController;
-        private readonly IEntityController<Names> _namesController;
-        private readonly IEntityController<Sold> _soldController;
-        private readonly IEntityController<Stock> _stockController;
-        private readonly IEntityController<StockHistory> _stockHistoryController;
-        private readonly IEntityController<StockMarket> _stockMarketController;
-        private readonly IEntityController<Surnames> _surnamesController;
-        private readonly IEntityController<Taxes> _taxesController;
+        private IEntityController<Bought> _boughtController;
+        private IEntityController<CompanyEndings> _companyEndingsController;
+        private IEntityController<CompanyNames> _companyNamesController;
+        private IEntityController<DummyCompany> _dummyCompanyController;
+        private IEntityController<Merchant> _merchantController;
+        private IEntityController<Names> _namesController;
+        private IEntityController<Sold> _soldController;
+        private IEntityController<Stock> _stockController;
+        private IEntityController<StockHistory> _stockHistoryController;
+        private IEntityController<StockMarket> _stockMarketController;
+        private IEntityController<Surnames> _surnamesController;
+        private IEntityController<Taxes> _taxesController;
         private const string SqlDbFileName = "StockGame.sqlite3";
 
-        public DatabaseAdapter()
+        public void Init()
         {
-            var connectionString = GetConnectionString();
+            CreateDatabaseFileIfNotExists();
+            InitializeControllers(GetConnectionString());
+        }
+
+        private void InitializeControllers(string connectionString)
+        {
             _boughtController = new BoughtController(connectionString);
             _companyEndingsController = new CompanyEndingsController(connectionString);
             _companyNamesController = new CompanyNamesController(connectionString);
@@ -36,6 +41,19 @@ namespace StockExchangeGame.Database.Generic
             _stockMarketController = new StockMarketController(connectionString);
             _surnamesController = new SurnamesController(connectionString);
             _taxesController = new TaxesController(connectionString);
+        }
+
+        private void CreateDatabaseFileIfNotExists()
+        {
+            var databasePath = GetDatabasePath();
+            if (File.Exists(databasePath)) return;
+            CreateDatabaseAndTables(databasePath);
+        }
+
+        private void CreateDatabaseAndTables(string databasePath)
+        {
+            File.Create(databasePath);
+            CreateAllTables();
         }
 
         public string GetConnectionString()

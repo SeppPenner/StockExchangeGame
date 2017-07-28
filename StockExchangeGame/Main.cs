@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using log4net;
@@ -17,33 +15,31 @@ namespace StockExchangeGame
         private readonly IDatabaseAdapter _databaseAdapter = new DatabaseAdapter();
         private readonly ILanguageManager _lm = new LanguageManager();
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private Language _lang;
+        private ILanguage _lang;
 
         public Main()
         {
             InitializeComponent();
             InitializeLanguageManager();
             LoadLanguagesToCombo();
-            //InitializeDatabaseIfNecessary();
+            InitDatabase();
         }
 
-        private void InitializeDatabaseIfNecessary()
+        private void InitDatabase()
         {
-            var databasePath = _databaseAdapter.GetDatabasePath();
-            if (File.Exists(databasePath)) return;
-            CreateAllTables();
+            try
+            {
+                _databaseAdapter.Init();
+            }
+            catch (Exception ex)
+            {
+                LogDatabaseInitializationException(ex);
+            }
         }
 
-        private void CreateAllTables()
+        private void LogDatabaseInitializationException(Exception exception)
         {
-            var result = _databaseAdapter.CreateAllTables();
-            if (result.Result.All(x => x.Results != null)) return;
-            LogDatabaseInitializationException(result.Result);
-        }
-
-        private void LogDatabaseInitializationException(List<CreateTablesResult> results)
-        {
-            var ex = new InitializationException(_lang.GetWord("ErrorInDatabaseInit"), results);
+            var ex = new InitializationException(_lang.GetWord("ErrorInDatabaseInit"), exception);
             LogError(ex);
         }
 
