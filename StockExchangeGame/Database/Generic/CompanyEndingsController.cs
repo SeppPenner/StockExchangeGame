@@ -193,6 +193,7 @@ namespace StockExchangeGame.Database.Generic
 
         private void AddParametersUpdate(SQLiteCommand command, CompanyEndings companyEndings)
         {
+            command.Parameters.AddWithValue("@Id", companyEndings.Id);
             command.Parameters.AddWithValue("@Name", companyEndings.Name);
             command.Parameters.AddWithValue("@CreatedAt", companyEndings.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", companyEndings.Deleted);
