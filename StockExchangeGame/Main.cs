@@ -26,7 +26,7 @@ namespace StockExchangeGame
             LoadLanguagesToCombo();
             InitDatabase();
             //Todo remove dummy data
-            new DummyDataGenerator(_databaseAdapter).GenerateDummyData();
+            //new DummyDataGenerator(_databaseAdapter).GenerateDummyData();
         }
 
         private void LoadTitleAndDescription()
