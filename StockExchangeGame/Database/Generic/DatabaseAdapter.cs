@@ -19,6 +19,7 @@ namespace StockExchangeGame.Database.Generic
             _boughtController = new BoughtController(connectionString);
             _companyEndingsController = new CompanyEndingsController(connectionString);
             _companyNamesController = new CompanyNamesController(connectionString);
+            _dummyCompanyController = new DummyCompanyController(connectionString);
         }
 
         public string GetConnectionString()
