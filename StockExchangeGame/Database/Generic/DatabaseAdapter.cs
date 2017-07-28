@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Languages.Interfaces;
@@ -545,6 +546,21 @@ namespace StockExchangeGame.Database.Generic
             if (typeof(T) == typeof(Taxes))
                 return _taxesController.Delete(entity as Taxes);
             return -1;
+        }
+
+        public int Insert<T>(List<T> entities)
+        {
+            return entities.Sum(Insert);
+        }
+
+        public int Update<T>(List<T> entities)
+        {
+            return entities.Sum(Update);
+        }
+
+        public int Delete<T>(List<T> entities)
+        {
+            return entities.Sum(Delete);
         }
 
         public int Count<T>(Expression<Func<T, bool>> predicate = null)
