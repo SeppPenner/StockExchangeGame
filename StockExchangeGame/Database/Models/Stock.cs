@@ -11,6 +11,8 @@ namespace StockExchangeGame.Database.Models
 
         private long _used;
 
+        private long _stockMarketId;
+
         public Stock()
         {
             CreatedAt = DateTime.Now;
@@ -27,6 +29,21 @@ namespace StockExchangeGame.Database.Models
                 if (value.Equals(_name))
                     return;
                 _name = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // ReSharper disable once MemberCanBePrivate.Global
+        // ReSharper disable once MemberCanBeProtected.Global
+        // ReSharper disable once UnusedMember.Global
+        public long StockMarketId
+        {
+            get => _stockMarketId;
+            set
+            {
+                if (value.Equals(_stockMarketId))
+                    return;
+                _stockMarketId = value;
                 OnPropertyChanged();
             }
         }
