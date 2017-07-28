@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using log4net;
 using Languages.Implementation;
 using Languages.Interfaces;
 using StockExchangeGame.Database.Generic;
-using StockExchangeGame.Database.SQLite;
 using StockExchangeGame.Exceptions;
 using StockExchangeGame.Views;
 
