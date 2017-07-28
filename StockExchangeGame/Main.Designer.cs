@@ -44,7 +44,7 @@
             this.comboBoxLanguage.Name = "comboBoxLanguage";
             this.comboBoxLanguage.Size = new System.Drawing.Size(121, 21);
             this.comboBoxLanguage.TabIndex = 0;
-            this.comboBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguage_SelectedIndexChanged);
+            this.comboBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboBoxLanguage_SelectedIndexChanged);
             // 
             // labelSelectLanguage
             // 
@@ -63,7 +63,7 @@
             this.buttonMarketView.TabIndex = 3;
             this.buttonMarketView.Text = "Market view";
             this.buttonMarketView.UseVisualStyleBackColor = true;
-            this.buttonMarketView.Click += new System.EventHandler(this.buttonMarketView_Click);
+            this.buttonMarketView.Click += new System.EventHandler(this.ButtonMarketView_Click);
             // 
             // buttonPersonalView
             // 
@@ -73,7 +73,7 @@
             this.buttonPersonalView.TabIndex = 4;
             this.buttonPersonalView.Text = "Personal view";
             this.buttonPersonalView.UseVisualStyleBackColor = true;
-            this.buttonPersonalView.Click += new System.EventHandler(this.buttonPersonalView_Click);
+            this.buttonPersonalView.Click += new System.EventHandler(this.ButtonPersonalView_Click);
             // 
             // groupBoxViews
             // 

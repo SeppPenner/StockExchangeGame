@@ -56,7 +56,7 @@ namespace StockExchangeGame
             comboBoxLanguage.SelectedIndex = 0;
         }
 
-        private void comboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
             _lm.SetCurrentLanguageFromName(comboBoxLanguage.SelectedItem.ToString());
         }
@@ -68,7 +68,7 @@ namespace StockExchangeGame
             _databaseAdapter.SetCurrentLanguage(_lang);
         }
 
-        private void buttonMarketView_Click(object sender, EventArgs e)
+        private void ButtonMarketView_Click(object sender, EventArgs e)
         {
             if (CanCurrentViewClose())
             {
@@ -125,7 +125,7 @@ namespace StockExchangeGame
             oldView.Dispose();
         }
 
-        private void buttonPersonalView_Click(object sender, EventArgs e)
+        private void ButtonPersonalView_Click(object sender, EventArgs e)
         {
             if (CanCurrentViewClose())
             {
