@@ -60,5 +60,11 @@ namespace StockExchangeGame.Database.Models
                 OnPropertyChanged();
             }
         }
+
+        // ReSharper disable once UnusedMember.Global
+        public double GetQuotaUsed()
+        {
+            return _used / (double)_total * 100;
+        }
     }
 }
