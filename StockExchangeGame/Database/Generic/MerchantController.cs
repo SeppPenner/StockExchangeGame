@@ -25,8 +25,8 @@ namespace StockExchangeGame.Database.Generic
 
         public void SetCurrentLanguage(ILanguage language)
         {
-            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "Merchant", language.Identifier));
             _currentLanguage = language;
+            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "Merchant", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
