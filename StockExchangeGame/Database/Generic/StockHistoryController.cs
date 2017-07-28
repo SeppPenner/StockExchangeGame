@@ -209,7 +209,7 @@ namespace StockExchangeGame.Database.Generic
 
         private string GetCreateTableSQL()
         {
-            return "CREATE TABLE StockHistory (" +
+            return "CREATE TABLE IF NOT EXISTS StockHistory (" +
                    "Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
                    "PriceDate TEXT NOT NULL," +
                    "CreatedAt TEXT NOT NULL," +
