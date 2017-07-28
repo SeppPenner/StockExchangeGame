@@ -1,22 +1,25 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using StockExchangeGame.Database.Generic;
 using StockExchangeGame.Database.Models;
 using StockExchangeGame.Dialogs;
+using StockExchangeGame.UiThreadInvoke;
 
 namespace StockExchangeGame.Views
 {
     public partial class PersonalView : UserControl
     {
         private readonly BackgroundWorker _dataLoader = new BackgroundWorker();
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public IDatabaseAdapter DatabaseAdapter { get; set; }
 
         public PersonalView()
         {
             InitializeComponent();
             InitBackgroundWorker();
         }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public IDatabaseAdapter DatabaseAdapter { get; set; }
 
         private void InitBackgroundWorker()
         {
@@ -26,33 +29,77 @@ namespace StockExchangeGame.Views
 
         private void DataLoaderWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
-            var dummyCompanies = DatabaseAdapter.Get<DummyCompany>();
-            var taxes = DatabaseAdapter.Get<Taxes>();
-            var stocksBought = DatabaseAdapter.Get<Bought>();
-            var stocksSold = DatabaseAdapter.Get<Sold>();
+            AddSolds();
         }
 
-        private void ButtonNewDummyCompany_Click(object sender, System.EventArgs e)
+        private void AddSolds()
+        {
+            var solds = DatabaseAdapter.Get<Sold>();
+            foreach (var sold in solds)
+            {
+                AddSoldsToDataGridView(sold);
+            }
+        }
+
+        private void AddSoldsToDataGridView(Sold sold)
+        {
+            var merchant = DatabaseAdapter.Get<Merchant>(sold.MerchantId);
+            var stock = DatabaseAdapter.Get<Stock>(sold.StockId);
+            this.UiThreadInvoke(() =>
+            {
+                dataGridViewSoldStocks.Rows.Add(
+                    sold.Id.ToString(),
+                    sold.Amount.ToString(),
+                    sold.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                    sold.DateSold.ToString("yyyy-MM-dd HH:mm:ss"),
+                    sold.Deleted.ToString(),
+                    sold.MerchantId.ToString(),
+                    merchant.Name,
+                    sold.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss"),
+                    sold.StockId.ToString(),
+                    stock.Name,
+                    sold.ValuePerStockInEuro
+                );
+            });
+        }
+
+        private void DummyMethod()
+        {
+            var boughts = DatabaseAdapter.Get<Bought>();
+            var companyEndings = DatabaseAdapter.Get<CompanyEndings>();
+            var companyNames = DatabaseAdapter.Get<CompanyNames>();
+            var dummyCompanies = DatabaseAdapter.Get<DummyCompany>();
+            var merchants = DatabaseAdapter.Get<Merchant>();
+            var names = DatabaseAdapter.Get<Names>();
+            var solds = DatabaseAdapter.Get<Sold>();
+            var stocks = DatabaseAdapter.Get<Stock>();
+            var stockHistories = DatabaseAdapter.Get<StockHistory>();
+            var stockMarkets = DatabaseAdapter.Get<StockMarket>();
+            var surnames = DatabaseAdapter.Get<Surnames>();
+            var taxes = DatabaseAdapter.Get<Taxes>();
+        }
+
+        private void ButtonNewDummyCompany_Click(object sender, EventArgs e)
         {
             new CreateNewDummyCompany().ShowDialog();
         }
 
-        private void ButtonLiquidFundsToCompany_Click(object sender, System.EventArgs e)
+        private void ButtonLiquidFundsToCompany_Click(object sender, EventArgs e)
         {
             new MoveFundsToDummyCompany().ShowDialog();
         }
 
-        private void ButtonCaptialIncrease_Click(object sender, System.EventArgs e)
+        private void ButtonCaptialIncrease_Click(object sender, EventArgs e)
         {
             new CapitalIncrease().ShowDialog();
         }
 
-        private void ButtonBuyNewStocks_Click(object sender, System.EventArgs e)
+        private void ButtonBuyNewStocks_Click(object sender, EventArgs e)
         {
             new BuyStocks().ShowDialog();
         }
 
-        private void ButtonSellStocks_Click(object sender, System.EventArgs e)
+        private void ButtonSellStocks_Click(object sender, EventArgs e)
         {
             new SellStocks().ShowDialog();
         }
