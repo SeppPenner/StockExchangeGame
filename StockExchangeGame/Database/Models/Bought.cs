@@ -95,5 +95,11 @@ namespace StockExchangeGame.Database.Models
                 OnPropertyChanged();
             }
         }
+
+        public override string ToString()
+        {
+            return 
+                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_amount)}: {_amount}, {nameof(_dateBought)}: {_dateBought}, {nameof(_merchantId)}: {_merchantId}, {nameof(_stockId)}: {_stockId}, {nameof(_valuePerStockInEuro)}: {_valuePerStockInEuro}";
+        }
     }
 }

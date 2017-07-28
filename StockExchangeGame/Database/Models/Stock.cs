@@ -83,5 +83,10 @@ namespace StockExchangeGame.Database.Models
         {
             return _used / (double) _total * 100;
         }
+
+        public override string ToString()
+        {
+            return $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_name)}: {_name}, {nameof(_total)}: {_total}, {nameof(_used)}: {_used}, {nameof(_stockMarketId)}: {_stockMarketId}";
+        }
     }
 }
