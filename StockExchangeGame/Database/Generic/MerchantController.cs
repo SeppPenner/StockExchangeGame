@@ -131,12 +131,6 @@ namespace StockExchangeGame.Database.Generic
 
         private string GetCreateTableSQL()
         {
-            Name = "",
-            Deleted = true,
-            ModifiedAt = DateTime.MaxValue,
-            CreatedAt = DateTime.MaxValue,
-            Id = 1,
-            LiquidFunds = 1000
             return "CREATE TABLE Merchant (" +
                    "Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
                    "Name TEXT NOT NULL," +
@@ -174,8 +168,8 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareCommandInsert(SQLiteCommand command, Merchant merchant)
         {
-            command.CommandText = "INSERT INTO Merchant (Id, Name, CreatedAt, Deleted, ModifiedAt) " +
-                                  "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt)";
+            command.CommandText = "INSERT INTO Merchant (Id, Name, CreatedAt, Deleted, ModifiedAt, LiquidFundsInEuro) " +
+                                  "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt, @LiquidFundsInEuro)";
             command.Prepare();
             AddParametersInsert(command, merchant);
         }
@@ -187,13 +181,14 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@CreatedAt", merchant.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", merchant.Deleted);
             command.Parameters.AddWithValue("@ModifiedAt", merchant.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@LiquidFundsInEuro", merchant.LiquidFundsInEuro);
         }
 
         private void PrepareCommandUpdate(SQLiteCommand command, Merchant merchant)
         {
             command.CommandText =
                 "UPDATE Merchant SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
-                "ModifiedAt = @ModifiedAt WHERE Id = @Id";
+                "ModifiedAt = @ModifiedAt, LiquidFundsInEuro = @LiquidFundsInEuro WHERE Id = @Id";
             command.Prepare();
             AddParametersUpdate(command, merchant);
         }
@@ -205,6 +200,7 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@CreatedAt", merchant.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", merchant.Deleted);
             command.Parameters.AddWithValue("@ModifiedAt", merchant.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@LiquidFundsInEuro", merchant.LiquidFundsInEuro);
         }
 
         private void PrepareDeletCommand(SQLiteCommand command, Merchant merchant)
