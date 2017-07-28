@@ -149,12 +149,18 @@ namespace StockExchangeGame.Database.Generic
 
         public int Count(Expression<Func<DummyCompany, bool>> predicate = null)
         {
-            if (predicate == null)
-            {
-                var count = Get().Count;
-                _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCountSimple"), "DummyCompany", count));
-                return count;
-            }
+            return predicate == null ? CountNoPredicate() : CountPredicate();
+        }
+
+        private int CountNoPredicate()
+        {
+            var count = Get().Count;
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCountSimple"), "DummyCompany", count));
+            return count;
+        }
+
+        private int CountPredicate(Expression<Func<DummyCompany, bool>> predicate = null)
+        {
             var count2 = GetQueryable().Where(predicate).Count();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "DummyCompany", predicate, count2));
             return count2;
