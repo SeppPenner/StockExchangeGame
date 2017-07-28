@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using Languages.Interfaces;
 
 namespace StockExchangeGame.Database.Generic
 {
     // ReSharper disable once UnusedMember.Global
     public interface IEntityController<T>
     {
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedMemberInSuper.Global
+        void SetCurrentLanguage(ILanguage language);
+
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedMemberInSuper.Global
+        ILanguage GetCurrentLanguage();
+
         // ReSharper disable once UnusedMethodReturnValue.Global
         int CreateTable();
 

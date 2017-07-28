@@ -29,7 +29,7 @@ namespace StockExchangeGame
         {
             try
             {
-                _databaseAdapter.Init();
+                _databaseAdapter.Init(_lang);
             }
             catch (Exception ex)
             {
@@ -65,6 +65,7 @@ namespace StockExchangeGame
         {
             _lang = _lm.GetCurrentLanguage();
             labelSelectLanguage.Text = _lang.GetWord("SelectLanguage");
+            _databaseAdapter.SetCurrentLanguage(_lang);
         }
 
         private void buttonMarketView_Click(object sender, EventArgs e)

@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using log4net;
+using Languages.Interfaces;
 using StockExchangeGame.Database.Models;
 
 namespace StockExchangeGame.Database.Generic
@@ -12,10 +15,22 @@ namespace StockExchangeGame.Database.Generic
     public class StockController : IEntityController<Stock>
     {
         private readonly SQLiteConnection _connection;
+        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private ILanguage _currentLanguage;
 
         public StockController(string connectionString)
         {
             _connection = new SQLiteConnection(connectionString);
+        }
+
+        public void SetCurrentLanguage(ILanguage language)
+        {
+            _currentLanguage = language;
+        }
+
+        public ILanguage GetCurrentLanguage()
+        {
+            return _currentLanguage;
         }
 
         public int CreateTable()
@@ -27,6 +42,7 @@ namespace StockExchangeGame.Database.Generic
             {
                 result = command.ExecuteNonQuery();
             }
+            _log.Info(string.Format(_currentLanguage.GetWord("TableCreated"), "Stock", result));
             _connection.Close();
             return result;
         }
@@ -47,12 +63,14 @@ namespace StockExchangeGame.Database.Generic
                     }
                 }
             }
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "Stock", list));
             _connection.Close();
             return list;
         }
 
         public Stock Get(long id)
         {
+            Stock stock = null;
             var sql = "SELECT * FROM Stock WHERE Id = @Id";
             _connection.Open();
             using (var command = new SQLiteCommand(sql, _connection))
@@ -61,11 +79,12 @@ namespace StockExchangeGame.Database.Generic
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                        return GetStockFromReader(reader);
+                        stock = GetStockFromReader(reader);
                 }
             }
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "Stock", stock));
             _connection.Close();
-            return null;
+            return stock;
         }
 
         public ObservableCollection<Stock> Get<TValue>(Expression<Func<Stock, bool>> predicate = null,
@@ -94,6 +113,7 @@ namespace StockExchangeGame.Database.Generic
                 PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "Stock", entity, result));
             _connection.Close();
             return result;
         }
@@ -107,6 +127,7 @@ namespace StockExchangeGame.Database.Generic
                 PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "Stock", entity, result));
             _connection.Close();
             return result;
         }
@@ -120,13 +141,22 @@ namespace StockExchangeGame.Database.Generic
                 PrepareDeletCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "Stock", entity, result));
             _connection.Close();
             return result;
         }
 
         public int Count(Expression<Func<Stock, bool>> predicate = null)
         {
-            return predicate == null ? Get().Count : GetQueryable().Where(predicate).Count();
+            if (predicate == null)
+            {
+                var count = Get().Count;
+                _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCountSimple"), "Stock", count));
+                return count;
+            }
+            var count2 = GetQueryable().Where(predicate).Count();
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Stock", predicate, count2));
+            return count2;
         }
 
         private string GetCreateTableSQL()

@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using Languages.Interfaces;
 using StockExchangeGame.Database.Models;
 
 namespace StockExchangeGame.Database.Generic
@@ -20,11 +21,24 @@ namespace StockExchangeGame.Database.Generic
         private IEntityController<Surnames> _surnamesController;
         private IEntityController<Taxes> _taxesController;
         private const string SqlDbFileName = "StockGame.sqlite3";
+        private ILanguage _currentLanguage;
 
-        public void Init()
+        public void SetCurrentLanguage(ILanguage language)
+        {
+            _currentLanguage = language;
+            SetLanguages(language);
+        }
+
+        public ILanguage GetCurrentLanguage()
+        {
+            return _currentLanguage;
+        }
+
+        public void Init(ILanguage language)
         {
             CreateDatabaseFileIfNotExists();
             InitializeControllers(GetConnectionString());
+            SetCurrentLanguage(language);
         }
 
         private void InitializeControllers(string connectionString)
@@ -41,6 +55,23 @@ namespace StockExchangeGame.Database.Generic
             _stockMarketController = new StockMarketController(connectionString);
             _surnamesController = new SurnamesController(connectionString);
             _taxesController = new TaxesController(connectionString);
+        }
+
+        private void SetLanguages(ILanguage language)
+        {
+            _boughtController.SetCurrentLanguage(language);
+            _boughtController.SetCurrentLanguage(language);
+            _companyEndingsController.SetCurrentLanguage(language);
+            _companyNamesController.SetCurrentLanguage(language);
+            _dummyCompanyController.SetCurrentLanguage(language);
+            _merchantController.SetCurrentLanguage(language);
+            _namesController.SetCurrentLanguage(language);
+            _soldController.SetCurrentLanguage(language);
+            _stockController.SetCurrentLanguage(language);
+            _stockHistoryController.SetCurrentLanguage(language);
+            _stockMarketController.SetCurrentLanguage(language);
+            _surnamesController.SetCurrentLanguage(language);
+            _taxesController.SetCurrentLanguage(language);
         }
 
         private void CreateDatabaseFileIfNotExists()

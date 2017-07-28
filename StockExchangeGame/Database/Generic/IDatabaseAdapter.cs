@@ -1,11 +1,21 @@
 ﻿
+using Languages.Interfaces;
+
 namespace StockExchangeGame.Database.Generic
 {
     public interface IDatabaseAdapter
     {
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
-        void Init();
+        void SetCurrentLanguage(ILanguage language);
+
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedMemberInSuper.Global
+        ILanguage GetCurrentLanguage();
+
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once UnusedMemberInSuper.Global
+        void Init(ILanguage language);
 
         // ReSharper disable once UnusedMemberInSuper.Global
         string GetDatabasePath();
