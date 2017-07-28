@@ -27,9 +27,10 @@ namespace StockExchangeGame.Database.Generic
         private IEntityController<Surnames> _surnamesController;
         private IEntityController<Taxes> _taxesController;
 
-        public DatabaseAdapter()
+        public DatabaseAdapter(ILanguage language)
         {
             InitializeControllers(GetConnectionString());
+            SetCurrentLanguage(language);
             CreateDatabaseFileIfNotExists();
         }
 

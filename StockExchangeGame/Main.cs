@@ -29,7 +29,7 @@ namespace StockExchangeGame
         {
             try
             {
-                _databaseAdapter = new DatabaseAdapter();
+                _databaseAdapter = new DatabaseAdapter(_lang);
             }
             catch (Exception ex)
             {
