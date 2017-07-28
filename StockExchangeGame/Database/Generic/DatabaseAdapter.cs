@@ -11,7 +11,7 @@ namespace StockExchangeGame.Database.Generic
         private readonly IEntityController<CompanyEndings> _companyEndingsController;
         private readonly IEntityController<CompanyNames> _companyNamesController;
         private readonly IEntityController<DummyCompany> _dummyCompanyController;
-        private const string SqlDbFileName = "StockGame.sqlite";
+        private const string SqlDbFileName = "StockGame.sqlite3";
 
         public DatabaseAdapter()
         {
