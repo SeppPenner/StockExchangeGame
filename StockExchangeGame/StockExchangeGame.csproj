@@ -127,6 +127,8 @@
     <Compile Include="Dialogs\SellStocks.Designer.cs">
       <DependentUpon>SellStocks.cs</DependentUpon>
     </Compile>
+    <Compile Include="DummyData\DummyDataGenerator.cs" />
+    <Compile Include="DummyData\IDummyDataGenerator.cs" />
     <Compile Include="Exceptions\InitializationException.cs" />
     <Compile Include="Exceptions\ViewCannotBeClosedException.cs" />
     <Compile Include="Main.cs">
