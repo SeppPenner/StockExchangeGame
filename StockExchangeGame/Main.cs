@@ -19,10 +19,16 @@ namespace StockExchangeGame
 
         public Main()
         {
-            InitializeComponent();  
+            InitializeComponent();
+            LoadTitleAndDescription();
             InitializeLanguageManager();
             LoadLanguagesToCombo();
             InitDatabase();
+        }
+
+        private void LoadTitleAndDescription()
+        {
+            Text = Application.ProductName + @" " + Application.ProductVersion;
         }
 
         private void InitDatabase()
