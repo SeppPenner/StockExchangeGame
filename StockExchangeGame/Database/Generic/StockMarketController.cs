@@ -213,8 +213,7 @@ namespace StockExchangeGame.Database.Generic
                    "Name TEXT NOT NULL," +
                    "CreatedAt TEXT NOT NULL," +
                    "Deleted BOOLEAN NOT NULL," +
-                   "ModifiedAt TEXT NOT NULL," +
-                   "StockId INTEGER NOT NULL)";
+                   "ModifiedAt TEXT NOT NULL)";
         }
 
         private void PrepareCommandSelect(SQLiteCommand command, long id)
@@ -231,8 +230,7 @@ namespace StockExchangeGame.Database.Generic
                 Name = reader["Name"].ToString(),
                 CreatedAt = Convert.ToDateTime(reader["CreatedAt"].ToString()),
                 Deleted = Convert.ToBoolean(reader["Deleted"].ToString()),
-                ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString()),
-                StockId = Convert.ToInt64(reader["StockId"].ToString())
+                ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString())
             };
         }
 
@@ -246,8 +244,8 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareCommandInsert(SQLiteCommand command, StockMarket stockMarket)
         {
-            command.CommandText = "INSERT INTO StockMarket (Id, Name, CreatedAt, Deleted, ModifiedAt, StockId) " +
-                                  "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt, @StockId)";
+            command.CommandText = "INSERT INTO StockMarket (Id, Name, CreatedAt, Deleted, ModifiedAt) " +
+                                  "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt)";
             command.Prepare();
             AddParametersUpdateInsert(command, stockMarket);
         }
@@ -259,14 +257,13 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@CreatedAt", stockMarket.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", stockMarket.Deleted);
             command.Parameters.AddWithValue("@ModifiedAt", stockMarket.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@StockId", stockMarket.StockId);
         }
 
         private void PrepareCommandUpdate(SQLiteCommand command, StockMarket stockMarket)
         {
             command.CommandText =
                 "UPDATE StockMarket SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
-                "ModifiedAt = @ModifiedAt, StockId = @StockId WHERE Id = @Id";
+                "ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
             AddParametersUpdateInsert(command, stockMarket);
         }
