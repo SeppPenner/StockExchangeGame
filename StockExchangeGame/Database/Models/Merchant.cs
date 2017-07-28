@@ -5,7 +5,7 @@ namespace StockExchangeGame.Database.Models
     // ReSharper disable once UnusedMember.Global
     public class Merchant : AbstractEntity
     {
-        private double _liquidFunds;
+        private double _liquidFundsInEuro;
         private string _name;
 
         public Merchant()
@@ -32,14 +32,14 @@ namespace StockExchangeGame.Database.Models
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global
-        public double LiquidFunds
+        public double LiquidFundsInEuro
         {
-            get => _liquidFunds;
+            get => _liquidFundsInEuro;
             set
             {
-                if (value.Equals(_liquidFunds))
+                if (value.Equals(_liquidFundsInEuro))
                     return;
-                _liquidFunds = value;
+                _liquidFundsInEuro = value;
                 OnPropertyChanged();
             }
         }
