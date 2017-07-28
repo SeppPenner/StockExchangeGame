@@ -11,7 +11,7 @@ namespace StockExchangeGame.Database.Generic
     // ReSharper disable once UnusedMember.Global
     public class CompanyEndingsController : IEntityController<CompanyEndings>
     {
-        private readonly SQLiteConnection _connection; a
+        private readonly SQLiteConnection _connection;
 
         public CompanyEndingsController(string connectionString)
         {
