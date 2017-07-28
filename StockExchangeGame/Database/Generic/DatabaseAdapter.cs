@@ -284,40 +284,88 @@ namespace StockExchangeGame.Database.Generic
             // ReSharper disable SuspiciousTypeConversion.Global
             // ReSharper disable ExpressionIsAlwaysNull
             if (typeof(T) == typeof(Bought))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _boughtController.Get(predicate as Expression<Func<Bought, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<Bought, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(CompanyEndings))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _companyEndingsController.Get(predicate as Expression<Func<CompanyEndings, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<CompanyEndings, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(CompanyNames))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _companyNamesController.Get(predicate as Expression<Func<CompanyNames, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<CompanyNames, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(DummyCompany))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _dummyCompanyController.Get(predicate as Expression<Func<DummyCompany, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<DummyCompany, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(Merchant))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _merchantController.Get(predicate as Expression<Func<Merchant, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<Merchant, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(Names))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _namesController.Get(predicate as Expression<Func<Names, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<Names, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(Sold))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _soldController.Get(predicate as Expression<Func<Sold, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<Sold, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(Stock))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _stockController.Get(predicate as Expression<Func<Stock, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<Stock, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(StockHistory))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _stockHistoryController.Get(predicate as Expression<Func<StockHistory, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<StockHistory, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(StockMarket))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _stockMarketController.Get(predicate as Expression<Func<StockMarket, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<StockMarket, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(Surnames))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _surnamesController.Get(predicate as Expression<Func<Surnames, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<Surnames, TValue>>) as ObservableCollection<T>;
             if (typeof(T) == typeof(Taxes))
+                // ReSharper disable once SuspiciousTypeConversion.Global
+                // ReSharper disable once ExpressionIsAlwaysNull
                 return _taxesController.Get(predicate as Expression<Func<Taxes, bool>>,
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    // ReSharper disable once ExpressionIsAlwaysNull
                     orderBy as Expression<Func<Taxes, TValue>>) as ObservableCollection<T>;
             return null;
         }
@@ -328,61 +376,85 @@ namespace StockExchangeGame.Database.Generic
             // ReSharper disable ExpressionIsAlwaysNull
             if (typeof(T) == typeof(Bought))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _boughtController.Get(predicate as Expression<Func<Bought, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(CompanyEndings))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _companyEndingsController.Get(predicate as Expression<Func<CompanyEndings, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(CompanyNames))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _companyNamesController.Get(predicate as Expression<Func<CompanyNames, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(DummyCompany))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _dummyCompanyController.Get(predicate as Expression<Func<DummyCompany, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(Merchant))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _merchantController.Get(predicate as Expression<Func<Merchant, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(Names))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _namesController.Get(predicate as Expression<Func<Names, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(Sold))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _soldController.Get(predicate as Expression<Func<Sold, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(Stock))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _stockController.Get(predicate as Expression<Func<Stock, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(StockHistory))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _stockHistoryController.Get(predicate as Expression<Func<StockHistory, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(StockMarket))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _stockMarketController.Get(predicate as Expression<Func<StockMarket, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) == typeof(Surnames))
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _surnamesController.Get(predicate as Expression<Func<Surnames, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
             if (typeof(T) != typeof(Taxes)) return (T) Convert.ChangeType(null, typeof(T));
             {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 var value = _taxesController.Get(predicate as Expression<Func<Taxes, bool>>);
                 return (T) Convert.ChangeType(value, typeof(T));
             }
