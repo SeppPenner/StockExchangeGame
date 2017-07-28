@@ -1,4 +1,8 @@
 ﻿
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq.Expressions;
 using Languages.Interfaces;
 
 namespace StockExchangeGame.Database.Generic
@@ -75,5 +79,30 @@ namespace StockExchangeGame.Database.Generic
         // ReSharper disable once UnusedMember.Global
         // ReSharper disable once UnusedMemberInSuper.Global
         void CreateAllTables();
+
+        // ReSharper disable once UnusedMember.Global
+        List<T> Get<T>();
+
+        // ReSharper disable once UnusedMember.Global
+        T Get<T>(long id);
+
+        // ReSharper disable once UnusedMember.Global
+        ObservableCollection<T> Get<T,TValue>(Expression<Func<T, bool>> predicate = null,
+            Expression<Func<T, TValue>> orderBy = null);
+
+        // ReSharper disable once UnusedMember.Global
+        T Get<T>(Expression<Func<T, bool>> predicate);
+
+        // ReSharper disable once UnusedMember.Global
+        int Insert<T>(T entity);
+
+        // ReSharper disable once UnusedMember.Global
+        int Update<T>(T entity);
+
+        // ReSharper disable once UnusedMember.Global
+        int Delete<T>(T entity);
+
+        // ReSharper disable once UnusedMember.Global
+        int Count<T>(Expression<Func<T, bool>> predicate = null);
     }
 }
