@@ -154,7 +154,7 @@ namespace StockExchangeGame.Database.Generic
             return new Bought
             {
                 Id = Convert.ToInt64(reader["Id"].ToString()),
-                Amount = Convert.ToInt64(reader["Id"].ToString()),
+                Amount = Convert.ToInt64(reader["Amount"].ToString()),
                 CreatedAt = Convert.ToDateTime(reader["CreatedAt"].ToString()),
                 DateBought = Convert.ToDateTime(reader["DateBought"].ToString()),
                 Deleted = Convert.ToBoolean(reader["Deleted"].ToString()),

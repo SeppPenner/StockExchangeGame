@@ -5,9 +5,9 @@ namespace StockExchangeGame.Database.Models
     // ReSharper disable once UnusedMember.Global
     public class Sold : AbstractEntity
     {
-        private int _amount;
+        private long _amount;
 
-        private DateTime _dateBought;
+        private DateTime _dateSold;
 
         private long _merchantId;
 
@@ -54,7 +54,7 @@ namespace StockExchangeGame.Database.Models
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global
-        public int Amount
+        public long Amount
         {
             get => _amount;
             set
@@ -69,14 +69,14 @@ namespace StockExchangeGame.Database.Models
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global
-        public DateTime DateBought
+        public DateTime DateSold
         {
-            get => _dateBought;
+            get => _dateSold;
             set
             {
-                if (value.Equals(_dateBought))
+                if (value.Equals(_dateSold))
                     return;
-                _dateBought = value;
+                _dateSold = value;
                 OnPropertyChanged();
             }
         }
