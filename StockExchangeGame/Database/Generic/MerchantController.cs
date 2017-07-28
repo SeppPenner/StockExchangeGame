@@ -171,10 +171,10 @@ namespace StockExchangeGame.Database.Generic
             command.CommandText = "INSERT INTO Merchant (Id, Name, CreatedAt, Deleted, ModifiedAt, LiquidFundsInEuro) " +
                                   "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt, @LiquidFundsInEuro)";
             command.Prepare();
-            AddParametersInsert(command, merchant);
+            AddParametersUpdateInsert(command, merchant);
         }
 
-        private void AddParametersInsert(SQLiteCommand command, Merchant merchant)
+        private void AddParametersUpdateInsert(SQLiteCommand command, Merchant merchant)
         {
             command.Parameters.AddWithValue("@Id", merchant.Id);
             command.Parameters.AddWithValue("@Name", merchant.Name);
@@ -190,17 +190,7 @@ namespace StockExchangeGame.Database.Generic
                 "UPDATE Merchant SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
                 "ModifiedAt = @ModifiedAt, LiquidFundsInEuro = @LiquidFundsInEuro WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdate(command, merchant);
-        }
-
-        private void AddParametersUpdate(SQLiteCommand command, Merchant merchant)
-        {
-            command.Parameters.AddWithValue("@Id", merchant.Id);
-            command.Parameters.AddWithValue("@Name", merchant.Name);
-            command.Parameters.AddWithValue("@CreatedAt", merchant.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@Deleted", merchant.Deleted);
-            command.Parameters.AddWithValue("@ModifiedAt", merchant.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@LiquidFundsInEuro", merchant.LiquidFundsInEuro);
+            AddParametersUpdateInsert(command, merchant);
         }
 
         private void PrepareDeletCommand(SQLiteCommand command, Merchant merchant)

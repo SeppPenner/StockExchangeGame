@@ -170,10 +170,10 @@ namespace StockExchangeGame.Database.Generic
             command.CommandText = "INSERT INTO CompanyEndings (Id, Name, CreatedAt, Deleted, ModifiedAt) " +
                                   "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt)";
             command.Prepare();
-            AddParametersInsert(command, companyEndings);
+            AddParametersUpdateInsert(command, companyEndings);
         }
 
-        private void AddParametersInsert(SQLiteCommand command, CompanyEndings companyEndings)
+        private void AddParametersUpdateInsert(SQLiteCommand command, CompanyEndings companyEndings)
         {
             command.Parameters.AddWithValue("@Id", companyEndings.Id);
             command.Parameters.AddWithValue("@Name", companyEndings.Name);
@@ -188,16 +188,7 @@ namespace StockExchangeGame.Database.Generic
                 "UPDATE CompanyEndings SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
                 "ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdate(command, companyEndings);
-        }
-
-        private void AddParametersUpdate(SQLiteCommand command, CompanyEndings companyEndings)
-        {
-            command.Parameters.AddWithValue("@Id", companyEndings.Id);
-            command.Parameters.AddWithValue("@Name", companyEndings.Name);
-            command.Parameters.AddWithValue("@CreatedAt", companyEndings.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@Deleted", companyEndings.Deleted);
-            command.Parameters.AddWithValue("@ModifiedAt", companyEndings.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            AddParametersUpdateInsert(command, companyEndings);
         }
 
         private void PrepareDeletCommand(SQLiteCommand command, CompanyEndings companyEndings)

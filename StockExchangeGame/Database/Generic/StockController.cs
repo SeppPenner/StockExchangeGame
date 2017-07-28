@@ -175,10 +175,10 @@ namespace StockExchangeGame.Database.Generic
                                   "ModifiedAt) VALUES (@Id, @Name, @CreatedAt, @Total, @Deleted, " +
                                   "@Used, @ModifiedAt)";
             command.Prepare();
-            AddParametersInsert(command, stock);
+            AddParametersUpdateInsert(command, stock);
         }
 
-        private void AddParametersInsert(SQLiteCommand command, Stock stock)
+        private void AddParametersUpdateInsert(SQLiteCommand command, Stock stock)
         {
             command.Parameters.AddWithValue("@Id", stock.Id);
             command.Parameters.AddWithValue("@Name", stock.Name);
@@ -195,18 +195,7 @@ namespace StockExchangeGame.Database.Generic
                 "UPDATE Stock SET Name = @Name, CreatedAt = @CreatedAt, Total = @Total," +
                 " Deleted = @Deleted, Used = @Used, ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdate(command, stock);
-        }
-
-        private void AddParametersUpdate(SQLiteCommand command, Stock stock)
-        {
-            command.Parameters.AddWithValue("@Id", stock.Id);
-            command.Parameters.AddWithValue("@Name", stock.Name);
-            command.Parameters.AddWithValue("@CreatedAt", stock.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@Total", stock.Total);
-            command.Parameters.AddWithValue("@Deleted", stock.Deleted);
-            command.Parameters.AddWithValue("@Used", stock.Used);
-            command.Parameters.AddWithValue("@ModifiedAt", stock.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            AddParametersUpdateInsert(command, stock);
         }
 
         private void PrepareDeletCommand(SQLiteCommand command, Stock stock)

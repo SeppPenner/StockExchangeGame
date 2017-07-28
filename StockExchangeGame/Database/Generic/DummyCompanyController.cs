@@ -177,10 +177,10 @@ namespace StockExchangeGame.Database.Generic
                                   "Name, SumInEuro) VALUES (@Id, @Deleted, @CreatedAt, @ModifiedAt, @Active, " +
                                   "@MerchantId, @Name, @SumInEuro)";
             command.Prepare();
-            AddParametersInsert(command, dummyCompany);
+            AddParametersUpdateInsert(command, dummyCompany);
         }
 
-        private void AddParametersInsert(SQLiteCommand command, DummyCompany dummyCompany)
+        private void AddParametersUpdateInsert(SQLiteCommand command, DummyCompany dummyCompany)
         {
             command.Parameters.AddWithValue("@Id", dummyCompany.Id);
             command.Parameters.AddWithValue("@Deleted", dummyCompany.Deleted);
@@ -198,19 +198,7 @@ namespace StockExchangeGame.Database.Generic
                 "UPDATE DummyCompany SET Deleted = @Deleted, ModifiedAt = @ModifiedAt, CreatedAt = @CreatedAt," +
                 " Active = @Active, MerchantId = @MerchantId, Name = @Name, SumInEuro = @SumInEuro, WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdate(command, dummyCompany);
-        }
-
-        private void AddParametersUpdate(SQLiteCommand command, DummyCompany dummyCompany)
-        {
-            command.Parameters.AddWithValue("@Id", dummyCompany.Id);
-            command.Parameters.AddWithValue("@Deleted", dummyCompany.Deleted);
-            command.Parameters.AddWithValue("@ModifiedAt", dummyCompany.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@CreatedAt", dummyCompany.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@Active", dummyCompany.Active);
-            command.Parameters.AddWithValue("@MerchantId", dummyCompany.MerchantId);
-            command.Parameters.AddWithValue("@Name", dummyCompany.Name);
-            command.Parameters.AddWithValue("@SumInEuro", dummyCompany.SumInEuro);
+            AddParametersUpdateInsert(command, dummyCompany);
         }
 
         private void PrepareDeletCommand(SQLiteCommand command, DummyCompany dummyCompany)

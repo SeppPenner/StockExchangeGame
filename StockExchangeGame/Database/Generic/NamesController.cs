@@ -170,10 +170,10 @@ namespace StockExchangeGame.Database.Generic
             command.CommandText = "INSERT INTO Names (Id, Name, CreatedAt, Deleted, ModifiedAt) " +
                                   "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt)";
             command.Prepare();
-            AddParametersInsert(command, names);
+            AddParametersUpdateInsert(command, names);
         }
 
-        private void AddParametersInsert(SQLiteCommand command, Names names)
+        private void AddParametersUpdateInsert(SQLiteCommand command, Names names)
         {
             command.Parameters.AddWithValue("@Id", names.Id);
             command.Parameters.AddWithValue("@Name", names.Name);
@@ -188,16 +188,7 @@ namespace StockExchangeGame.Database.Generic
                 "UPDATE Names SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
                 "ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdate(command, names);
-        }
-
-        private void AddParametersUpdate(SQLiteCommand command, Names names)
-        {
-            command.Parameters.AddWithValue("@Id", names.Id);
-            command.Parameters.AddWithValue("@Name", names.Name);
-            command.Parameters.AddWithValue("@CreatedAt", names.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@Deleted", names.Deleted);
-            command.Parameters.AddWithValue("@ModifiedAt", names.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            AddParametersUpdateInsert(command, names);
         }
 
         private void PrepareDeletCommand(SQLiteCommand command, Names names)

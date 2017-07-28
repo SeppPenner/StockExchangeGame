@@ -179,10 +179,10 @@ namespace StockExchangeGame.Database.Generic
                                   "ModifiedAt, StockId, ValuePerStockInEuro) VALUES (@Id, @Amount, @CreatedAt, " +
                                   "@DateSold, @Deleted, @MerchantId, @ModifiedAt, @StockId, @ValuePerStockInEuro)";
             command.Prepare();
-            AddParametersInsert(command, sold);
+            AddParametersUpdateInsert(command, sold);
         }
 
-        private void AddParametersInsert(SQLiteCommand command, Sold sold)
+        private void AddParametersUpdateInsert(SQLiteCommand command, Sold sold)
         {
             command.Parameters.AddWithValue("@Id", sold.Id);
             command.Parameters.AddWithValue("@Amount", sold.Amount);
@@ -202,20 +202,7 @@ namespace StockExchangeGame.Database.Generic
                 " Deleted = @Deleted, MerchantId = @MerchantId, ModifiedAt = @ModifiedAt, StockId = @StockId, " +
                 "ValuePerStockInEuro = @ValuePerStockInEuro WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdate(command, sold);
-        }
-
-        private void AddParametersUpdate(SQLiteCommand command, Sold sold)
-        {
-            command.Parameters.AddWithValue("@Id", sold.Id);
-            command.Parameters.AddWithValue("@Amount", sold.Amount);
-            command.Parameters.AddWithValue("@CreatedAt", sold.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@DateSold", sold.DateSold.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@Deleted", sold.Deleted);
-            command.Parameters.AddWithValue("@MerchantId", sold.MerchantId);
-            command.Parameters.AddWithValue("@ModifiedAt", sold.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@StockId", sold.StockId);
-            command.Parameters.AddWithValue("@ValuePerStockInEuro", sold.ValuePerStockInEuro);
+            AddParametersUpdateInsert(command, sold);
         }
 
         private void PrepareDeletCommand(SQLiteCommand command, Sold sold)
