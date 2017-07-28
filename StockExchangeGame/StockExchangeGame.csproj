@@ -70,8 +70,11 @@
   <ItemGroup>
     <Compile Include="Database\Attributes\AutoIncrementAttribute.cs" />
     <Compile Include="Database\Attributes\PrimaryKeyAttribute.cs" />
-    <Compile Include="Database\Generic\CompanyNamesController.cs" />
     <Compile Include="Database\Generic\CompanyEndingsController.cs" />
+    <Compile Include="Database\Generic\NamesController.cs" />
+    <Compile Include="Database\Generic\DummyCompanyController.cs" />
+    <Compile Include="Database\Generic\CompanyNamesController.cs" />
+    <Compile Include="Database\Generic\MerchantController.cs" />
     <Compile Include="Database\Generic\DatabaseAdapter.cs" />
     <Compile Include="Database\Generic\BoughtController.cs" />
     <Compile Include="Database\Generic\IDatabaseAdapter.cs" />
