@@ -5,6 +5,7 @@ using log4net;
 using Languages.Implementation;
 using Languages.Interfaces;
 using StockExchangeGame.Database.Generic;
+using StockExchangeGame.DummyData;
 using StockExchangeGame.Exceptions;
 using StockExchangeGame.Views;
 
@@ -24,6 +25,8 @@ namespace StockExchangeGame
             InitializeLanguageManager();
             LoadLanguagesToCombo();
             InitDatabase();
+            //Todo remove dummy data
+            new DummyDataGenerator(_databaseAdapter).GenerateDummyData();
         }
 
         private void LoadTitleAndDescription()
@@ -134,7 +137,7 @@ namespace StockExchangeGame
         private void ButtonPersonalView_Click(object sender, EventArgs e)
         {
             if (CanCurrentViewClose())
-                TrySwitchView(new PersonalView());
+                TrySwitchView(new PersonalView{ DatabaseAdapter = _databaseAdapter});
             else
                 LogViewCannotBeClosedException();
         }
