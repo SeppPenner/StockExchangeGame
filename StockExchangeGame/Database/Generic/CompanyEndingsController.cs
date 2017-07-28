@@ -101,39 +101,47 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<CompanyEndings> GetNoPredicateNoOrderBy()
         {
             var result = GetCollection(Get());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
+                null, result));
             return result;
         }
 
-        private ObservableCollection<CompanyEndings> GetPredicateOnly(Expression<Func<CompanyEndings, bool>> predicate = null)
+        private ObservableCollection<CompanyEndings> GetPredicateOnly(
+            Expression<Func<CompanyEndings, bool>> predicate = null)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", predicate, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
+                predicate, null, result));
             return result;
         }
 
-        private ObservableCollection<CompanyEndings> GetOrderByOnly<TValue>(Expression<Func<CompanyEndings, TValue>> orderBy = null)
+        private ObservableCollection<CompanyEndings> GetOrderByOnly<TValue>(
+            Expression<Func<CompanyEndings, TValue>> orderBy = null)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
+                orderBy, result));
             return result;
         }
 
-        private ObservableCollection<CompanyEndings> GetPredicateAndOrderBy<TValue>(Expression<Func<CompanyEndings, bool>> predicate = null,
+        private ObservableCollection<CompanyEndings> GetPredicateAndOrderBy<TValue>(
+            Expression<Func<CompanyEndings, bool>> predicate = null,
             Expression<Func<CompanyEndings, TValue>> orderBy = null)
         {
             // ReSharper disable AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", predicate, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
+                predicate, orderBy, result));
             return result;
         }
 
         public CompanyEndings Get(Expression<Func<CompanyEndings, bool>> predicate)
         {
             var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "CompanyEndings", predicate, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "CompanyEndings", predicate,
+                result));
             return result;
         }
 
@@ -223,7 +231,7 @@ namespace StockExchangeGame.Database.Generic
                 Name = reader["Name"].ToString(),
                 CreatedAt = Convert.ToDateTime(reader["CreatedAt"].ToString()),
                 Deleted = Convert.ToBoolean(reader["Deleted"].ToString()),
-                ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString()),
+                ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString())
             };
         }
 
@@ -249,7 +257,8 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@Name", companyEndings.Name);
             command.Parameters.AddWithValue("@CreatedAt", companyEndings.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", companyEndings.Deleted);
-            command.Parameters.AddWithValue("@ModifiedAt", companyEndings.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@ModifiedAt",
+                companyEndings.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
         }
 
         private void PrepareCommandUpdate(SQLiteCommand command, CompanyEndings companyEndings)

@@ -101,7 +101,8 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<Bought> GetNoPredicateNoOrderBy()
         {
             var result = GetCollection(Get());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, null,
+                result));
             return result;
         }
 
@@ -109,7 +110,8 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate, null,
+                result));
             return result;
         }
 
@@ -117,23 +119,27 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, orderBy,
+                result));
             return result;
         }
 
-        private ObservableCollection<Bought> GetPredicateAndOrderBy<TValue>(Expression<Func<Bought, bool>> predicate = null,
-        Expression<Func<Bought, TValue>> orderBy = null)
+        private ObservableCollection<Bought> GetPredicateAndOrderBy<TValue>(
+            Expression<Func<Bought, bool>> predicate = null,
+            Expression<Func<Bought, TValue>> orderBy = null)
         {
             // ReSharper disable AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate,
+                orderBy, result));
             return result;
         }
 
         public Bought Get(Expression<Func<Bought, bool>> predicate)
         {
             var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Bought", predicate, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Bought", predicate,
+                result));
             return result;
         }
 

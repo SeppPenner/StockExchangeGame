@@ -101,7 +101,8 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<Merchant> GetNoPredicateNoOrderBy()
         {
             var result = GetCollection(Get());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", null, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", null, null,
+                result));
             return result;
         }
 
@@ -109,7 +110,8 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", predicate, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", predicate,
+                null, result));
             return result;
         }
 
@@ -117,23 +119,27 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", null, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", null, orderBy,
+                result));
             return result;
         }
 
-        private ObservableCollection<Merchant> GetPredicateAndOrderBy<TValue>(Expression<Func<Merchant, bool>> predicate = null,
+        private ObservableCollection<Merchant> GetPredicateAndOrderBy<TValue>(
+            Expression<Func<Merchant, bool>> predicate = null,
             Expression<Func<Merchant, TValue>> orderBy = null)
         {
             // ReSharper disable AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", predicate, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", predicate,
+                orderBy, result));
             return result;
         }
 
         public Merchant Get(Expression<Func<Merchant, bool>> predicate)
         {
             var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Merchant", predicate, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Merchant", predicate,
+                result));
             return result;
         }
 
@@ -224,7 +230,7 @@ namespace StockExchangeGame.Database.Generic
                 Name = reader["Name"].ToString(),
                 CreatedAt = Convert.ToDateTime(reader["CreatedAt"].ToString()),
                 Deleted = Convert.ToBoolean(reader["Deleted"].ToString()),
-                ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString()),
+                ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString())
             };
         }
 
@@ -238,8 +244,9 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareCommandInsert(SQLiteCommand command, Merchant merchant)
         {
-            command.CommandText = "INSERT INTO Merchant (Id, Name, CreatedAt, Deleted, ModifiedAt, LiquidFundsInEuro) " +
-                                  "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt, @LiquidFundsInEuro)";
+            command.CommandText =
+                "INSERT INTO Merchant (Id, Name, CreatedAt, Deleted, ModifiedAt, LiquidFundsInEuro) " +
+                "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt, @LiquidFundsInEuro)";
             command.Prepare();
             AddParametersUpdateInsert(command, merchant);
         }

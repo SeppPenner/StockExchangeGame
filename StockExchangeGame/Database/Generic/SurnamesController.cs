@@ -101,7 +101,8 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<Surnames> GetNoPredicateNoOrderBy()
         {
             var result = GetCollection(Get());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Surnames", null, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Surnames", null, null,
+                result));
             return result;
         }
 
@@ -109,7 +110,8 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Surnames", predicate, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Surnames", predicate,
+                null, result));
             return result;
         }
 
@@ -117,23 +119,27 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Surnames", null, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Surnames", null, orderBy,
+                result));
             return result;
         }
 
-        private ObservableCollection<Surnames> GetPredicateAndOrderBy<TValue>(Expression<Func<Surnames, bool>> predicate = null,
+        private ObservableCollection<Surnames> GetPredicateAndOrderBy<TValue>(
+            Expression<Func<Surnames, bool>> predicate = null,
             Expression<Func<Surnames, TValue>> orderBy = null)
         {
             // ReSharper disable AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Surnames", predicate, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Surnames", predicate,
+                orderBy, result));
             return result;
         }
 
         public Surnames Get(Expression<Func<Surnames, bool>> predicate)
         {
             var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Surnames", predicate, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Surnames", predicate,
+                result));
             return result;
         }
 

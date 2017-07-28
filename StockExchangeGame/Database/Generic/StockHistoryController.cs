@@ -101,39 +101,47 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<StockHistory> GetNoPredicateNoOrderBy()
         {
             var result = GetCollection(Get());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", null, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", null, null,
+                result));
             return result;
         }
 
-        private ObservableCollection<StockHistory> GetPredicateOnly(Expression<Func<StockHistory, bool>> predicate = null)
+        private ObservableCollection<StockHistory> GetPredicateOnly(
+            Expression<Func<StockHistory, bool>> predicate = null)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", predicate, null, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", predicate,
+                null, result));
             return result;
         }
 
-        private ObservableCollection<StockHistory> GetOrderByOnly<TValue>(Expression<Func<StockHistory, TValue>> orderBy = null)
+        private ObservableCollection<StockHistory> GetOrderByOnly<TValue>(
+            Expression<Func<StockHistory, TValue>> orderBy = null)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", null, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", null,
+                orderBy, result));
             return result;
         }
 
-        private ObservableCollection<StockHistory> GetPredicateAndOrderBy<TValue>(Expression<Func<StockHistory, bool>> predicate = null,
+        private ObservableCollection<StockHistory> GetPredicateAndOrderBy<TValue>(
+            Expression<Func<StockHistory, bool>> predicate = null,
             Expression<Func<StockHistory, TValue>> orderBy = null)
         {
             // ReSharper disable AssignNullToNotNullAttribute
             var result = GetCollection(GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", predicate, orderBy, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", predicate,
+                orderBy, result));
             return result;
         }
 
         public StockHistory Get(Expression<Func<StockHistory, bool>> predicate)
         {
             var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "StockHistory", predicate, result));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "StockHistory", predicate,
+                result));
             return result;
         }
 
@@ -241,9 +249,10 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareCommandInsert(SQLiteCommand command, StockHistory stockHistory)
         {
-            command.CommandText = "INSERT INTO StockHistory (Id, PriceDate, CreatedAt, PricePerStock, Deleted, StockId, " +
-                                  "ModifiedAt) VALUES (@Id, @PriceDate, @CreatedAt, @PricePerStock, @Deleted, " +
-                                  "@StockId, @ModifiedAt)";
+            command.CommandText =
+                "INSERT INTO StockHistory (Id, PriceDate, CreatedAt, PricePerStock, Deleted, StockId, " +
+                "ModifiedAt) VALUES (@Id, @PriceDate, @CreatedAt, @PricePerStock, @Deleted, " +
+                "@StockId, @ModifiedAt)";
             command.Prepare();
             AddParametersUpdateInsert(command, stockHistory);
         }

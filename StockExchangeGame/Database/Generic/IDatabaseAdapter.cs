@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
@@ -87,7 +86,7 @@ namespace StockExchangeGame.Database.Generic
         T Get<T>(long id);
 
         // ReSharper disable once UnusedMember.Global
-        ObservableCollection<T> Get<T,TValue>(Expression<Func<T, bool>> predicate = null,
+        ObservableCollection<T> Get<T, TValue>(Expression<Func<T, bool>> predicate = null,
             Expression<Func<T, TValue>> orderBy = null);
 
         // ReSharper disable once UnusedMember.Global

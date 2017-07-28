@@ -71,13 +71,9 @@ namespace StockExchangeGame
         private void ButtonMarketView_Click(object sender, EventArgs e)
         {
             if (CanCurrentViewClose())
-            {
                 TrySwitchView(new MarketView());
-            }
             else
-            {
                 LogViewCannotBeClosedException();
-            }
         }
 
         private void TrySwitchView(UserControl newView)
@@ -94,7 +90,7 @@ namespace StockExchangeGame
 
         private bool CanCurrentViewClose()
         {
-            if(groupBoxViews.Controls.Count == 0)
+            if (groupBoxViews.Controls.Count == 0)
                 return true;
 
             var v = groupBoxViews.Controls[0] as IView;
@@ -104,9 +100,7 @@ namespace StockExchangeGame
         private void SwitchView(UserControl newView)
         {
             if (groupBoxViews.Controls.Count > 0)
-            {
                 DisposeOldView();
-            }
             AddNewView(newView);
         }
 
@@ -128,13 +122,9 @@ namespace StockExchangeGame
         private void ButtonPersonalView_Click(object sender, EventArgs e)
         {
             if (CanCurrentViewClose())
-            {
                 TrySwitchView(new PersonalView());
-            }
             else
-            {
                 LogViewCannotBeClosedException();
-            }
         }
 
         private void LogViewCannotBeClosedException()
