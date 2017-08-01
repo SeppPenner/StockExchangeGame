@@ -179,7 +179,7 @@ namespace StockExchangeGame.Database.Generic
             _connection.Open();
             using (var command = new SQLiteCommand(_connection))
             {
-                PrepareDeletCommand(command, entity);
+                PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "CompanyNames", entity, result));
@@ -269,7 +269,7 @@ namespace StockExchangeGame.Database.Generic
             AddParametersUpdateInsert(command, companyNames);
         }
 
-        private void PrepareDeletCommand(SQLiteCommand command, CompanyNames companyNames)
+        private void PrepareDeleteCommand(SQLiteCommand command, CompanyNames companyNames)
         {
             command.CommandText = "UPDATE CompanyNames SET Deleted = true WHERE Id = @Id";
             command.Prepare();
