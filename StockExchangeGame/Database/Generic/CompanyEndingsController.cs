@@ -257,8 +257,7 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@Name", companyEndings.Name);
             command.Parameters.AddWithValue("@CreatedAt", companyEndings.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", companyEndings.Deleted);
-            command.Parameters.AddWithValue("@ModifiedAt",
-                companyEndings.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
         }
 
         private void PrepareCommandUpdate(SQLiteCommand command, CompanyEndings companyEndings)
@@ -272,9 +271,10 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareDeleteCommand(SQLiteCommand command, CompanyEndings companyEndings)
         {
-            command.CommandText = "UPDATE CompanyEndings SET Deleted = true WHERE Id = @Id";
+            command.CommandText = "UPDATE CompanyEndings SET Deleted = true, ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
             command.Parameters.AddWithValue("@Id", companyEndings.Id);
+            command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
         }
 
         private IQueryable<CompanyEndings> GetQueryable()

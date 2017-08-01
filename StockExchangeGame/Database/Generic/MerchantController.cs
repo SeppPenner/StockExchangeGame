@@ -257,7 +257,7 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@Name", merchant.Name);
             command.Parameters.AddWithValue("@CreatedAt", merchant.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", merchant.Deleted);
-            command.Parameters.AddWithValue("@ModifiedAt", merchant.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@LiquidFundsInEuro", merchant.LiquidFundsInEuro);
         }
 
@@ -272,9 +272,10 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareDeleteCommand(SQLiteCommand command, Merchant merchant)
         {
-            command.CommandText = "UPDATE Merchant SET Deleted = true WHERE Id = @Id";
+            command.CommandText = "UPDATE Merchant SET Deleted = true, ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
             command.Parameters.AddWithValue("@Id", merchant.Id);
+            command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
         }
 
         private IQueryable<Merchant> GetQueryable()

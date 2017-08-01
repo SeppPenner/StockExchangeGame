@@ -262,7 +262,7 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@MerchantId", taxes.MerchantId);
             command.Parameters.AddWithValue("@CreatedAt", taxes.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@Deleted", taxes.Deleted);
-            command.Parameters.AddWithValue("@ModifiedAt", taxes.ModifiedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@DateTaxWasDue", taxes.DateTaxWasDue.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             command.Parameters.AddWithValue("@DueInEuro", taxes.DueInEuro);
             command.Parameters.AddWithValue("@PayedInEuro", taxes.PayedInEuro);
@@ -280,9 +280,10 @@ namespace StockExchangeGame.Database.Generic
 
         private void PrepareDeleteCommand(SQLiteCommand command, Taxes taxes)
         {
-            command.CommandText = "UPDATE Taxes SET Deleted = true WHERE Id = @Id";
+            command.CommandText = "UPDATE Taxes SET Deleted = true, ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
             command.Parameters.AddWithValue("@Id", taxes.Id);
+            command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
         }
 
         private IQueryable<Taxes> GetQueryable()
