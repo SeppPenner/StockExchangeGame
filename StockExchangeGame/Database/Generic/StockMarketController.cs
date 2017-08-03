@@ -188,7 +188,7 @@ namespace StockExchangeGame.Database.Generic
 
         public int Count(Expression<Func<StockMarket, bool>> predicate = null)
         {
-            return predicate == null ? CountNoPredicate() : CountPredicate();
+            return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
         }
 
         private int CountNoPredicate()
