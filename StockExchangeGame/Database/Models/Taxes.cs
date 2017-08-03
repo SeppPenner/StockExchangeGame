@@ -13,12 +13,6 @@ namespace StockExchangeGame.Database.Models
 
         private double _payedInEuro;
 
-        public Taxes()
-        {
-            CreatedAt = DateTime.Now;
-            ModifiedAt = DateTime.Now;
-        }
-
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global

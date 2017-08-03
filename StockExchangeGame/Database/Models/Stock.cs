@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StockExchangeGame.Database.Models
+﻿namespace StockExchangeGame.Database.Models
 {
     // ReSharper disable once UnusedMember.Global
     public class Stock : AbstractEntity
@@ -12,12 +10,6 @@ namespace StockExchangeGame.Database.Models
         private long _used;
 
         private long _stockMarketId;
-
-        public Stock()
-        {
-            CreatedAt = DateTime.Now;
-            ModifiedAt = DateTime.Now;
-        }
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global

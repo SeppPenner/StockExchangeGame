@@ -10,12 +10,6 @@ namespace StockExchangeGame.Database.Models
 
         private long _stockId;
 
-        public StockHistory()
-        {
-            CreatedAt = DateTime.Now;
-            ModifiedAt = DateTime.Now;
-        }
-
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
         // ReSharper disable once UnusedMember.Global

@@ -1,18 +1,10 @@
-﻿using System;
-
-namespace StockExchangeGame.Database.Models
+﻿namespace StockExchangeGame.Database.Models
 {
     // ReSharper disable once UnusedMember.Global
     public class Merchant : AbstractEntity
     {
         private double _liquidFundsInEuro;
         private string _name;
-
-        public Merchant()
-        {
-            CreatedAt = DateTime.Now;
-            ModifiedAt = DateTime.Now;
-        }
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
