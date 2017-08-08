@@ -64,7 +64,7 @@ namespace StockExchangeGame.Database.Generic
                     }
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "StockMarket", list));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "StockMarket", string.Join("; ", list)));
             _connection.Close();
             return list;
         }
