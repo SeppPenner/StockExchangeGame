@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("StockExchangeGame")]
 [assembly: AssemblyCompany("Hämmer Electronics")]
 [assembly: AssemblyProduct("StockExchangeGame")]
-[assembly: AssemblyCopyright("Copyright © StockExchangeGame")]
+[assembly: AssemblyCopyright("Copyright © Hämmer Electronics")]
 [assembly: AssemblyTrademark("StockExchangeGame")]
 [assembly: AssemblyCulture("")]
 
