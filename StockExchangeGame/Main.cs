@@ -5,7 +5,6 @@ using log4net;
 using Languages.Implementation;
 using Languages.Interfaces;
 using StockExchangeGame.Database.Generic;
-using StockExchangeGame.DummyData;
 using StockExchangeGame.Exceptions;
 using StockExchangeGame.Views;
 
@@ -13,9 +12,9 @@ namespace StockExchangeGame
 {
     public partial class Main : Form
     {
-        private IDatabaseAdapter _databaseAdapter;
         private readonly ILanguageManager _lm = new LanguageManager();
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private IDatabaseAdapter _databaseAdapter;
         private ILanguage _lang;
 
         public Main()
@@ -137,7 +136,7 @@ namespace StockExchangeGame
         private void ButtonPersonalView_Click(object sender, EventArgs e)
         {
             if (CanCurrentViewClose())
-                TrySwitchView(new PersonalView{ DatabaseAdapter = _databaseAdapter});
+                TrySwitchView(new PersonalView {DatabaseAdapter = _databaseAdapter});
             else
                 LogViewCannotBeClosedException();
         }

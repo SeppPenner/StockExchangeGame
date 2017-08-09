@@ -6,28 +6,13 @@ using StockExchangeGame.Database.Models;
 namespace StockExchangeGame.DummyData
 {
     // ReSharper disable once UnusedMember.Global
-    public class DummyDataGenerator: IDummyDataGenerator
+    public class DummyDataGenerator : IDummyDataGenerator
     {
         private readonly IDatabaseAdapter _databaseAdapter;
+
         public DummyDataGenerator(IDatabaseAdapter databaseAdapter)
         {
             _databaseAdapter = databaseAdapter;
-        }
-
-        public void GenerateDummyData()
-        {
-            var boughts = _databaseAdapter.Insert(GenerateBoughts);
-            var companyEndings = _databaseAdapter.Insert(GenerateCompanyEndings);
-            var companyNames = _databaseAdapter.Insert(GenerateCompanyNames);
-            var dummyCompanies = _databaseAdapter.Insert(GenerateDummyCompanies);
-            var merchants = _databaseAdapter.Insert(GenerateMerchants);
-            var names = _databaseAdapter.Insert(GenerateNames);
-            var solds = _databaseAdapter.Insert(GenerateSolds);
-            var stocks = _databaseAdapter.Insert(GenerateStocks);
-            var stockHistories = _databaseAdapter.Insert(GenerateStockHistories);
-            var stockMarkets = _databaseAdapter.Insert(GenerateStockMarkets);
-            var surnames = _databaseAdapter.Insert(GenerateSurnames);
-            var taxes = _databaseAdapter.Insert(GenerateTaxes);
         }
 
         private List<Sold> GenerateSolds { get; } = new List<Sold>
@@ -617,5 +602,21 @@ namespace StockExchangeGame.DummyData
                 Deleted = false
             }
         };
+
+        public void GenerateDummyData()
+        {
+            var boughts = _databaseAdapter.Insert(GenerateBoughts);
+            var companyEndings = _databaseAdapter.Insert(GenerateCompanyEndings);
+            var companyNames = _databaseAdapter.Insert(GenerateCompanyNames);
+            var dummyCompanies = _databaseAdapter.Insert(GenerateDummyCompanies);
+            var merchants = _databaseAdapter.Insert(GenerateMerchants);
+            var names = _databaseAdapter.Insert(GenerateNames);
+            var solds = _databaseAdapter.Insert(GenerateSolds);
+            var stocks = _databaseAdapter.Insert(GenerateStocks);
+            var stockHistories = _databaseAdapter.Insert(GenerateStockHistories);
+            var stockMarkets = _databaseAdapter.Insert(GenerateStockMarkets);
+            var surnames = _databaseAdapter.Insert(GenerateSurnames);
+            var taxes = _databaseAdapter.Insert(GenerateTaxes);
+        }
     }
 }

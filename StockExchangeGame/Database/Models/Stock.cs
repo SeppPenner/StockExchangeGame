@@ -5,11 +5,11 @@
     {
         private string _name;
 
+        private long _stockMarketId;
+
         private long _total;
 
         private long _used;
-
-        private long _stockMarketId;
 
         // ReSharper disable once MemberCanBePrivate.Global
         // ReSharper disable once MemberCanBeProtected.Global
@@ -78,7 +78,8 @@
 
         public override string ToString()
         {
-            return $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_name)}: {_name}, {nameof(_total)}: {_total}, {nameof(_used)}: {_used}, {nameof(_stockMarketId)}: {_stockMarketId}";
+            return
+                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_name)}: {_name}, {nameof(_total)}: {_total}, {nameof(_used)}: {_used}, {nameof(_stockMarketId)}: {_stockMarketId}";
         }
     }
 }

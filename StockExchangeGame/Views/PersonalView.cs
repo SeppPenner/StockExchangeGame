@@ -37,9 +37,7 @@ namespace StockExchangeGame.Views
         {
             var boughts = DatabaseAdapter.Get<Bought>();
             foreach (var bought in boughts)
-            {
                 AddBoughtsToDataGridView(bought);
-            }
         }
 
         private void AddBoughtsToDataGridView(Bought bought)
@@ -68,9 +66,7 @@ namespace StockExchangeGame.Views
         {
             var solds = DatabaseAdapter.Get<Sold>();
             foreach (var sold in solds)
-            {
                 AddSoldsToDataGridView(sold);
-            }
         }
 
         private void AddSoldsToDataGridView(Sold sold)

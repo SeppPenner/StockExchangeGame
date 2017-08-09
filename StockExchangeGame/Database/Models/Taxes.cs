@@ -75,7 +75,8 @@ namespace StockExchangeGame.Database.Models
 
         public override string ToString()
         {
-            return $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_dateTaxWasDue)}: {_dateTaxWasDue}, {nameof(_dueInEuro)}: {_dueInEuro}, {nameof(_merchantId)}: {_merchantId}, {nameof(_payedInEuro)}: {_payedInEuro}";
+            return
+                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_dateTaxWasDue)}: {_dateTaxWasDue}, {nameof(_dueInEuro)}: {_dueInEuro}, {nameof(_merchantId)}: {_merchantId}, {nameof(_payedInEuro)}: {_payedInEuro}";
         }
     }
 }

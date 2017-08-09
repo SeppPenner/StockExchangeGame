@@ -73,7 +73,8 @@
 
         public override string ToString()
         {
-            return $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_active)}: {_active}, {nameof(_merchantId)}: {_merchantId}, {nameof(_name)}: {_name}, {nameof(_sumInEuro)}: {_sumInEuro}";
+            return
+                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_active)}: {_active}, {nameof(_merchantId)}: {_merchantId}, {nameof(_name)}: {_name}, {nameof(_sumInEuro)}: {_sumInEuro}";
         }
     }
 }
