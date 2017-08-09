@@ -67,6 +67,7 @@ namespace StockExchangeGame.Database.Models
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
+            ModifiedAt = DateTime.Now;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
