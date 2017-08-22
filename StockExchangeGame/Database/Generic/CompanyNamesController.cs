@@ -293,5 +293,17 @@ namespace StockExchangeGame.Database.Generic
         {
             return Get().AsQueryable();
         }
+		
+		public void Truncate()
+		{
+            const string sql = "DELETE FROM CompanyNames";
+            _connection.Open();
+            using (var command = new SQLiteCommand(sql, _connection))
+            {
+                command.ExecuteNonQuery();
+            }
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "CompanyNames"));
+            _connection.Close();
+		}
     }
 }

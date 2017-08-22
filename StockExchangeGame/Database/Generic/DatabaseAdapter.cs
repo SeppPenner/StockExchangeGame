@@ -593,5 +593,69 @@ namespace StockExchangeGame.Database.Generic
                 return _taxesController.Count(predicate as Expression<Func<Taxes, bool>>);
             return -1;
         }
+		
+		public void Truncate<T>()
+        {
+            if (typeof(T) == typeof(Bought))
+            {
+                _boughtController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(CompanyEndings))
+            {
+                _companyEndingsController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(CompanyNames))
+            {
+                _companyNamesController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(DummyCompany))
+            {
+                _dummyCompanyController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(Merchant))
+            {
+                _merchantController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(Names))
+            {
+                _namesController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(Sold))
+            {
+                _soldController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(Stock))
+            {
+                _stockController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(StockHistory))
+            {
+                _stockHistoryController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(StockMarket))
+            {
+                _stockMarketController.Truncate();
+				return;
+            }
+            if (typeof(T) == typeof(Surnames))
+            {
+                _surnamesController.Truncate();
+				return;
+            }
+			if (typeof(T) == typeof(Taxes))
+            {
+                _taxesController.Truncate();
+				return;
+            }
+        }
     }
 }
