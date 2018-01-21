@@ -2,7 +2,7 @@ StockExchangeGame
 ====================================
 
 StockExchangeGame is a game to simulate a stock market.
-The game was written and tested in .Net 4.6.2.
+The game was written and tested in .Net 4.7.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/6b7shv4fa54mujbd?svg=true)](https://ci.appveyor.com/project/SeppPenner/stockexchangegame)
 
