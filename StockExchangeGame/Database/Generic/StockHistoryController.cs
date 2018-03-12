@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using log4net;
 using Languages.Interfaces;
+using StockExchangeGame.Database.Extensions;
 using StockExchangeGame.Database.Models;
 
 namespace StockExchangeGame.Database.Generic
@@ -100,7 +101,7 @@ namespace StockExchangeGame.Database.Generic
 
         private ObservableCollection<StockHistory> GetNoPredicateNoOrderBy()
         {
-            var result = GetCollection(Get());
+            var result = Get().ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", null, null,
                 string.Join(";", result)));
             return result;
@@ -110,7 +111,7 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<StockHistory, bool>> predicate = null)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
-            var result = GetCollection(GetQueryable().Where(predicate).ToList());
+            var result = GetQueryable().Where(predicate).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", predicate,
                 null, string.Join(";", result)));
             return result;
@@ -120,7 +121,7 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<StockHistory, TValue>> orderBy = null)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
-            var result = GetCollection(GetQueryable().OrderBy(orderBy).ToList());
+            var result = GetQueryable().OrderBy(orderBy).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", null,
                 orderBy, string.Join(";", result)));
             return result;
@@ -131,7 +132,7 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<StockHistory, TValue>> orderBy = null)
         {
             // ReSharper disable AssignNullToNotNullAttribute
-            var result = GetCollection(GetQueryable().Where(predicate).OrderBy(orderBy).ToList());
+            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockHistory", predicate,
                 orderBy, string.Join(";", result)));
             return result;
@@ -249,14 +250,6 @@ namespace StockExchangeGame.Database.Generic
                 StockId = Convert.ToInt64(reader["StockId"].ToString()),
                 ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString())
             };
-        }
-
-        private ObservableCollection<StockHistory> GetCollection(IEnumerable<StockHistory> oldList)
-        {
-            var collection = new ObservableCollection<StockHistory>();
-            foreach (var item in oldList)
-                collection.Add(item);
-            return collection;
         }
 
         private void PrepareCommandInsert(SQLiteCommand command, StockHistory stockHistory)
