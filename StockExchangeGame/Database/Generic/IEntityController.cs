@@ -45,7 +45,7 @@ namespace StockExchangeGame.Database.Generic
 
         // ReSharper disable once UnusedMember.Global
         int Count(Expression<Func<T, bool>> predicate = null);
-		
-		void Truncate();
+
+        void Truncate();
     }
 }

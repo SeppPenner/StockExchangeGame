@@ -19,9 +19,9 @@ namespace StockExchangeGame.Database.Generic
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private ILanguage _currentLanguage;
 
-        public SoldController(string connectionString)
+        public SoldController(SQLiteConnection connection)
         {
-            _connection = new SQLiteConnection(connectionString);
+            _connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
@@ -138,7 +138,8 @@ namespace StockExchangeGame.Database.Generic
         public Sold Get(Expression<Func<Sold, bool>> predicate)
         {
             var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Sold", predicate, string.Join(";", result)));
+            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Sold", predicate,
+                string.Join(";", result)));
             return result;
         }
 
@@ -296,9 +297,9 @@ namespace StockExchangeGame.Database.Generic
         {
             return Get().AsQueryable();
         }
-		
-		public void Truncate()
-		{
+
+        public void Truncate()
+        {
             const string sql = "DELETE FROM Sold";
             _connection.Open();
             using (var command = new SQLiteCommand(sql, _connection))
@@ -307,6 +308,6 @@ namespace StockExchangeGame.Database.Generic
             }
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "Sold"));
             _connection.Close();
-		}
+        }
     }
 }

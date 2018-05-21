@@ -19,9 +19,9 @@ namespace StockExchangeGame.Database.Generic
         private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private ILanguage _currentLanguage;
 
-        public StockHistoryController(string connectionString)
+        public StockHistoryController(SQLiteConnection connection)
         {
-            _connection = new SQLiteConnection(connectionString);
+            _connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
@@ -294,9 +294,9 @@ namespace StockExchangeGame.Database.Generic
         {
             return Get().AsQueryable();
         }
-		
-		public void Truncate()
-		{
+
+        public void Truncate()
+        {
             const string sql = "DELETE FROM StockHistory";
             _connection.Open();
             using (var command = new SQLiteCommand(sql, _connection))
@@ -305,6 +305,6 @@ namespace StockExchangeGame.Database.Generic
             }
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "StockHistory"));
             _connection.Close();
-		}
+        }
     }
 }

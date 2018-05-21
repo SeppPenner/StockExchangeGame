@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -17,6 +18,7 @@ namespace StockExchangeGame.Database.Generic
         private IEntityController<Bought> _boughtController;
         private IEntityController<CompanyEndings> _companyEndingsController;
         private IEntityController<CompanyNames> _companyNamesController;
+        private SQLiteConnection _connection;
         private ILanguage _currentLanguage;
         private IEntityController<DummyCompany> _dummyCompanyController;
         private IEntityController<Merchant> _merchantController;
@@ -55,9 +57,7 @@ namespace StockExchangeGame.Database.Generic
         public string GetDatabasePath()
         {
             var location = Assembly.GetExecutingAssembly().Location;
-            return location != null
-                ? Path.Combine(Directory.GetParent(location).FullName, SqlDbFileName)
-                : string.Empty;
+            return Path.Combine(Directory.GetParent(location).FullName, SqlDbFileName);
         }
 
         public void CreateBoughtTable()
@@ -231,18 +231,19 @@ namespace StockExchangeGame.Database.Generic
 
         private void InitializeControllers(string connectionString)
         {
-            _boughtController = new BoughtController(connectionString);
-            _companyEndingsController = new CompanyEndingsController(connectionString);
-            _companyNamesController = new CompanyNamesController(connectionString);
-            _dummyCompanyController = new DummyCompanyController(connectionString);
-            _merchantController = new MerchantController(connectionString);
-            _namesController = new NamesController(connectionString);
-            _soldController = new SoldController(connectionString);
-            _stockController = new StockController(connectionString);
-            _stockHistoryController = new StockHistoryController(connectionString);
-            _stockMarketController = new StockMarketController(connectionString);
-            _surnamesController = new SurnamesController(connectionString);
-            _taxesController = new TaxesController(connectionString);
+            _connection = new SQLiteConnection(connectionString);
+            _boughtController = new BoughtController(_connection);
+            _companyEndingsController = new CompanyEndingsController(_connection);
+            _companyNamesController = new CompanyNamesController(_connection);
+            _dummyCompanyController = new DummyCompanyController(_connection);
+            _merchantController = new MerchantController(_connection);
+            _namesController = new NamesController(_connection);
+            _soldController = new SoldController(_connection);
+            _stockController = new StockController(_connection);
+            _stockHistoryController = new StockHistoryController(_connection);
+            _stockMarketController = new StockMarketController(_connection);
+            _surnamesController = new SurnamesController(_connection);
+            _taxesController = new TaxesController(_connection);
         }
 
         private void SetLanguages(ILanguage language)
@@ -593,69 +594,66 @@ namespace StockExchangeGame.Database.Generic
                 return _taxesController.Count(predicate as Expression<Func<Taxes, bool>>);
             return -1;
         }
-		
-		public void Truncate<T>()
+
+        public void Truncate<T>()
         {
             if (typeof(T) == typeof(Bought))
             {
                 _boughtController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(CompanyEndings))
             {
                 _companyEndingsController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(CompanyNames))
             {
                 _companyNamesController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(DummyCompany))
             {
                 _dummyCompanyController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(Merchant))
             {
                 _merchantController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(Names))
             {
                 _namesController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(Sold))
             {
                 _soldController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(Stock))
             {
                 _stockController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(StockHistory))
             {
                 _stockHistoryController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(StockMarket))
             {
                 _stockMarketController.Truncate();
-				return;
+                return;
             }
             if (typeof(T) == typeof(Surnames))
             {
                 _surnamesController.Truncate();
-				return;
+                return;
             }
-			if (typeof(T) == typeof(Taxes))
-            {
+            if (typeof(T) == typeof(Taxes))
                 _taxesController.Truncate();
-				return;
-            }
         }
     }
 }
