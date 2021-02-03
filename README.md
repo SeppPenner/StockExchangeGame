@@ -2,7 +2,7 @@ StockExchangeGame
 ====================================
 
 StockExchangeGame is a game to simulate a stock market.
-The game was written and tested in .Net 4.8. This project is currently discontinued. If you want to test trading, use a free test account from e.g. [eToro](https://content.etoro.com/lp/practice_account/).
+The game was written and tested in .Net 5.0. This project is currently not actively developed. If you want to test trading, use a free test account from e.g. [eToro](https://content.etoro.com/lp/practice_account/).
 
 [![Build status](https://ci.appveyor.com/api/projects/status/6b7shv4fa54mujbd?svg=true)](https://ci.appveyor.com/project/SeppPenner/stockexchangegame)
 [![GitHub issues](https://img.shields.io/github/issues/SeppPenner/StockExchangeGame.svg)](https://github.com/SeppPenner/StockExchangeGame/issues)
@@ -17,6 +17,4 @@ The game was written and tested in .Net 4.8. This project is currently discontin
 Change history
 --------------
 
-* **Version 1.0.1.0 (2019-10-27)** : Updated nuget packages, added GitVersionTask.
-* **Version 1.0.0.1 (2019-05-06)** : Updated .Net version to 4.8.
-* **Version 1.0.0.0 (2017-07-26)** : 1.0 release.
+See the [Changelog](https://github.com/SeppPenner/StockExchangeGame/blob/master/Changelog.md).

@@ -1,33 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.SQLite;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using log4net;
-using Languages.Interfaces;
-using StockExchangeGame.Database.Extensions;
-using StockExchangeGame.Database.Models;
-
-namespace StockExchangeGame.Database.Generic
+﻿namespace StockExchangeGame.Database.Generic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Data.SQLite;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    using Languages.Interfaces;
+
+    using Serilog;
+
+    using StockExchangeGame.Database.Extensions;
+    using StockExchangeGame.Database.Models;
+
     // ReSharper disable once UnusedMember.Global
     public class BoughtController : IEntityController<Bought>
     {
         private readonly SQLiteConnection _connection;
-        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private readonly ILogger logger;
         private ILanguage _currentLanguage;
 
-        public BoughtController(SQLiteConnection connection)
+        public BoughtController(ILogger logger, SQLiteConnection connection)
         {
+            this.logger = logger;
             _connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
         {
             _currentLanguage = language;
-            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "Bought", language.Identifier));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("LanguageSet"), "Bought", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
@@ -44,7 +48,7 @@ namespace StockExchangeGame.Database.Generic
             {
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("TableCreated"), "Bought", result));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("TableCreated"), "Bought", result));
             _connection.Close();
             return result;
         }
@@ -65,7 +69,7 @@ namespace StockExchangeGame.Database.Generic
                     }
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "Bought", string.Join("; ", list)));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGet"), "Bought", string.Join("; ", list)));
             _connection.Close();
             return list;
         }
@@ -84,7 +88,7 @@ namespace StockExchangeGame.Database.Generic
                         bought = GetBoughtFromReader(reader);
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "Bought", bought));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "Bought", bought));
             _connection.Close();
             return bought;
         }
@@ -102,7 +106,7 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<Bought> GetNoPredicateNoOrderBy()
         {
             var result = Get().ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, null,
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, null,
                 string.Join(";", result)));
             return result;
         }
@@ -111,7 +115,7 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate, null,
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate, null,
                 string.Join(";", result)));
             return result;
         }
@@ -120,7 +124,7 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, orderBy,
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, orderBy,
                 string.Join(";", result)));
             return result;
         }
@@ -131,7 +135,7 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate,
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate,
                 orderBy, string.Join(";", result)));
             return result;
         }
@@ -139,7 +143,7 @@ namespace StockExchangeGame.Database.Generic
         public Bought Get(Expression<Func<Bought, bool>> predicate)
         {
             var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Bought", predicate,
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Bought", predicate,
                 string.Join(";", result)));
             return result;
         }
@@ -153,7 +157,7 @@ namespace StockExchangeGame.Database.Generic
                 PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "Bought", entity, result));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "Bought", entity, result));
             _connection.Close();
             return result;
         }
@@ -167,7 +171,7 @@ namespace StockExchangeGame.Database.Generic
                 PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "Bought", entity, result));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "Bought", entity, result));
             _connection.Close();
             return result;
         }
@@ -181,7 +185,7 @@ namespace StockExchangeGame.Database.Generic
                 PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "Bought", entity, result));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "Bought", entity, result));
             _connection.Close();
             return result;
         }
@@ -205,7 +209,7 @@ namespace StockExchangeGame.Database.Generic
                         count = Convert.ToInt32(reader[0].ToString());
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Bought", null, count));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Bought", null, count));
             _connection.Close();
             return count;
         }
@@ -214,7 +218,7 @@ namespace StockExchangeGame.Database.Generic
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var count = GetQueryable().Where(predicate).Count();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Bought", predicate, count));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Bought", predicate, count));
             return count;
         }
 
@@ -307,7 +311,7 @@ namespace StockExchangeGame.Database.Generic
             {
                 command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "Bought"));
+            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "Bought"));
             _connection.Close();
         }
     }

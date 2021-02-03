@@ -1,33 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.SQLite;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using log4net;
-using Languages.Interfaces;
-using StockExchangeGame.Database.Extensions;
-using StockExchangeGame.Database.Models;
-
-namespace StockExchangeGame.Database.Generic
+﻿namespace StockExchangeGame.Database.Generic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Data.SQLite;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    using Languages.Interfaces;
+
+    using Serilog;
+
+    using StockExchangeGame.Database.Extensions;
+    using StockExchangeGame.Database.Models;
+
     // ReSharper disable once UnusedMember.Global
-    public class CompanyEndingsController : IEntityController<CompanyEndings>
+    public class CompanyNamesController : IEntityController<CompanyNames>
     {
         private readonly SQLiteConnection _connection;
-        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private readonly ILogger logger;
         private ILanguage _currentLanguage;
 
-        public CompanyEndingsController(SQLiteConnection connection)
+        public CompanyNamesController(ILogger logger, SQLiteConnection connection)
         {
+            this.logger = logger;
             _connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
         {
             _currentLanguage = language;
-            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "CompanyEndings", language.Identifier));
+            logger.Information(string.Format(_currentLanguage.GetWord("LanguageSet"), "CompanyNames", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
@@ -44,15 +48,15 @@ namespace StockExchangeGame.Database.Generic
             {
                 result = command.ExecuteNonQuery();
             }
+            logger.Information(string.Format(_currentLanguage.GetWord("TableCreated"), "CompanyNames", result));
             _connection.Close();
-            _log.Info(string.Format(_currentLanguage.GetWord("TableCreated"), "CompanyEndings", result));
             return result;
         }
 
-        public List<CompanyEndings> Get()
+        public List<CompanyNames> Get()
         {
-            var list = new List<CompanyEndings>();
-            var sql = "SELECT * FROM CompanyEndings";
+            var list = new List<CompanyNames>();
+            var sql = "SELECT * FROM CompanyNames";
             _connection.Open();
             using (var command = new SQLiteCommand(sql, _connection))
             {
@@ -60,21 +64,20 @@ namespace StockExchangeGame.Database.Generic
                 {
                     while (reader.Read())
                     {
-                        var companyEndings = GetCompanyEndingsFromReader(reader);
-                        list.Add(companyEndings);
+                        var companyNames = GetCompanyNamesFromReader(reader);
+                        list.Add(companyNames);
                     }
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "CompanyEndings",
-                string.Join("; ", list)));
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGet"), "CompanyNames", string.Join("; ", list)));
             _connection.Close();
             return list;
         }
 
-        public CompanyEndings Get(long id)
+        public CompanyNames Get(long id)
         {
-            CompanyEndings companyEnding = null;
-            var sql = "SELECT * FROM CompanyEndings WHERE Id = @Id";
+            CompanyNames companyName = null;
+            var sql = "SELECT * FROM CompanyNames WHERE Id = @Id";
             _connection.Open();
             using (var command = new SQLiteCommand(sql, _connection))
             {
@@ -82,16 +85,16 @@ namespace StockExchangeGame.Database.Generic
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                        companyEnding = GetCompanyEndingsFromReader(reader);
+                        companyName = GetCompanyNamesFromReader(reader);
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "CompanyEndings", companyEnding));
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "CompanyNames", companyName));
             _connection.Close();
-            return companyEnding;
+            return companyName;
         }
 
-        public ObservableCollection<CompanyEndings> Get<TValue>(Expression<Func<CompanyEndings, bool>> predicate = null,
-            Expression<Func<CompanyEndings, TValue>> orderBy = null)
+        public ObservableCollection<CompanyNames> Get<TValue>(Expression<Func<CompanyNames, bool>> predicate = null,
+            Expression<Func<CompanyNames, TValue>> orderBy = null)
         {
             if (predicate == null && orderBy == null)
                 return GetNoPredicateNoOrderBy();
@@ -100,54 +103,54 @@ namespace StockExchangeGame.Database.Generic
             return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
         }
 
-        private ObservableCollection<CompanyEndings> GetNoPredicateNoOrderBy()
+        private ObservableCollection<CompanyNames> GetNoPredicateNoOrderBy()
         {
             var result = Get().ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
-                null, string.Join(";", result)));
-            return result;
-        }
-
-        private ObservableCollection<CompanyEndings> GetPredicateOnly(
-            Expression<Func<CompanyEndings, bool>> predicate = null)
-        {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            var result = GetQueryable().Where(predicate).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
-                predicate, null, string.Join(";", result)));
-            return result;
-        }
-
-        private ObservableCollection<CompanyEndings> GetOrderByOnly<TValue>(
-            Expression<Func<CompanyEndings, TValue>> orderBy = null)
-        {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
-                orderBy, string.Join(";", result)));
-            return result;
-        }
-
-        private ObservableCollection<CompanyEndings> GetPredicateAndOrderBy<TValue>(
-            Expression<Func<CompanyEndings, bool>> predicate = null,
-            Expression<Func<CompanyEndings, TValue>> orderBy = null)
-        {
-            // ReSharper disable AssignNullToNotNullAttribute
-            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
-                predicate, orderBy, string.Join(";", result)));
-            return result;
-        }
-
-        public CompanyEndings Get(Expression<Func<CompanyEndings, bool>> predicate)
-        {
-            var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "CompanyEndings", predicate,
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyNames", null, null,
                 string.Join(";", result)));
             return result;
         }
 
-        public int Insert(CompanyEndings entity)
+        private ObservableCollection<CompanyNames> GetPredicateOnly(
+            Expression<Func<CompanyNames, bool>> predicate = null)
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var result = GetQueryable().Where(predicate).ToCollection();
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyNames", predicate,
+                null, string.Join(";", result)));
+            return result;
+        }
+
+        private ObservableCollection<CompanyNames> GetOrderByOnly<TValue>(
+            Expression<Func<CompanyNames, TValue>> orderBy = null)
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var result = GetQueryable().OrderBy(orderBy).ToCollection();
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyNames", null,
+                orderBy, string.Join(";", result)));
+            return result;
+        }
+
+        private ObservableCollection<CompanyNames> GetPredicateAndOrderBy<TValue>(
+            Expression<Func<CompanyNames, bool>> predicate = null,
+            Expression<Func<CompanyNames, TValue>> orderBy = null)
+        {
+            // ReSharper disable AssignNullToNotNullAttribute
+            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyNames", predicate,
+                orderBy, string.Join(";", result)));
+            return result;
+        }
+
+        public CompanyNames Get(Expression<Func<CompanyNames, bool>> predicate)
+        {
+            var result = GetQueryable().Where(predicate).FirstOrDefault();
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "CompanyNames", predicate,
+                string.Join(";", result)));
+            return result;
+        }
+
+        public int Insert(CompanyNames entity)
         {
             int result;
             _connection.Open();
@@ -156,12 +159,12 @@ namespace StockExchangeGame.Database.Generic
                 PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "CompanyEndings", entity, result));
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "CompanyNames", entity, result));
             _connection.Close();
             return result;
         }
 
-        public int Update(CompanyEndings entity)
+        public int Update(CompanyNames entity)
         {
             int result;
             _connection.Open();
@@ -170,12 +173,12 @@ namespace StockExchangeGame.Database.Generic
                 PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "CompanyEndings", entity, result));
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "CompanyNames", entity, result));
             _connection.Close();
             return result;
         }
 
-        public int Delete(CompanyEndings entity)
+        public int Delete(CompanyNames entity)
         {
             int result;
             _connection.Open();
@@ -184,12 +187,12 @@ namespace StockExchangeGame.Database.Generic
                 PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "CompanyEndings", entity, result));
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "CompanyNames", entity, result));
             _connection.Close();
             return result;
         }
 
-        public int Count(Expression<Func<CompanyEndings, bool>> predicate = null)
+        public int Count(Expression<Func<CompanyNames, bool>> predicate = null)
         {
             return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
         }
@@ -197,7 +200,7 @@ namespace StockExchangeGame.Database.Generic
         private int CountNoPredicate()
         {
             var count = 0;
-            const string sql = "SELECT COUNT(Id) FROM CompanyEndings";
+            const string sql = "SELECT COUNT(Id) FROM CompanyNames";
             _connection.Open();
             using (var command = new SQLiteCommand(sql, _connection))
             {
@@ -208,22 +211,22 @@ namespace StockExchangeGame.Database.Generic
                         count = Convert.ToInt32(reader[0].ToString());
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "CompanyEndings", null, count));
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "CompanyNames", null, count));
             _connection.Close();
             return count;
         }
 
-        private int CountPredicate(Expression<Func<CompanyEndings, bool>> predicate = null)
+        private int CountPredicate(Expression<Func<CompanyNames, bool>> predicate = null)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var count = GetQueryable().Where(predicate).Count();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "CompanyEndings", predicate, count));
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "CompanyNames", predicate, count));
             return count;
         }
 
         private string GetCreateTableSQL()
         {
-            return "CREATE TABLE IF NOT EXISTS CompanyEndings (" +
+            return "CREATE TABLE IF NOT EXISTS CompanyNames (" +
                    "Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
                    "Name TEXT NOT NULL," +
                    "CreatedAt TEXT NOT NULL," +
@@ -237,9 +240,9 @@ namespace StockExchangeGame.Database.Generic
             command.Parameters.AddWithValue("@Id", id);
         }
 
-        private CompanyEndings GetCompanyEndingsFromReader(SQLiteDataReader reader)
+        private CompanyNames GetCompanyNamesFromReader(SQLiteDataReader reader)
         {
-            return new CompanyEndings
+            return new CompanyNames
             {
                 Id = Convert.ToInt64(reader["Id"].ToString()),
                 Name = reader["Name"].ToString(),
@@ -249,54 +252,54 @@ namespace StockExchangeGame.Database.Generic
             };
         }
 
-        private void PrepareCommandInsert(SQLiteCommand command, CompanyEndings companyEndings)
+        private void PrepareCommandInsert(SQLiteCommand command, CompanyNames companyNames)
         {
-            command.CommandText = "INSERT INTO CompanyEndings (Id, Name, CreatedAt, Deleted, ModifiedAt) " +
+            command.CommandText = "INSERT INTO CompanyNames (Id, Name, CreatedAt, Deleted, ModifiedAt) " +
                                   "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt)";
             command.Prepare();
-            AddParametersUpdateInsert(command, companyEndings);
+            AddParametersUpdateInsert(command, companyNames);
         }
 
-        private void AddParametersUpdateInsert(SQLiteCommand command, CompanyEndings companyEndings)
+        private void AddParametersUpdateInsert(SQLiteCommand command, CompanyNames companyNames)
         {
-            command.Parameters.AddWithValue("@Id", companyEndings.Id);
-            command.Parameters.AddWithValue("@Name", companyEndings.Name);
-            command.Parameters.AddWithValue("@CreatedAt", companyEndings.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@Deleted", companyEndings.Deleted);
+            command.Parameters.AddWithValue("@Id", companyNames.Id);
+            command.Parameters.AddWithValue("@Name", companyNames.Name);
+            command.Parameters.AddWithValue("@CreatedAt", companyNames.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            command.Parameters.AddWithValue("@Deleted", companyNames.Deleted);
             command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
         }
 
-        private void PrepareCommandUpdate(SQLiteCommand command, CompanyEndings companyEndings)
+        private void PrepareCommandUpdate(SQLiteCommand command, CompanyNames companyNames)
         {
             command.CommandText =
-                "UPDATE CompanyEndings SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
+                "UPDATE CompanyNames SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
                 "ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdateInsert(command, companyEndings);
+            AddParametersUpdateInsert(command, companyNames);
         }
 
-        private void PrepareDeleteCommand(SQLiteCommand command, CompanyEndings companyEndings)
+        private void PrepareDeleteCommand(SQLiteCommand command, CompanyNames companyNames)
         {
-            command.CommandText = "UPDATE CompanyEndings SET Deleted = true, ModifiedAt = @ModifiedAt WHERE Id = @Id";
+            command.CommandText = "UPDATE CompanyNames SET Deleted = true, ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
-            command.Parameters.AddWithValue("@Id", companyEndings.Id);
+            command.Parameters.AddWithValue("@Id", companyNames.Id);
             command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
         }
 
-        private IQueryable<CompanyEndings> GetQueryable()
+        private IQueryable<CompanyNames> GetQueryable()
         {
             return Get().AsQueryable();
         }
 
         public void Truncate()
         {
-            const string sql = "DELETE FROM CompanyEndings";
+            const string sql = "DELETE FROM CompanyNames";
             _connection.Open();
             using (var command = new SQLiteCommand(sql, _connection))
             {
                 command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "CompanyEndings"));
+            logger.Information(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "CompanyNames"));
             _connection.Close();
         }
     }
