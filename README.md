@@ -11,7 +11,7 @@ The game was written and tested in .Net 5.0. This project is currently not activ
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://raw.githubusercontent.com/SeppPenner/StockExchangeGame/master/License.txt)
 [![Known Vulnerabilities](https://snyk.io/test/github/SeppPenner/StockExchangeGame/badge.svg)](https://snyk.io/test/github/SeppPenner/StockExchangeGame)
 
-## Todo:
+## Todo
 * Adjust documentation.
 
 Change history
