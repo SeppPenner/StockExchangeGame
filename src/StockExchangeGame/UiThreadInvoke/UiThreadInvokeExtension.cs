@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace StockExchangeGame.UiThreadInvoke
+﻿namespace StockExchangeGame.UiThreadInvoke
 {
+    using System;
+    using System.Windows.Forms;
+
     // ReSharper disable once UnusedMember.Global
     public static class UiThreadInvokeExtension
     {
@@ -14,6 +14,7 @@ namespace StockExchangeGame.UiThreadInvoke
                 control.BeginInvoke(code);
                 return;
             }
+
             code.Invoke();
         }
 
@@ -25,6 +26,7 @@ namespace StockExchangeGame.UiThreadInvoke
                 control.Invoke(code);
                 return;
             }
+
             code.Invoke();
         }
     }

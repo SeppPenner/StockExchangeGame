@@ -1,22 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.SQLite;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using log4net;
-using Languages.Interfaces;
-using StockExchangeGame.Database.Extensions;
-using StockExchangeGame.Database.Models;
-
-namespace StockExchangeGame.Database.Generic
+﻿namespace StockExchangeGame.Database.Generic
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Data.SQLite;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
+    using Languages.Interfaces;
+
+    using Serilog;
+
+    using StockExchangeGame.Database.Extensions;
+    using StockExchangeGame.Database.Models;
+
     // ReSharper disable once UnusedMember.Global
     public class DummyCompanyController : IEntityController<DummyCompany>
     {
         private readonly SQLiteConnection _connection;
-        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILogger _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private ILanguage _currentLanguage;
 
         public DummyCompanyController(SQLiteConnection connection)
@@ -27,7 +30,7 @@ namespace StockExchangeGame.Database.Generic
         public void SetCurrentLanguage(ILanguage language)
         {
             _currentLanguage = language;
-            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "DummyCompany", language.Identifier));
+            Log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "DummyCompany", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()

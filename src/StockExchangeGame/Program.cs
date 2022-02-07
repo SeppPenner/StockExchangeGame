@@ -1,15 +1,15 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace StockExchangeGame
+﻿namespace StockExchangeGame
 {
-    internal static class Program
+    using System;
+    using System.Windows.Forms;
+
+    public static class Program
     {
         /// <summary>
         ///     Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
         [STAThread]
-        private static void Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

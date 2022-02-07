@@ -4,8 +4,7 @@ using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using log4net;
+using System.Reflection;s
 using Languages.Interfaces;
 using StockExchangeGame.Database.Extensions;
 using StockExchangeGame.Database.Models;

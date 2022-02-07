@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using StockExchangeGame.Database.Generic;
-using StockExchangeGame.Database.Models;
-
-namespace StockExchangeGame.DummyData
+﻿namespace StockExchangeGame.DummyData
 {
+    using System;
+    using System.Collections.Generic;
+
+    using StockExchangeGame.Database.Generic;
+    using StockExchangeGame.Database.Models;
+
     // ReSharper disable once UnusedMember.Global
     public class DummyDataGenerator : IDummyDataGenerator
     {

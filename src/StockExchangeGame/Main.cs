@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
-using log4net;
 using Languages.Implementation;
 using Languages.Interfaces;
 using StockExchangeGame.Database.Generic;
