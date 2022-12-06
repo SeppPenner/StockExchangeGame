@@ -13,7 +13,6 @@ namespace StockExchangeGame.Database.Generic
 {
     using Serilog;
 
-    // ReSharper disable once UnusedMember.Global
     public class CompanyEndingsController : IEntityController<CompanyEndings>
     {
         private readonly SQLiteConnection _connection;
@@ -113,7 +112,6 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<CompanyEndings> GetPredicateOnly(
             Expression<Func<CompanyEndings, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).ToCollection();
             this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
                 predicate, null, string.Join(";", result)));
@@ -123,7 +121,6 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<CompanyEndings> GetOrderByOnly<TValue>(
             Expression<Func<CompanyEndings, TValue>> orderBy = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().OrderBy(orderBy).ToCollection();
             this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
                 orderBy, string.Join(";", result)));
@@ -134,7 +131,6 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<CompanyEndings, bool>> predicate = null,
             Expression<Func<CompanyEndings, TValue>> orderBy = null)
         {
-            // ReSharper disable AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
             this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
                 predicate, orderBy, string.Join(";", result)));
@@ -217,7 +213,6 @@ namespace StockExchangeGame.Database.Generic
 
         private int CountPredicate(Expression<Func<CompanyEndings, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var count = GetQueryable().Where(predicate).Count();
             this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "CompanyEndings", predicate, count));
             return count;

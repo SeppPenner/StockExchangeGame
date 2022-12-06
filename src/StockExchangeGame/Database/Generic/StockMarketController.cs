@@ -11,7 +11,6 @@ using StockExchangeGame.Database.Models;
 
 namespace StockExchangeGame.Database.Generic
 {
-    // ReSharper disable once UnusedMember.Global
     public class StockMarketController : IEntityController<StockMarket>
     {
         private readonly SQLiteConnection _connection;
@@ -108,7 +107,6 @@ namespace StockExchangeGame.Database.Generic
 
         private ObservableCollection<StockMarket> GetPredicateOnly(Expression<Func<StockMarket, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockMarket", predicate,
                 null, string.Join(";", result)));
@@ -118,7 +116,6 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<StockMarket> GetOrderByOnly<TValue>(
             Expression<Func<StockMarket, TValue>> orderBy = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().OrderBy(orderBy).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockMarket", null,
                 orderBy, string.Join(";", result)));
@@ -129,7 +126,6 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<StockMarket, bool>> predicate = null,
             Expression<Func<StockMarket, TValue>> orderBy = null)
         {
-            // ReSharper disable AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "StockMarket", predicate,
                 orderBy, string.Join(";", result)));
@@ -212,7 +208,6 @@ namespace StockExchangeGame.Database.Generic
 
         private int CountPredicate(Expression<Func<StockMarket, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var count = GetQueryable().Where(predicate).Count();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "StockMarket", predicate, count));
             return count;

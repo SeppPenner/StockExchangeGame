@@ -1,6 +1,5 @@
 ﻿namespace StockExchangeGame.Database.Models
 {
-    // ReSharper disable once UnusedMember.Global
     public class Stock : AbstractEntity
     {
         private string _name;
@@ -11,8 +10,6 @@
 
         private long _used;
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
         public string Name
         {
             get => _name;
@@ -25,9 +22,6 @@
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long StockMarketId
         {
             get => _stockMarketId;
@@ -40,9 +34,6 @@
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long Total
         {
             get => _total;
@@ -55,9 +46,6 @@
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long Used
         {
             get => _used;
@@ -70,7 +58,6 @@
             }
         }
 
-        // ReSharper disable once UnusedMember.Global
         public double GetQuotaUsed()
         {
             return _used / (double) _total * 100;

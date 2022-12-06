@@ -18,7 +18,6 @@ namespace StockExchangeGame.Views
             InitBackgroundWorker();
         }
 
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public IDatabaseAdapter DatabaseAdapter { get; set; }
 
         private void InitBackgroundWorker()

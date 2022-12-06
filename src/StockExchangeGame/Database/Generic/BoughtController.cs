@@ -14,7 +14,6 @@
     using StockExchangeGame.Database.Extensions;
     using StockExchangeGame.Database.Models;
 
-    // ReSharper disable once UnusedMember.Global
     public class BoughtController : IEntityController<Bought>
     {
         private readonly SQLiteConnection _connection;
@@ -113,7 +112,6 @@
 
         private ObservableCollection<Bought> GetPredicateOnly(Expression<Func<Bought, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).ToCollection();
             this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate, null,
                 string.Join(";", result)));
@@ -122,7 +120,6 @@
 
         private ObservableCollection<Bought> GetOrderByOnly<TValue>(Expression<Func<Bought, TValue>> orderBy = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().OrderBy(orderBy).ToCollection();
             this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, orderBy,
                 string.Join(";", result)));
@@ -133,7 +130,6 @@
             Expression<Func<Bought, bool>> predicate = null,
             Expression<Func<Bought, TValue>> orderBy = null)
         {
-            // ReSharper disable AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
             this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate,
                 orderBy, string.Join(";", result)));
@@ -216,7 +212,6 @@
 
         private int CountPredicate(Expression<Func<Bought, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var count = GetQueryable().Where(predicate).Count();
             this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Bought", predicate, count));
             return count;

@@ -15,11 +15,8 @@ namespace StockExchangeGame.Database.Models
 
         [PrimaryKey]
         [AutoIncrement]
-        // ReSharper disable once UnusedMember.Global
         public long Id { get; set; }
 
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public DateTime CreatedAt
         {
             get => _createdAt;
@@ -32,9 +29,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public DateTime ModifiedAt
         {
             get => _modifiedAt;
@@ -47,7 +41,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once UnusedMember.Global
         public bool Deleted
         {
             get => _deleted;
@@ -62,8 +55,6 @@ namespace StockExchangeGame.Database.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;

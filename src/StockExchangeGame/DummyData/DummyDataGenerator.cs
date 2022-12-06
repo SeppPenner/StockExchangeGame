@@ -6,7 +6,6 @@
     using StockExchangeGame.Database.Generic;
     using StockExchangeGame.Database.Models;
 
-    // ReSharper disable once UnusedMember.Global
     public class DummyDataGenerator : IDummyDataGenerator
     {
         private readonly IDatabaseAdapter _databaseAdapter;

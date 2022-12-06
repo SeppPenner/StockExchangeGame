@@ -3,10 +3,8 @@
     using System;
     using System.Windows.Forms;
 
-    // ReSharper disable once UnusedMember.Global
     public static class UiThreadInvokeExtension
     {
-        // ReSharper disable once UnusedMember.Global
         public static void UiThread(this Control control, Action code)
         {
             if (control.InvokeRequired)
@@ -18,7 +16,6 @@
             code.Invoke();
         }
 
-        // ReSharper disable once UnusedMember.Global
         public static void UiThreadInvoke(this Control control, Action code)
         {
             if (control.InvokeRequired)

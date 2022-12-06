@@ -2,7 +2,6 @@
 
 namespace StockExchangeGame.Database.Models
 {
-    // ReSharper disable once UnusedMember.Global
     public class Taxes : AbstractEntity
     {
         private DateTime _dateTaxWasDue;
@@ -13,9 +12,6 @@ namespace StockExchangeGame.Database.Models
 
         private double _payedInEuro;
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long MerchantId
         {
             get => _merchantId;
@@ -28,9 +24,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public DateTime DateTaxWasDue
         {
             get => _dateTaxWasDue;
@@ -43,9 +36,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public double DueInEuro
         {
             get => _dueInEuro;
@@ -58,9 +48,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public double PayedInEuro
         {
             get => _payedInEuro;

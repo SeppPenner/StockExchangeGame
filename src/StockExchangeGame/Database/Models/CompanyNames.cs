@@ -1,13 +1,9 @@
 ﻿namespace StockExchangeGame.Database.Models
 {
-    // ReSharper disable once UnusedMember.Global
     public class CompanyNames : AbstractEntity
     {
         private string _name;
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public string Name
         {
             get => _name;

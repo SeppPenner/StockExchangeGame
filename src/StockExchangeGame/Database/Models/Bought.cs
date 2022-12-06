@@ -2,7 +2,6 @@
 
 namespace StockExchangeGame.Database.Models
 {
-    // ReSharper disable once UnusedMember.Global
     public class Bought : AbstractEntity
     {
         private long _amount;
@@ -15,9 +14,6 @@ namespace StockExchangeGame.Database.Models
 
         private double _valuePerStockInEuro;
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long MerchantId
         {
             get => _merchantId;
@@ -30,9 +26,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long StockId
         {
             get => _stockId;
@@ -45,9 +38,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long Amount
         {
             get => _amount;
@@ -60,9 +50,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public DateTime DateBought
         {
             get => _dateBought;
@@ -75,9 +62,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public double ValuePerStockInEuro
         {
             get => _valuePerStockInEuro;

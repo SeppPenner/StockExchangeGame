@@ -14,7 +14,6 @@
     using StockExchangeGame.Database.Extensions;
     using StockExchangeGame.Database.Models;
 
-    // ReSharper disable once UnusedMember.Global
     public class CompanyNamesController : IEntityController<CompanyNames>
     {
         private readonly SQLiteConnection _connection;
@@ -114,7 +113,6 @@
         private ObservableCollection<CompanyNames> GetPredicateOnly(
             Expression<Func<CompanyNames, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).ToCollection();
             logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyNames", predicate,
                 null, string.Join(";", result)));
@@ -124,7 +122,6 @@
         private ObservableCollection<CompanyNames> GetOrderByOnly<TValue>(
             Expression<Func<CompanyNames, TValue>> orderBy = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().OrderBy(orderBy).ToCollection();
             logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyNames", null,
                 orderBy, string.Join(";", result)));
@@ -135,7 +132,6 @@
             Expression<Func<CompanyNames, bool>> predicate = null,
             Expression<Func<CompanyNames, TValue>> orderBy = null)
         {
-            // ReSharper disable AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
             logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyNames", predicate,
                 orderBy, string.Join(";", result)));
@@ -218,7 +214,6 @@
 
         private int CountPredicate(Expression<Func<CompanyNames, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var count = GetQueryable().Where(predicate).Count();
             logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "CompanyNames", predicate, count));
             return count;

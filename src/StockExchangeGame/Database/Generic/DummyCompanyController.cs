@@ -15,7 +15,6 @@
     using StockExchangeGame.Database.Extensions;
     using StockExchangeGame.Database.Models;
 
-    // ReSharper disable once UnusedMember.Global
     public class DummyCompanyController : IEntityController<DummyCompany>
     {
         private readonly SQLiteConnection _connection;
@@ -113,7 +112,6 @@
         private ObservableCollection<DummyCompany> GetPredicateOnly(
             Expression<Func<DummyCompany, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", predicate,
                 null, string.Join(";", result)));
@@ -123,7 +121,6 @@
         private ObservableCollection<DummyCompany> GetOrderByOnly<TValue>(
             Expression<Func<DummyCompany, TValue>> orderBy = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().OrderBy(orderBy).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", null,
                 orderBy, string.Join(";", result)));
@@ -134,7 +131,6 @@
             Expression<Func<DummyCompany, bool>> predicate = null,
             Expression<Func<DummyCompany, TValue>> orderBy = null)
         {
-            // ReSharper disable AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", predicate,
                 orderBy, string.Join(";", result)));
@@ -217,7 +213,6 @@
 
         private int CountPredicate(Expression<Func<DummyCompany, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var count = GetQueryable().Where(predicate).Count();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "DummyCompany", predicate, count));
             return count;

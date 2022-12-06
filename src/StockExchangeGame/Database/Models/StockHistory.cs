@@ -10,9 +10,6 @@ namespace StockExchangeGame.Database.Models
 
         private long _stockId;
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public DateTime PriceDate
         {
             get => _priceDate;
@@ -25,9 +22,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long StockId
         {
             get => _stockId;
@@ -40,9 +34,6 @@ namespace StockExchangeGame.Database.Models
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public double PricePerStock
         {
             get => _pricePerStock;

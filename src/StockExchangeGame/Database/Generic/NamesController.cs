@@ -11,7 +11,6 @@ using StockExchangeGame.Database.Models;
 
 namespace StockExchangeGame.Database.Generic
 {
-    // ReSharper disable once UnusedMember.Global
     public class NamesController : IEntityController<Names>
     {
         private readonly SQLiteConnection _connection;
@@ -108,7 +107,6 @@ namespace StockExchangeGame.Database.Generic
 
         private ObservableCollection<Names> GetPredicateOnly(Expression<Func<Names, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", predicate, null,
                 string.Join(";", result)));
@@ -117,7 +115,6 @@ namespace StockExchangeGame.Database.Generic
 
         private ObservableCollection<Names> GetOrderByOnly<TValue>(Expression<Func<Names, TValue>> orderBy = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var result = GetQueryable().OrderBy(orderBy).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", null, orderBy,
                 string.Join(";", result)));
@@ -128,7 +125,6 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<Names, bool>> predicate = null,
             Expression<Func<Names, TValue>> orderBy = null)
         {
-            // ReSharper disable AssignNullToNotNullAttribute
             var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", predicate,
                 orderBy, string.Join(";", result)));
@@ -211,7 +207,6 @@ namespace StockExchangeGame.Database.Generic
 
         private int CountPredicate(Expression<Func<Names, bool>> predicate = null)
         {
-            // ReSharper disable once AssignNullToNotNullAttribute
             var count = GetQueryable().Where(predicate).Count();
             _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Names", predicate, count));
             return count;

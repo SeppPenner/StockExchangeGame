@@ -1,6 +1,5 @@
 ﻿namespace StockExchangeGame.Database.Models
 {
-    // ReSharper disable once UnusedMember.Global
     public class DummyCompany : AbstractEntity
     {
         private bool _active;
@@ -11,9 +10,6 @@
 
         private double _sumInEuro;
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public string Name
         {
             get => _name;
@@ -26,9 +22,6 @@
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public long MerchantId
         {
             get => _merchantId;
@@ -41,9 +34,6 @@
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public double SumInEuro
         {
             get => _sumInEuro;
@@ -56,9 +46,6 @@
             }
         }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once MemberCanBeProtected.Global
-        // ReSharper disable once UnusedMember.Global
         public bool Active
         {
             get => _active;
