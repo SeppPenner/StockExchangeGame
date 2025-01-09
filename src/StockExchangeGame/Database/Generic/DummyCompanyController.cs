@@ -23,31 +23,31 @@
 
         public DummyCompanyController(SQLiteConnection connection)
         {
-            _connection = connection;
+            this._connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
         {
-            _currentLanguage = language;
-            Log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "DummyCompany", language.Identifier));
+            this._currentLanguage = language;
+            Log.Info(string.Format(this._currentLanguage.GetWord("LanguageSet"), "DummyCompany", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
         {
-            return _currentLanguage;
+            return this._currentLanguage;
         }
 
         public int CreateTable()
         {
             int result;
-            var sql = GetCreateTableSQL();
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            var sql = this.GetCreateTableSQL();
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("TableCreated"), "DummyCompany", result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("TableCreated"), "DummyCompany", result));
+            this._connection.Close();
             return result;
         }
 
@@ -55,20 +55,20 @@
         {
             var list = new List<DummyCompany>();
             var sql = "SELECT * FROM DummyCompany";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var dummyCompany = GetDummyCompanyFromReader(reader);
+                        var dummyCompany = this.GetDummyCompanyFromReader(reader);
                         list.Add(dummyCompany);
                     }
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "DummyCompany", string.Join("; ", list)));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGet"), "DummyCompany", string.Join("; ", list)));
+            this._connection.Close();
             return list;
         }
 
@@ -76,18 +76,18 @@
         {
             DummyCompany dummyCompany = null;
             var sql = "SELECT * FROM DummyCompany WHERE Id = @Id";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
-                PrepareCommandSelect(command, id);
+                this.PrepareCommandSelect(command, id);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                        dummyCompany = GetDummyCompanyFromReader(reader);
+                        dummyCompany = this.GetDummyCompanyFromReader(reader);
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "DummyCompany", dummyCompany));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSingle"), "DummyCompany", dummyCompany));
+            this._connection.Close();
             return dummyCompany;
         }
 
@@ -95,16 +95,16 @@
             Expression<Func<DummyCompany, TValue>> orderBy = null)
         {
             if (predicate == null && orderBy == null)
-                return GetNoPredicateNoOrderBy();
+                return this.GetNoPredicateNoOrderBy();
             if (predicate != null && orderBy == null)
-                return GetPredicateOnly(predicate);
-            return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
+                return this.GetPredicateOnly(predicate);
+            return predicate == null ? this.GetOrderByOnly(orderBy) : this.GetPredicateAndOrderBy(predicate, orderBy);
         }
 
         private ObservableCollection<DummyCompany> GetNoPredicateNoOrderBy()
         {
-            var result = Get().ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", null, null,
+            var result = this.Get().ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", null, null,
                 string.Join(";", result)));
             return result;
         }
@@ -112,8 +112,8 @@
         private ObservableCollection<DummyCompany> GetPredicateOnly(
             Expression<Func<DummyCompany, bool>> predicate = null)
         {
-            var result = GetQueryable().Where(predicate).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", predicate,
+            var result = this.GetQueryable().Where(predicate).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", predicate,
                 null, string.Join(";", result)));
             return result;
         }
@@ -121,8 +121,8 @@
         private ObservableCollection<DummyCompany> GetOrderByOnly<TValue>(
             Expression<Func<DummyCompany, TValue>> orderBy = null)
         {
-            var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", null,
+            var result = this.GetQueryable().OrderBy(orderBy).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", null,
                 orderBy, string.Join(";", result)));
             return result;
         }
@@ -131,16 +131,16 @@
             Expression<Func<DummyCompany, bool>> predicate = null,
             Expression<Func<DummyCompany, TValue>> orderBy = null)
         {
-            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", predicate,
+            var result = this.GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "DummyCompany", predicate,
                 orderBy, string.Join(";", result)));
             return result;
         }
 
         public DummyCompany Get(Expression<Func<DummyCompany, bool>> predicate)
         {
-            var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "DummyCompany", predicate,
+            var result = this.GetQueryable().Where(predicate).FirstOrDefault();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSinglePredicate"), "DummyCompany", predicate,
                 string.Join(";", result)));
             return result;
         }
@@ -148,56 +148,56 @@
         public int Insert(DummyCompany entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandInsert(command, entity);
+                this.PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "DummyCompany", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedInsert"), "DummyCompany", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Update(DummyCompany entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandUpdate(command, entity);
+                this.PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "DummyCompany", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedUpdate"), "DummyCompany", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Delete(DummyCompany entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareDeleteCommand(command, entity);
+                this.PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "DummyCompany", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedDelete"), "DummyCompany", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Count(Expression<Func<DummyCompany, bool>> predicate = null)
         {
-            return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
+            return predicate == null ? this.CountNoPredicate() : this.CountPredicate(predicate);
         }
 
         private int CountNoPredicate()
         {
             var count = 0;
             const string sql = "SELECT COUNT(Id) FROM DummyCompany";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
@@ -206,15 +206,15 @@
                         count = Convert.ToInt32(reader[0].ToString());
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "DummyCompany", null, count));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "DummyCompany", null, count));
+            this._connection.Close();
             return count;
         }
 
         private int CountPredicate(Expression<Func<DummyCompany, bool>> predicate = null)
         {
-            var count = GetQueryable().Where(predicate).Count();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "DummyCompany", predicate, count));
+            var count = this.GetQueryable().Where(predicate).Count();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "DummyCompany", predicate, count));
             return count;
         }
 
@@ -258,7 +258,7 @@
                                   "Name, SumInEuro) VALUES (@Id, @Deleted, @CreatedAt, @ModifiedAt, @Active, " +
                                   "@MerchantId, @Name, @SumInEuro)";
             command.Prepare();
-            AddParametersUpdateInsert(command, dummyCompany);
+            this.AddParametersUpdateInsert(command, dummyCompany);
         }
 
         private void AddParametersUpdateInsert(SQLiteCommand command, DummyCompany dummyCompany)
@@ -279,7 +279,7 @@
                 "UPDATE DummyCompany SET Deleted = @Deleted, ModifiedAt = @ModifiedAt, CreatedAt = @CreatedAt," +
                 " Active = @Active, MerchantId = @MerchantId, Name = @Name, SumInEuro = @SumInEuro, WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdateInsert(command, dummyCompany);
+            this.AddParametersUpdateInsert(command, dummyCompany);
         }
 
         private void PrepareDeleteCommand(SQLiteCommand command, DummyCompany dummyCompany)
@@ -292,19 +292,19 @@
 
         private IQueryable<DummyCompany> GetQueryable()
         {
-            return Get().AsQueryable();
+            return this.Get().AsQueryable();
         }
 
         public void Truncate()
         {
             const string sql = "DELETE FROM DummyCompany";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "DummyCompany"));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedTruncate"), "DummyCompany"));
+            this._connection.Close();
         }
     }
 }

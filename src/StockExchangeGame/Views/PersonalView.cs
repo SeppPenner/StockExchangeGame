@@ -14,38 +14,38 @@ namespace StockExchangeGame.Views
 
         public PersonalView()
         {
-            InitializeComponent();
-            InitBackgroundWorker();
+            this.InitializeComponent();
+            this.InitBackgroundWorker();
         }
 
         public IDatabaseAdapter DatabaseAdapter { get; set; }
 
         private void InitBackgroundWorker()
         {
-            _dataLoader.DoWork += DataLoaderWork;
-            _dataLoader.RunWorkerAsync();
+            this._dataLoader.DoWork += this.DataLoaderWork;
+            this._dataLoader.RunWorkerAsync();
         }
 
         private void DataLoaderWork(object sender, DoWorkEventArgs doWorkEventArgs)
         {
-            AddSolds();
-            AddBoughts();
+            this.AddSolds();
+            this.AddBoughts();
         }
 
         private void AddBoughts()
         {
-            var boughts = DatabaseAdapter.Get<Bought>();
+            var boughts = this.DatabaseAdapter.Get<Bought>();
             foreach (var bought in boughts)
-                AddBoughtsToDataGridView(bought);
+                this.AddBoughtsToDataGridView(bought);
         }
 
         private void AddBoughtsToDataGridView(Bought bought)
         {
-            var merchant = DatabaseAdapter.Get<Merchant>(bought.MerchantId);
-            var stock = DatabaseAdapter.Get<Stock>(bought.StockId);
+            var merchant = this.DatabaseAdapter.Get<Merchant>(bought.MerchantId);
+            var stock = this.DatabaseAdapter.Get<Stock>(bought.StockId);
             this.UiThreadInvoke(() =>
             {
-                dataGridViewBoughtStocks.Rows.Add(
+                this.dataGridViewBoughtStocks.Rows.Add(
                     bought.Id.ToString(),
                     bought.Amount.ToString(),
                     bought.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -63,18 +63,18 @@ namespace StockExchangeGame.Views
 
         private void AddSolds()
         {
-            var solds = DatabaseAdapter.Get<Sold>();
+            var solds = this.DatabaseAdapter.Get<Sold>();
             foreach (var sold in solds)
-                AddSoldsToDataGridView(sold);
+                this.AddSoldsToDataGridView(sold);
         }
 
         private void AddSoldsToDataGridView(Sold sold)
         {
-            var merchant = DatabaseAdapter.Get<Merchant>(sold.MerchantId);
-            var stock = DatabaseAdapter.Get<Stock>(sold.StockId);
+            var merchant = this.DatabaseAdapter.Get<Merchant>(sold.MerchantId);
+            var stock = this.DatabaseAdapter.Get<Stock>(sold.StockId);
             this.UiThreadInvoke(() =>
             {
-                dataGridViewSoldStocks.Rows.Add(
+                this.dataGridViewSoldStocks.Rows.Add(
                     sold.Id.ToString(),
                     sold.Amount.ToString(),
                     sold.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
@@ -92,18 +92,18 @@ namespace StockExchangeGame.Views
 
         private void DummyMethod()
         {
-            var boughts = DatabaseAdapter.Get<Bought>();
-            var companyEndings = DatabaseAdapter.Get<CompanyEndings>();
-            var companyNames = DatabaseAdapter.Get<CompanyNames>();
-            var dummyCompanies = DatabaseAdapter.Get<DummyCompany>();
-            var merchants = DatabaseAdapter.Get<Merchant>();
-            var names = DatabaseAdapter.Get<Names>();
-            var solds = DatabaseAdapter.Get<Sold>();
-            var stocks = DatabaseAdapter.Get<Stock>();
-            var stockHistories = DatabaseAdapter.Get<StockHistory>();
-            var stockMarkets = DatabaseAdapter.Get<StockMarket>();
-            var surnames = DatabaseAdapter.Get<Surnames>();
-            var taxes = DatabaseAdapter.Get<Taxes>();
+            var boughts = this.DatabaseAdapter.Get<Bought>();
+            var companyEndings = this.DatabaseAdapter.Get<CompanyEndings>();
+            var companyNames = this.DatabaseAdapter.Get<CompanyNames>();
+            var dummyCompanies = this.DatabaseAdapter.Get<DummyCompany>();
+            var merchants = this.DatabaseAdapter.Get<Merchant>();
+            var names = this.DatabaseAdapter.Get<Names>();
+            var solds = this.DatabaseAdapter.Get<Sold>();
+            var stocks = this.DatabaseAdapter.Get<Stock>();
+            var stockHistories = this.DatabaseAdapter.Get<StockHistory>();
+            var stockMarkets = this.DatabaseAdapter.Get<StockMarket>();
+            var surnames = this.DatabaseAdapter.Get<Surnames>();
+            var taxes = this.DatabaseAdapter.Get<Taxes>();
         }
 
         private void ButtonNewDummyCompany_Click(object sender, EventArgs e)

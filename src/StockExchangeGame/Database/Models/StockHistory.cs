@@ -12,44 +12,44 @@ namespace StockExchangeGame.Database.Models
 
         public DateTime PriceDate
         {
-            get => _priceDate;
+            get => this._priceDate;
             set
             {
-                if (value.Equals(_priceDate))
+                if (value.Equals(this._priceDate))
                     return;
-                _priceDate = value;
-                OnPropertyChanged();
+                this._priceDate = value;
+                this.OnPropertyChanged();
             }
         }
 
         public long StockId
         {
-            get => _stockId;
+            get => this._stockId;
             set
             {
-                if (value.Equals(_stockId))
+                if (value.Equals(this._stockId))
                     return;
-                _stockId = value;
-                OnPropertyChanged();
+                this._stockId = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double PricePerStock
         {
-            get => _pricePerStock;
+            get => this._pricePerStock;
             set
             {
-                if (value.Equals(_pricePerStock))
+                if (value.Equals(this._pricePerStock))
                     return;
-                _pricePerStock = value;
-                OnPropertyChanged();
+                this._pricePerStock = value;
+                this.OnPropertyChanged();
             }
         }
 
         public override string ToString()
         {
             return
-                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_priceDate)}: {_priceDate}, {nameof(_pricePerStock)}: {_pricePerStock}, {nameof(_stockId)}: {_stockId}";
+                $"{nameof(this.ModifiedAt)}: {this.ModifiedAt}, {nameof(this.Deleted)}: {this.Deleted}, {nameof(this.CreatedAt)}: {this.CreatedAt}, {nameof(this._priceDate)}: {this._priceDate}, {nameof(this._pricePerStock)}: {this._pricePerStock}, {nameof(this._stockId)}: {this._stockId}";
         }
     }
 }

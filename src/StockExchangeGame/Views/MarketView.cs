@@ -6,7 +6,7 @@ namespace StockExchangeGame.Views
     {
         public MarketView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

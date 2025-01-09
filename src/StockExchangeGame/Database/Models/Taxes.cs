@@ -14,56 +14,56 @@ namespace StockExchangeGame.Database.Models
 
         public long MerchantId
         {
-            get => _merchantId;
+            get => this._merchantId;
             set
             {
-                if (value.Equals(_merchantId))
+                if (value.Equals(this._merchantId))
                     return;
-                _merchantId = value;
-                OnPropertyChanged();
+                this._merchantId = value;
+                this.OnPropertyChanged();
             }
         }
 
         public DateTime DateTaxWasDue
         {
-            get => _dateTaxWasDue;
+            get => this._dateTaxWasDue;
             set
             {
-                if (value.Equals(_dateTaxWasDue))
+                if (value.Equals(this._dateTaxWasDue))
                     return;
-                _dateTaxWasDue = value;
-                OnPropertyChanged();
+                this._dateTaxWasDue = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double DueInEuro
         {
-            get => _dueInEuro;
+            get => this._dueInEuro;
             set
             {
-                if (value.Equals(_dueInEuro))
+                if (value.Equals(this._dueInEuro))
                     return;
-                _dueInEuro = value;
-                OnPropertyChanged();
+                this._dueInEuro = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double PayedInEuro
         {
-            get => _payedInEuro;
+            get => this._payedInEuro;
             set
             {
-                if (value.Equals(_payedInEuro))
+                if (value.Equals(this._payedInEuro))
                     return;
-                _payedInEuro = value;
-                OnPropertyChanged();
+                this._payedInEuro = value;
+                this.OnPropertyChanged();
             }
         }
 
         public override string ToString()
         {
             return
-                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_dateTaxWasDue)}: {_dateTaxWasDue}, {nameof(_dueInEuro)}: {_dueInEuro}, {nameof(_merchantId)}: {_merchantId}, {nameof(_payedInEuro)}: {_payedInEuro}";
+                $"{nameof(this.ModifiedAt)}: {this.ModifiedAt}, {nameof(this.Deleted)}: {this.Deleted}, {nameof(this.CreatedAt)}: {this.CreatedAt}, {nameof(this._dateTaxWasDue)}: {this._dateTaxWasDue}, {nameof(this._dueInEuro)}: {this._dueInEuro}, {nameof(this._merchantId)}: {this._merchantId}, {nameof(this._payedInEuro)}: {this._payedInEuro}";
         }
     }
 }

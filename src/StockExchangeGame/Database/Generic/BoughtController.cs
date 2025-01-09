@@ -24,31 +24,31 @@
         public BoughtController(ILogger logger, SQLiteConnection connection)
         {
             this.logger = logger;
-            _connection = connection;
+            this._connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
         {
-            _currentLanguage = language;
-            this.logger.Information(string.Format(_currentLanguage.GetWord("LanguageSet"), "Bought", language.Identifier));
+            this._currentLanguage = language;
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("LanguageSet"), "Bought", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
         {
-            return _currentLanguage;
+            return this._currentLanguage;
         }
 
         public int CreateTable()
         {
             int result;
-            var sql = GetCreateTableSQL();
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            var sql = this.GetCreateTableSQL();
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 result = command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("TableCreated"), "Bought", result));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("TableCreated"), "Bought", result));
+            this._connection.Close();
             return result;
         }
 
@@ -56,20 +56,20 @@
         {
             var list = new List<Bought>();
             var sql = "SELECT * FROM Bought";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var bought = GetBoughtFromReader(reader);
+                        var bought = this.GetBoughtFromReader(reader);
                         list.Add(bought);
                     }
                 }
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGet"), "Bought", string.Join("; ", list)));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGet"), "Bought", string.Join("; ", list)));
+            this._connection.Close();
             return list;
         }
 
@@ -77,18 +77,18 @@
         {
             Bought bought = null;
             var sql = "SELECT * FROM Bought WHERE Id = @Id";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
-                PrepareCommandSelect(command, id);
+                this.PrepareCommandSelect(command, id);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                        bought = GetBoughtFromReader(reader);
+                        bought = this.GetBoughtFromReader(reader);
                 }
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "Bought", bought));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetSingle"), "Bought", bought));
+            this._connection.Close();
             return bought;
         }
 
@@ -96,32 +96,32 @@
             Expression<Func<Bought, TValue>> orderBy = null)
         {
             if (predicate == null && orderBy == null)
-                return GetNoPredicateNoOrderBy();
+                return this.GetNoPredicateNoOrderBy();
             if (predicate != null && orderBy == null)
-                return GetPredicateOnly(predicate);
-            return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
+                return this.GetPredicateOnly(predicate);
+            return predicate == null ? this.GetOrderByOnly(orderBy) : this.GetPredicateAndOrderBy(predicate, orderBy);
         }
 
         private ObservableCollection<Bought> GetNoPredicateNoOrderBy()
         {
-            var result = Get().ToCollection();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, null,
+            var result = this.Get().ToCollection();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, null,
                 string.Join(";", result)));
             return result;
         }
 
         private ObservableCollection<Bought> GetPredicateOnly(Expression<Func<Bought, bool>> predicate = null)
         {
-            var result = GetQueryable().Where(predicate).ToCollection();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate, null,
+            var result = this.GetQueryable().Where(predicate).ToCollection();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate, null,
                 string.Join(";", result)));
             return result;
         }
 
         private ObservableCollection<Bought> GetOrderByOnly<TValue>(Expression<Func<Bought, TValue>> orderBy = null)
         {
-            var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, orderBy,
+            var result = this.GetQueryable().OrderBy(orderBy).ToCollection();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", null, orderBy,
                 string.Join(";", result)));
             return result;
         }
@@ -130,16 +130,16 @@
             Expression<Func<Bought, bool>> predicate = null,
             Expression<Func<Bought, TValue>> orderBy = null)
         {
-            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate,
+            var result = this.GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Bought", predicate,
                 orderBy, string.Join(";", result)));
             return result;
         }
 
         public Bought Get(Expression<Func<Bought, bool>> predicate)
         {
-            var result = GetQueryable().Where(predicate).FirstOrDefault();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Bought", predicate,
+            var result = this.GetQueryable().Where(predicate).FirstOrDefault();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Bought", predicate,
                 string.Join(";", result)));
             return result;
         }
@@ -147,56 +147,56 @@
         public int Insert(Bought entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandInsert(command, entity);
+                this.PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "Bought", entity, result));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedInsert"), "Bought", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Update(Bought entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandUpdate(command, entity);
+                this.PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "Bought", entity, result));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedUpdate"), "Bought", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Delete(Bought entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareDeleteCommand(command, entity);
+                this.PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "Bought", entity, result));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedDelete"), "Bought", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Count(Expression<Func<Bought, bool>> predicate = null)
         {
-            return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
+            return predicate == null ? this.CountNoPredicate() : this.CountPredicate(predicate);
         }
 
         private int CountNoPredicate()
         {
             var count = 0;
             const string sql = "SELECT COUNT(Id) FROM Bought";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
@@ -205,15 +205,15 @@
                         count = Convert.ToInt32(reader[0].ToString());
                 }
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Bought", null, count));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Bought", null, count));
+            this._connection.Close();
             return count;
         }
 
         private int CountPredicate(Expression<Func<Bought, bool>> predicate = null)
         {
-            var count = GetQueryable().Where(predicate).Count();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Bought", predicate, count));
+            var count = this.GetQueryable().Where(predicate).Count();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Bought", predicate, count));
             return count;
         }
 
@@ -259,7 +259,7 @@
                                   "ModifiedAt, StockId, ValuePerStockInEuro) VALUES (@Id, @Amount, @CreatedAt, " +
                                   "@DateBought, @Deleted, @MerchantId, @ModifiedAt, @StockId, @ValuePerStockInEuro)";
             command.Prepare();
-            AddParametersUpdateInsert(command, bought);
+            this.AddParametersUpdateInsert(command, bought);
         }
 
         private void AddParametersUpdateInsert(SQLiteCommand command, Bought bought)
@@ -282,7 +282,7 @@
                 " Deleted = @Deleted, MerchantId = @MerchantId, ModifiedAt = @ModifiedAt, StockId = @StockId, " +
                 "ValuePerStockInEuro = @ValuePerStockInEuro WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdateInsert(command, bought);
+            this.AddParametersUpdateInsert(command, bought);
         }
 
         private void PrepareDeleteCommand(SQLiteCommand command, Bought bought)
@@ -295,19 +295,19 @@
 
         private IQueryable<Bought> GetQueryable()
         {
-            return Get().AsQueryable();
+            return this.Get().AsQueryable();
         }
 
         public void Truncate()
         {
             const string sql = "DELETE FROM Bought";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "Bought"));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedTruncate"), "Bought"));
+            this._connection.Close();
         }
     }
 }

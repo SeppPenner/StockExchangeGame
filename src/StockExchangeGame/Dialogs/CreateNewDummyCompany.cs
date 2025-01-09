@@ -6,7 +6,7 @@ namespace StockExchangeGame.Dialogs
     {
         public CreateNewDummyCompany()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

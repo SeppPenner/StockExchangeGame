@@ -19,31 +19,31 @@ namespace StockExchangeGame.Database.Generic
 
         public NamesController(SQLiteConnection connection)
         {
-            _connection = connection;
+            this._connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
         {
-            _currentLanguage = language;
-            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "Names", language.Identifier));
+            this._currentLanguage = language;
+            this._log.Info(string.Format(this._currentLanguage.GetWord("LanguageSet"), "Names", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
         {
-            return _currentLanguage;
+            return this._currentLanguage;
         }
 
         public int CreateTable()
         {
             int result;
-            var sql = GetCreateTableSQL();
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            var sql = this.GetCreateTableSQL();
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("TableCreated"), "Names", result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("TableCreated"), "Names", result));
+            this._connection.Close();
             return result;
         }
 
@@ -51,20 +51,20 @@ namespace StockExchangeGame.Database.Generic
         {
             var list = new List<Names>();
             var sql = "SELECT * FROM Names";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var names = GetNamesFromReader(reader);
+                        var names = this.GetNamesFromReader(reader);
                         list.Add(names);
                     }
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "Names", string.Join("; ", list)));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGet"), "Names", string.Join("; ", list)));
+            this._connection.Close();
             return list;
         }
 
@@ -72,18 +72,18 @@ namespace StockExchangeGame.Database.Generic
         {
             Names name = null;
             var sql = "SELECT * FROM Names WHERE Id = @Id";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
-                PrepareCommandSelect(command, id);
+                this.PrepareCommandSelect(command, id);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                        name = GetNamesFromReader(reader);
+                        name = this.GetNamesFromReader(reader);
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "Names", name));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSingle"), "Names", name));
+            this._connection.Close();
             return name;
         }
 
@@ -91,32 +91,32 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<Names, TValue>> orderBy = null)
         {
             if (predicate == null && orderBy == null)
-                return GetNoPredicateNoOrderBy();
+                return this.GetNoPredicateNoOrderBy();
             if (predicate != null && orderBy == null)
-                return GetPredicateOnly(predicate);
-            return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
+                return this.GetPredicateOnly(predicate);
+            return predicate == null ? this.GetOrderByOnly(orderBy) : this.GetPredicateAndOrderBy(predicate, orderBy);
         }
 
         private ObservableCollection<Names> GetNoPredicateNoOrderBy()
         {
-            var result = Get().ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", null, null,
+            var result = this.Get().ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", null, null,
                 string.Join(";", result)));
             return result;
         }
 
         private ObservableCollection<Names> GetPredicateOnly(Expression<Func<Names, bool>> predicate = null)
         {
-            var result = GetQueryable().Where(predicate).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", predicate, null,
+            var result = this.GetQueryable().Where(predicate).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", predicate, null,
                 string.Join(";", result)));
             return result;
         }
 
         private ObservableCollection<Names> GetOrderByOnly<TValue>(Expression<Func<Names, TValue>> orderBy = null)
         {
-            var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", null, orderBy,
+            var result = this.GetQueryable().OrderBy(orderBy).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", null, orderBy,
                 string.Join(";", result)));
             return result;
         }
@@ -125,16 +125,16 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<Names, bool>> predicate = null,
             Expression<Func<Names, TValue>> orderBy = null)
         {
-            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", predicate,
+            var result = this.GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Names", predicate,
                 orderBy, string.Join(";", result)));
             return result;
         }
 
         public Names Get(Expression<Func<Names, bool>> predicate)
         {
-            var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Names", predicate,
+            var result = this.GetQueryable().Where(predicate).FirstOrDefault();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Names", predicate,
                 string.Join(";", result)));
             return result;
         }
@@ -142,56 +142,56 @@ namespace StockExchangeGame.Database.Generic
         public int Insert(Names entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandInsert(command, entity);
+                this.PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "Names", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedInsert"), "Names", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Update(Names entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandUpdate(command, entity);
+                this.PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "Names", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedUpdate"), "Names", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Delete(Names entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareDeleteCommand(command, entity);
+                this.PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "Names", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedDelete"), "Names", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Count(Expression<Func<Names, bool>> predicate = null)
         {
-            return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
+            return predicate == null ? this.CountNoPredicate() : this.CountPredicate(predicate);
         }
 
         private int CountNoPredicate()
         {
             var count = 0;
             const string sql = "SELECT COUNT(Id) FROM Names";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
@@ -200,15 +200,15 @@ namespace StockExchangeGame.Database.Generic
                         count = Convert.ToInt32(reader[0].ToString());
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Names", null, count));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Names", null, count));
+            this._connection.Close();
             return count;
         }
 
         private int CountPredicate(Expression<Func<Names, bool>> predicate = null)
         {
-            var count = GetQueryable().Where(predicate).Count();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Names", predicate, count));
+            var count = this.GetQueryable().Where(predicate).Count();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Names", predicate, count));
             return count;
         }
 
@@ -245,7 +245,7 @@ namespace StockExchangeGame.Database.Generic
             command.CommandText = "INSERT INTO Names (Id, Name, CreatedAt, Deleted, ModifiedAt) " +
                                   "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt)";
             command.Prepare();
-            AddParametersUpdateInsert(command, names);
+            this.AddParametersUpdateInsert(command, names);
         }
 
         private void AddParametersUpdateInsert(SQLiteCommand command, Names names)
@@ -263,7 +263,7 @@ namespace StockExchangeGame.Database.Generic
                 "UPDATE Names SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
                 "ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdateInsert(command, names);
+            this.AddParametersUpdateInsert(command, names);
         }
 
         private void PrepareDeleteCommand(SQLiteCommand command, Names names)
@@ -276,19 +276,19 @@ namespace StockExchangeGame.Database.Generic
 
         private IQueryable<Names> GetQueryable()
         {
-            return Get().AsQueryable();
+            return this.Get().AsQueryable();
         }
 
         public void Truncate()
         {
             const string sql = "DELETE FROM Names";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "Names"));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedTruncate"), "Names"));
+            this._connection.Close();
         }
     }
 }

@@ -22,31 +22,31 @@ namespace StockExchangeGame.Database.Generic
         public CompanyEndingsController(ILogger logger, SQLiteConnection connection)
         {
             this.logger = logger;
-            _connection = connection;
+            this._connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
         {
-            _currentLanguage = language;
-            this.logger.Information(string.Format(_currentLanguage.GetWord("LanguageSet"), "CompanyEndings", language.Identifier));
+            this._currentLanguage = language;
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("LanguageSet"), "CompanyEndings", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
         {
-            return _currentLanguage;
+            return this._currentLanguage;
         }
 
         public int CreateTable()
         {
             int result;
-            var sql = GetCreateTableSQL();
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            var sql = this.GetCreateTableSQL();
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 result = command.ExecuteNonQuery();
             }
-            _connection.Close();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("TableCreated"), "CompanyEndings", result));
+            this._connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("TableCreated"), "CompanyEndings", result));
             return result;
         }
 
@@ -54,21 +54,21 @@ namespace StockExchangeGame.Database.Generic
         {
             var list = new List<CompanyEndings>();
             var sql = "SELECT * FROM CompanyEndings";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var companyEndings = GetCompanyEndingsFromReader(reader);
+                        var companyEndings = this.GetCompanyEndingsFromReader(reader);
                         list.Add(companyEndings);
                     }
                 }
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGet"), "CompanyEndings",
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGet"), "CompanyEndings",
                 string.Join("; ", list)));
-            _connection.Close();
+            this._connection.Close();
             return list;
         }
 
@@ -76,18 +76,18 @@ namespace StockExchangeGame.Database.Generic
         {
             CompanyEndings companyEnding = null;
             var sql = "SELECT * FROM CompanyEndings WHERE Id = @Id";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
-                PrepareCommandSelect(command, id);
+                this.PrepareCommandSelect(command, id);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                        companyEnding = GetCompanyEndingsFromReader(reader);
+                        companyEnding = this.GetCompanyEndingsFromReader(reader);
                 }
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "CompanyEndings", companyEnding));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetSingle"), "CompanyEndings", companyEnding));
+            this._connection.Close();
             return companyEnding;
         }
 
@@ -95,16 +95,16 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<CompanyEndings, TValue>> orderBy = null)
         {
             if (predicate == null && orderBy == null)
-                return GetNoPredicateNoOrderBy();
+                return this.GetNoPredicateNoOrderBy();
             if (predicate != null && orderBy == null)
-                return GetPredicateOnly(predicate);
-            return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
+                return this.GetPredicateOnly(predicate);
+            return predicate == null ? this.GetOrderByOnly(orderBy) : this.GetPredicateAndOrderBy(predicate, orderBy);
         }
 
         private ObservableCollection<CompanyEndings> GetNoPredicateNoOrderBy()
         {
-            var result = Get().ToCollection();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
+            var result = this.Get().ToCollection();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
                 null, string.Join(";", result)));
             return result;
         }
@@ -112,8 +112,8 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<CompanyEndings> GetPredicateOnly(
             Expression<Func<CompanyEndings, bool>> predicate = null)
         {
-            var result = GetQueryable().Where(predicate).ToCollection();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
+            var result = this.GetQueryable().Where(predicate).ToCollection();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
                 predicate, null, string.Join(";", result)));
             return result;
         }
@@ -121,8 +121,8 @@ namespace StockExchangeGame.Database.Generic
         private ObservableCollection<CompanyEndings> GetOrderByOnly<TValue>(
             Expression<Func<CompanyEndings, TValue>> orderBy = null)
         {
-            var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
+            var result = this.GetQueryable().OrderBy(orderBy).ToCollection();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings", null,
                 orderBy, string.Join(";", result)));
             return result;
         }
@@ -131,16 +131,16 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<CompanyEndings, bool>> predicate = null,
             Expression<Func<CompanyEndings, TValue>> orderBy = null)
         {
-            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
+            var result = this.GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "CompanyEndings",
                 predicate, orderBy, string.Join(";", result)));
             return result;
         }
 
         public CompanyEndings Get(Expression<Func<CompanyEndings, bool>> predicate)
         {
-            var result = GetQueryable().Where(predicate).FirstOrDefault();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "CompanyEndings", predicate,
+            var result = this.GetQueryable().Where(predicate).FirstOrDefault();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedGetSinglePredicate"), "CompanyEndings", predicate,
                 string.Join(";", result)));
             return result;
         }
@@ -148,56 +148,56 @@ namespace StockExchangeGame.Database.Generic
         public int Insert(CompanyEndings entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandInsert(command, entity);
+                this.PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "CompanyEndings", entity, result));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedInsert"), "CompanyEndings", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Update(CompanyEndings entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandUpdate(command, entity);
+                this.PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "CompanyEndings", entity, result));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedUpdate"), "CompanyEndings", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Delete(CompanyEndings entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareDeleteCommand(command, entity);
+                this.PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "CompanyEndings", entity, result));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedDelete"), "CompanyEndings", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Count(Expression<Func<CompanyEndings, bool>> predicate = null)
         {
-            return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
+            return predicate == null ? this.CountNoPredicate() : this.CountPredicate(predicate);
         }
 
         private int CountNoPredicate()
         {
             var count = 0;
             const string sql = "SELECT COUNT(Id) FROM CompanyEndings";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
@@ -206,15 +206,15 @@ namespace StockExchangeGame.Database.Generic
                         count = Convert.ToInt32(reader[0].ToString());
                 }
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "CompanyEndings", null, count));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "CompanyEndings", null, count));
+            this._connection.Close();
             return count;
         }
 
         private int CountPredicate(Expression<Func<CompanyEndings, bool>> predicate = null)
         {
-            var count = GetQueryable().Where(predicate).Count();
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedCount"), "CompanyEndings", predicate, count));
+            var count = this.GetQueryable().Where(predicate).Count();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "CompanyEndings", predicate, count));
             return count;
         }
 
@@ -251,7 +251,7 @@ namespace StockExchangeGame.Database.Generic
             command.CommandText = "INSERT INTO CompanyEndings (Id, Name, CreatedAt, Deleted, ModifiedAt) " +
                                   "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt)";
             command.Prepare();
-            AddParametersUpdateInsert(command, companyEndings);
+            this.AddParametersUpdateInsert(command, companyEndings);
         }
 
         private void AddParametersUpdateInsert(SQLiteCommand command, CompanyEndings companyEndings)
@@ -269,7 +269,7 @@ namespace StockExchangeGame.Database.Generic
                 "UPDATE CompanyEndings SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
                 "ModifiedAt = @ModifiedAt WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdateInsert(command, companyEndings);
+            this.AddParametersUpdateInsert(command, companyEndings);
         }
 
         private void PrepareDeleteCommand(SQLiteCommand command, CompanyEndings companyEndings)
@@ -282,19 +282,19 @@ namespace StockExchangeGame.Database.Generic
 
         private IQueryable<CompanyEndings> GetQueryable()
         {
-            return Get().AsQueryable();
+            return this.Get().AsQueryable();
         }
 
         public void Truncate()
         {
             const string sql = "DELETE FROM CompanyEndings";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 command.ExecuteNonQuery();
             }
-            this.logger.Information(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "CompanyEndings"));
-            _connection.Close();
+            this.logger.Information(string.Format(this._currentLanguage.GetWord("ExecutedTruncate"), "CompanyEndings"));
+            this._connection.Close();
         }
     }
 }

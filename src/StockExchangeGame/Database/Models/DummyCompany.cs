@@ -12,56 +12,56 @@
 
         public string Name
         {
-            get => _name;
+            get => this._name;
             set
             {
-                if (value.Equals(_name))
+                if (value.Equals(this._name))
                     return;
-                _name = value;
-                OnPropertyChanged();
+                this._name = value;
+                this.OnPropertyChanged();
             }
         }
 
         public long MerchantId
         {
-            get => _merchantId;
+            get => this._merchantId;
             set
             {
-                if (value.Equals(_merchantId))
+                if (value.Equals(this._merchantId))
                     return;
-                _merchantId = value;
-                OnPropertyChanged();
+                this._merchantId = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double SumInEuro
         {
-            get => _sumInEuro;
+            get => this._sumInEuro;
             set
             {
-                if (value.Equals(_sumInEuro))
+                if (value.Equals(this._sumInEuro))
                     return;
-                _sumInEuro = value;
-                OnPropertyChanged();
+                this._sumInEuro = value;
+                this.OnPropertyChanged();
             }
         }
 
         public bool Active
         {
-            get => _active;
+            get => this._active;
             set
             {
-                if (value.Equals(_active))
+                if (value.Equals(this._active))
                     return;
-                _active = value;
-                OnPropertyChanged();
+                this._active = value;
+                this.OnPropertyChanged();
             }
         }
 
         public override string ToString()
         {
             return
-                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_active)}: {_active}, {nameof(_merchantId)}: {_merchantId}, {nameof(_name)}: {_name}, {nameof(_sumInEuro)}: {_sumInEuro}";
+                $"{nameof(this.ModifiedAt)}: {this.ModifiedAt}, {nameof(this.Deleted)}: {this.Deleted}, {nameof(this.CreatedAt)}: {this.CreatedAt}, {nameof(this._active)}: {this._active}, {nameof(this._merchantId)}: {this._merchantId}, {nameof(this._name)}: {this._name}, {nameof(this._sumInEuro)}: {this._sumInEuro}";
         }
     }
 }

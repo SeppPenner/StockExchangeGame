@@ -16,68 +16,68 @@ namespace StockExchangeGame.Database.Models
 
         public long MerchantId
         {
-            get => _merchantId;
+            get => this._merchantId;
             set
             {
-                if (value.Equals(_merchantId))
+                if (value.Equals(this._merchantId))
                     return;
-                _merchantId = value;
-                OnPropertyChanged();
+                this._merchantId = value;
+                this.OnPropertyChanged();
             }
         }
 
         public long StockId
         {
-            get => _stockId;
+            get => this._stockId;
             set
             {
-                if (value.Equals(_stockId))
+                if (value.Equals(this._stockId))
                     return;
-                _stockId = value;
-                OnPropertyChanged();
+                this._stockId = value;
+                this.OnPropertyChanged();
             }
         }
 
         public long Amount
         {
-            get => _amount;
+            get => this._amount;
             set
             {
-                if (value.Equals(_amount))
+                if (value.Equals(this._amount))
                     return;
-                _amount = value;
-                OnPropertyChanged();
+                this._amount = value;
+                this.OnPropertyChanged();
             }
         }
 
         public DateTime DateSold
         {
-            get => _dateSold;
+            get => this._dateSold;
             set
             {
-                if (value.Equals(_dateSold))
+                if (value.Equals(this._dateSold))
                     return;
-                _dateSold = value;
-                OnPropertyChanged();
+                this._dateSold = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double ValuePerStockInEuro
         {
-            get => _valuePerStockInEuro;
+            get => this._valuePerStockInEuro;
             set
             {
-                if (value.Equals(_valuePerStockInEuro))
+                if (value.Equals(this._valuePerStockInEuro))
                     return;
-                _valuePerStockInEuro = value;
-                OnPropertyChanged();
+                this._valuePerStockInEuro = value;
+                this.OnPropertyChanged();
             }
         }
 
         public override string ToString()
         {
             return
-                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_amount)}: {_amount}, {nameof(_dateSold)}: {_dateSold}, {nameof(_merchantId)}: {_merchantId}, {nameof(_stockId)}: {_stockId}, {nameof(_valuePerStockInEuro)}: {_valuePerStockInEuro}";
+                $"{nameof(this.ModifiedAt)}: {this.ModifiedAt}, {nameof(this.Deleted)}: {this.Deleted}, {nameof(this.CreatedAt)}: {this.CreatedAt}, {nameof(this._amount)}: {this._amount}, {nameof(this._dateSold)}: {this._dateSold}, {nameof(this._merchantId)}: {this._merchantId}, {nameof(this._stockId)}: {this._stockId}, {nameof(this._valuePerStockInEuro)}: {this._valuePerStockInEuro}";
         }
     }
 }

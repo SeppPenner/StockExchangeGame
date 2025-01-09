@@ -6,20 +6,20 @@
 
         public string Name
         {
-            get => _name;
+            get => this._name;
             set
             {
-                if (value.Equals(_name))
+                if (value.Equals(this._name))
                     return;
-                _name = value;
-                OnPropertyChanged();
+                this._name = value;
+                this.OnPropertyChanged();
             }
         }
 
         public override string ToString()
         {
             return
-                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_name)}: {_name}";
+                $"{nameof(this.ModifiedAt)}: {this.ModifiedAt}, {nameof(this.Deleted)}: {this.Deleted}, {nameof(this.CreatedAt)}: {this.CreatedAt}, {nameof(this._name)}: {this._name}";
         }
     }
 }

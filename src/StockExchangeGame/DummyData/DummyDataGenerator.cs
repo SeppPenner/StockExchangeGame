@@ -12,7 +12,7 @@
 
         public DummyDataGenerator(IDatabaseAdapter databaseAdapter)
         {
-            _databaseAdapter = databaseAdapter;
+            this._databaseAdapter = databaseAdapter;
         }
 
         private List<Sold> GenerateSolds { get; } = new List<Sold>
@@ -605,18 +605,18 @@
 
         public void GenerateDummyData()
         {
-            var boughts = _databaseAdapter.Insert(GenerateBoughts);
-            var companyEndings = _databaseAdapter.Insert(GenerateCompanyEndings);
-            var companyNames = _databaseAdapter.Insert(GenerateCompanyNames);
-            var dummyCompanies = _databaseAdapter.Insert(GenerateDummyCompanies);
-            var merchants = _databaseAdapter.Insert(GenerateMerchants);
-            var names = _databaseAdapter.Insert(GenerateNames);
-            var solds = _databaseAdapter.Insert(GenerateSolds);
-            var stocks = _databaseAdapter.Insert(GenerateStocks);
-            var stockHistories = _databaseAdapter.Insert(GenerateStockHistories);
-            var stockMarkets = _databaseAdapter.Insert(GenerateStockMarkets);
-            var surnames = _databaseAdapter.Insert(GenerateSurnames);
-            var taxes = _databaseAdapter.Insert(GenerateTaxes);
+            var boughts = this._databaseAdapter.Insert(this.GenerateBoughts);
+            var companyEndings = this._databaseAdapter.Insert(this.GenerateCompanyEndings);
+            var companyNames = this._databaseAdapter.Insert(this.GenerateCompanyNames);
+            var dummyCompanies = this._databaseAdapter.Insert(this.GenerateDummyCompanies);
+            var merchants = this._databaseAdapter.Insert(this.GenerateMerchants);
+            var names = this._databaseAdapter.Insert(this.GenerateNames);
+            var solds = this._databaseAdapter.Insert(this.GenerateSolds);
+            var stocks = this._databaseAdapter.Insert(this.GenerateStocks);
+            var stockHistories = this._databaseAdapter.Insert(this.GenerateStockHistories);
+            var stockMarkets = this._databaseAdapter.Insert(this.GenerateStockMarkets);
+            var surnames = this._databaseAdapter.Insert(this.GenerateSurnames);
+            var taxes = this._databaseAdapter.Insert(this.GenerateTaxes);
         }
     }
 }

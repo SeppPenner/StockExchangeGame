@@ -12,61 +12,61 @@
 
         public string Name
         {
-            get => _name;
+            get => this._name;
             set
             {
-                if (value.Equals(_name))
+                if (value.Equals(this._name))
                     return;
-                _name = value;
-                OnPropertyChanged();
+                this._name = value;
+                this.OnPropertyChanged();
             }
         }
 
         public long StockMarketId
         {
-            get => _stockMarketId;
+            get => this._stockMarketId;
             set
             {
-                if (value.Equals(_stockMarketId))
+                if (value.Equals(this._stockMarketId))
                     return;
-                _stockMarketId = value;
-                OnPropertyChanged();
+                this._stockMarketId = value;
+                this.OnPropertyChanged();
             }
         }
 
         public long Total
         {
-            get => _total;
+            get => this._total;
             set
             {
-                if (value.Equals(_total))
+                if (value.Equals(this._total))
                     return;
-                _total = value;
-                OnPropertyChanged();
+                this._total = value;
+                this.OnPropertyChanged();
             }
         }
 
         public long Used
         {
-            get => _used;
+            get => this._used;
             set
             {
-                if (value.Equals(_used))
+                if (value.Equals(this._used))
                     return;
-                _used = value;
-                OnPropertyChanged();
+                this._used = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double GetQuotaUsed()
         {
-            return _used / (double) _total * 100;
+            return this._used / (double)this._total * 100;
         }
 
         public override string ToString()
         {
             return
-                $"{nameof(ModifiedAt)}: {ModifiedAt}, {nameof(Deleted)}: {Deleted}, {nameof(CreatedAt)}: {CreatedAt}, {nameof(_name)}: {_name}, {nameof(_total)}: {_total}, {nameof(_used)}: {_used}, {nameof(_stockMarketId)}: {_stockMarketId}";
+                $"{nameof(this.ModifiedAt)}: {this.ModifiedAt}, {nameof(this.Deleted)}: {this.Deleted}, {nameof(this.CreatedAt)}: {this.CreatedAt}, {nameof(this._name)}: {this._name}, {nameof(this._total)}: {this._total}, {nameof(this._used)}: {this._used}, {nameof(this._stockMarketId)}: {this._stockMarketId}";
         }
     }
 }

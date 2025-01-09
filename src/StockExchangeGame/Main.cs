@@ -18,137 +18,137 @@ namespace StockExchangeGame
 
         public Main()
         {
-            InitializeComponent();
-            LoadTitleAndDescription();
-            InitializeLanguageManager();
-            LoadLanguagesToCombo();
-            InitDatabase();
+            this.InitializeComponent();
+            this.LoadTitleAndDescription();
+            this.InitializeLanguageManager();
+            this.LoadLanguagesToCombo();
+            this.InitDatabase();
             //Todo remove dummy data
             //new DummyDataGenerator(_databaseAdapter).GenerateDummyData();
         }
 
         private void LoadTitleAndDescription()
         {
-            Text = Application.ProductName + @" " + Application.ProductVersion;
+            this.Text = Application.ProductName + @" " + Application.ProductVersion;
         }
 
         private void InitDatabase()
         {
             try
             {
-                _databaseAdapter = new DatabaseAdapter(_lang);
+                this._databaseAdapter = new DatabaseAdapter(this._lang);
             }
             catch (Exception ex)
             {
-                LogDatabaseInitializationException(ex);
+                this.LogDatabaseInitializationException(ex);
             }
         }
 
         private void LogDatabaseInitializationException(Exception exception)
         {
-            var ex = new InitializationException(_lang.GetWord("ErrorInDatabaseInit"), exception);
-            LogError(ex);
+            var ex = new InitializationException(this._lang.GetWord("ErrorInDatabaseInit"), exception);
+            this.LogError(ex);
         }
 
         private void InitializeLanguageManager()
         {
-            _lm.SetCurrentLanguage("de-DE");
-            _lm.OnLanguageChanged += OnLanguageChanged;
+            this._lm.SetCurrentLanguage("de-DE");
+            this._lm.OnLanguageChanged += this.OnLanguageChanged;
         }
 
         private void LoadLanguagesToCombo()
         {
-            foreach (var lang in _lm.GetLanguages())
-                comboBoxLanguage.Items.Add(lang.Name);
-            comboBoxLanguage.SelectedIndex = 0;
+            foreach (var lang in this._lm.GetLanguages())
+                this.comboBoxLanguage.Items.Add(lang.Name);
+            this.comboBoxLanguage.SelectedIndex = 0;
         }
 
         private void ComboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _lm.SetCurrentLanguageFromName(comboBoxLanguage.SelectedItem.ToString());
+            this._lm.SetCurrentLanguageFromName(this.comboBoxLanguage.SelectedItem.ToString());
         }
 
         private void OnLanguageChanged(object sender, EventArgs eventArgs)
         {
-            _lang = _lm.GetCurrentLanguage();
-            labelSelectLanguage.Text = _lang.GetWord("SelectLanguage");
-            SetDatabaseAdapterLanguageIfNotNull();
+            this._lang = this._lm.GetCurrentLanguage();
+            this.labelSelectLanguage.Text = this._lang.GetWord("SelectLanguage");
+            this.SetDatabaseAdapterLanguageIfNotNull();
         }
 
         private void SetDatabaseAdapterLanguageIfNotNull()
         {
-            if (_lang == null || _databaseAdapter == null) return;
-            _databaseAdapter.SetCurrentLanguage(_lang);
+            if (this._lang == null || this._databaseAdapter == null) return;
+            this._databaseAdapter.SetCurrentLanguage(this._lang);
         }
 
         private void ButtonMarketView_Click(object sender, EventArgs e)
         {
-            if (CanCurrentViewClose())
-                TrySwitchView(new MarketView());
+            if (this.CanCurrentViewClose())
+                this.TrySwitchView(new MarketView());
             else
-                LogViewCannotBeClosedException();
+                this.LogViewCannotBeClosedException();
         }
 
         private void TrySwitchView(UserControl newView)
         {
             try
             {
-                SwitchView(newView);
+                this.SwitchView(newView);
             }
             catch (Exception ex)
             {
-                LogError(ex);
+                this.LogError(ex);
             }
         }
 
         private bool CanCurrentViewClose()
         {
-            if (groupBoxViews.Controls.Count == 0)
+            if (this.groupBoxViews.Controls.Count == 0)
                 return true;
 
-            var v = groupBoxViews.Controls[0] as IView;
+            var v = this.groupBoxViews.Controls[0] as IView;
             return v != null && v.CanClose();
         }
 
         private void SwitchView(UserControl newView)
         {
-            if (groupBoxViews.Controls.Count > 0)
-                DisposeOldView();
-            AddNewView(newView);
+            if (this.groupBoxViews.Controls.Count > 0)
+                this.DisposeOldView();
+            this.AddNewView(newView);
         }
 
         private void AddNewView(UserControl newView)
         {
-            groupBoxViews.Controls.Add(newView);
+            this.groupBoxViews.Controls.Add(newView);
             newView.Dock = DockStyle.Fill;
-            groupBoxViews.Refresh();
+            this.groupBoxViews.Refresh();
         }
 
         private void DisposeOldView()
         {
-            var oldView = groupBoxViews.Controls[0] as UserControl;
+            var oldView = this.groupBoxViews.Controls[0] as UserControl;
             if (oldView == null) return;
-            groupBoxViews.Controls.Remove(oldView);
+            this.groupBoxViews.Controls.Remove(oldView);
             oldView.Dispose();
         }
 
         private void ButtonPersonalView_Click(object sender, EventArgs e)
         {
-            if (CanCurrentViewClose())
-                TrySwitchView(new PersonalView {DatabaseAdapter = _databaseAdapter});
+            if (this.CanCurrentViewClose())
+                this.TrySwitchView(new PersonalView {DatabaseAdapter = this._databaseAdapter });
             else
-                LogViewCannotBeClosedException();
+                this.LogViewCannotBeClosedException();
         }
 
         private void LogViewCannotBeClosedException()
         {
-            var ex = new ViewCannotBeClosedException(_lang.GetWord("CurrentViewCannotBeClosed"));
-            LogError(ex);
+            var ex = new ViewCannotBeClosedException(this._lang.GetWord("CurrentViewCannotBeClosed"));
+            this.LogError(ex);
         }
 
         private void LogError(Exception ex)
         {
-            _log.Error(ex);
+            this._log.Error(ex);
             MessageBox.Show(ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }

@@ -19,31 +19,31 @@ namespace StockExchangeGame.Database.Generic
 
         public TaxesController(SQLiteConnection connection)
         {
-            _connection = connection;
+            this._connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
         {
-            _currentLanguage = language;
-            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "Taxes", language.Identifier));
+            this._currentLanguage = language;
+            this._log.Info(string.Format(this._currentLanguage.GetWord("LanguageSet"), "Taxes", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
         {
-            return _currentLanguage;
+            return this._currentLanguage;
         }
 
         public int CreateTable()
         {
             int result;
-            var sql = GetCreateTableSQL();
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            var sql = this.GetCreateTableSQL();
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("TableCreated"), "Taxes", result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("TableCreated"), "Taxes", result));
+            this._connection.Close();
             return result;
         }
 
@@ -51,20 +51,20 @@ namespace StockExchangeGame.Database.Generic
         {
             var list = new List<Taxes>();
             var sql = "SELECT * FROM Taxes";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var taxes = GetTaxesFromReader(reader);
+                        var taxes = this.GetTaxesFromReader(reader);
                         list.Add(taxes);
                     }
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "Taxes", string.Join("; ", list)));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGet"), "Taxes", string.Join("; ", list)));
+            this._connection.Close();
             return list;
         }
 
@@ -72,18 +72,18 @@ namespace StockExchangeGame.Database.Generic
         {
             Taxes tax = null;
             var sql = "SELECT * FROM Taxes WHERE Id = @Id";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
-                PrepareCommandSelect(command, id);
+                this.PrepareCommandSelect(command, id);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                        tax = GetTaxesFromReader(reader);
+                        tax = this.GetTaxesFromReader(reader);
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "Taxes", tax));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSingle"), "Taxes", tax));
+            this._connection.Close();
             return tax;
         }
 
@@ -91,32 +91,32 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<Taxes, TValue>> orderBy = null)
         {
             if (predicate == null && orderBy == null)
-                return GetNoPredicateNoOrderBy();
+                return this.GetNoPredicateNoOrderBy();
             if (predicate != null && orderBy == null)
-                return GetPredicateOnly(predicate);
-            return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
+                return this.GetPredicateOnly(predicate);
+            return predicate == null ? this.GetOrderByOnly(orderBy) : this.GetPredicateAndOrderBy(predicate, orderBy);
         }
 
         private ObservableCollection<Taxes> GetNoPredicateNoOrderBy()
         {
-            var result = Get().ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Taxes", null, null,
+            var result = this.Get().ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Taxes", null, null,
                 string.Join(";", result)));
             return result;
         }
 
         private ObservableCollection<Taxes> GetPredicateOnly(Expression<Func<Taxes, bool>> predicate = null)
         {
-            var result = GetQueryable().Where(predicate).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Taxes", predicate, null,
+            var result = this.GetQueryable().Where(predicate).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Taxes", predicate, null,
                 string.Join(";", result)));
             return result;
         }
 
         private ObservableCollection<Taxes> GetOrderByOnly<TValue>(Expression<Func<Taxes, TValue>> orderBy = null)
         {
-            var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Taxes", null, orderBy,
+            var result = this.GetQueryable().OrderBy(orderBy).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Taxes", null, orderBy,
                 string.Join(";", result)));
             return result;
         }
@@ -125,16 +125,16 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<Taxes, bool>> predicate = null,
             Expression<Func<Taxes, TValue>> orderBy = null)
         {
-            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Taxes", predicate,
+            var result = this.GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Taxes", predicate,
                 orderBy, string.Join(";", result)));
             return result;
         }
 
         public Taxes Get(Expression<Func<Taxes, bool>> predicate)
         {
-            var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Taxes", predicate,
+            var result = this.GetQueryable().Where(predicate).FirstOrDefault();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Taxes", predicate,
                 string.Join(";", result)));
             return result;
         }
@@ -142,56 +142,56 @@ namespace StockExchangeGame.Database.Generic
         public int Insert(Taxes entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandInsert(command, entity);
+                this.PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "Taxes", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedInsert"), "Taxes", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Update(Taxes entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandUpdate(command, entity);
+                this.PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "Taxes", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedUpdate"), "Taxes", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Delete(Taxes entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareDeleteCommand(command, entity);
+                this.PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "Taxes", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedDelete"), "Taxes", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Count(Expression<Func<Taxes, bool>> predicate = null)
         {
-            return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
+            return predicate == null ? this.CountNoPredicate() : this.CountPredicate(predicate);
         }
 
         private int CountNoPredicate()
         {
             var count = 0;
             const string sql = "SELECT COUNT(Id) FROM Taxes";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
@@ -200,15 +200,15 @@ namespace StockExchangeGame.Database.Generic
                         count = Convert.ToInt32(reader[0].ToString());
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Taxes", null, count));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Taxes", null, count));
+            this._connection.Close();
             return count;
         }
 
         private int CountPredicate(Expression<Func<Taxes, bool>> predicate = null)
         {
-            var count = GetQueryable().Where(predicate).Count();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Taxes", predicate, count));
+            var count = this.GetQueryable().Where(predicate).Count();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Taxes", predicate, count));
             return count;
         }
 
@@ -252,7 +252,7 @@ namespace StockExchangeGame.Database.Generic
                                   "DueInEuro, PayedInEuro) VALUES (@Id, @MerchantId, @CreatedAt, @Deleted, @ModifiedAt, " +
                                   "@DateTaxWasDue, @DueInEuro, @PayedInEuro)";
             command.Prepare();
-            AddParametersUpdateInsert(command, taxes);
+            this.AddParametersUpdateInsert(command, taxes);
         }
 
         private void AddParametersUpdateInsert(SQLiteCommand command, Taxes taxes)
@@ -274,7 +274,7 @@ namespace StockExchangeGame.Database.Generic
                 "ModifiedAt = @ModifiedAt, DateTaxWasDue = @DateTaxWasDue, DueInEuro = @DueInEuro, " +
                 "PayedInEuro = @PayedInEuro  WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdateInsert(command, taxes);
+            this.AddParametersUpdateInsert(command, taxes);
         }
 
         private void PrepareDeleteCommand(SQLiteCommand command, Taxes taxes)
@@ -287,19 +287,19 @@ namespace StockExchangeGame.Database.Generic
 
         private IQueryable<Taxes> GetQueryable()
         {
-            return Get().AsQueryable();
+            return this.Get().AsQueryable();
         }
 
         public void Truncate()
         {
             const string sql = "DELETE FROM Taxes";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "Taxes"));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedTruncate"), "Taxes"));
+            this._connection.Close();
         }
     }
 }

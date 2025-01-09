@@ -6,7 +6,7 @@ namespace StockExchangeGame.Dialogs
     {
         public SellStocks()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

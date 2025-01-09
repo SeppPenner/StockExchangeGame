@@ -6,7 +6,7 @@ namespace StockExchangeGame.Dialogs
     {
         public MoveFundsToDummyCompany()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

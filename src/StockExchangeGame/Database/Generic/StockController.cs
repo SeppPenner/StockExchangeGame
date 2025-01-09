@@ -1,4 +1,6 @@
-﻿using System;
+namespace StockExchangeGame.Database.Generic;
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
@@ -9,297 +11,298 @@ using Languages.Interfaces;
 using StockExchangeGame.Database.Extensions;
 using StockExchangeGame.Database.Models;
 
-namespace StockExchangeGame.Database.Generic
+public class StockController : IEntityController<Stock>
 {
-    public class StockController : IEntityController<Stock>
+    private readonly SQLiteConnection _connection;
+    private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+    private ILanguage _currentLanguage;
+
+    public StockController(SQLiteConnection connection)
     {
-        private readonly SQLiteConnection _connection;
-        private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private ILanguage _currentLanguage;
+        this._connection = connection;
+    }
 
-        public StockController(SQLiteConnection connection)
+    public void SetCurrentLanguage(ILanguage language)
+    {
+        this._currentLanguage = language;
+        this._log.Info(string.Format(this._currentLanguage.GetWord("LanguageSet"), "Stock", language.Identifier));
+    }
+
+    public ILanguage GetCurrentLanguage()
+    {
+        return this._currentLanguage;
+    }
+
+    public int CreateTable()
+    {
+        int result;
+        var sql = this.GetCreateTableSQL();
+        this._connection.Open();
+        using (var command = new SQLiteCommand(sql, this._connection))
         {
-            _connection = connection;
+            result = command.ExecuteNonQuery();
         }
+        this._log.Info(string.Format(this._currentLanguage.GetWord("TableCreated"), "Stock", result));
+        this._connection.Close();
+        return result;
+    }
 
-        public void SetCurrentLanguage(ILanguage language)
+    public List<Stock> Get()
+    {
+        var list = new List<Stock>();
+        var sql = "SELECT * FROM Stock";
+        this._connection.Open();
+        using (var command = new SQLiteCommand(sql, this._connection))
         {
-            _currentLanguage = language;
-            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "Stock", language.Identifier));
-        }
-
-        public ILanguage GetCurrentLanguage()
-        {
-            return _currentLanguage;
-        }
-
-        public int CreateTable()
-        {
-            int result;
-            var sql = GetCreateTableSQL();
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            using (var reader = command.ExecuteReader())
             {
-                result = command.ExecuteNonQuery();
-            }
-            _log.Info(string.Format(_currentLanguage.GetWord("TableCreated"), "Stock", result));
-            _connection.Close();
-            return result;
-        }
-
-        public List<Stock> Get()
-        {
-            var list = new List<Stock>();
-            var sql = "SELECT * FROM Stock";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
-            {
-                using (var reader = command.ExecuteReader())
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        var stock = GetStockFromReader(reader);
-                        list.Add(stock);
-                    }
+                    var stock = this.GetStockFromReader(reader);
+                    list.Add(stock);
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "Stock", string.Join("; ", list)));
-            _connection.Close();
-            return list;
         }
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGet"), "Stock", string.Join("; ", list)));
+        this._connection.Close();
+        return list;
+    }
 
-        public Stock Get(long id)
+    public Stock Get(long id)
+    {
+        Stock stock = null;
+        var sql = "SELECT * FROM Stock WHERE Id = @Id";
+        this._connection.Open();
+
+        using (var command = new SQLiteCommand(sql, this._connection))
         {
-            Stock stock = null;
-            var sql = "SELECT * FROM Stock WHERE Id = @Id";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this.PrepareCommandSelect(command, id);
+            using (var reader = command.ExecuteReader())
             {
-                PrepareCommandSelect(command, id);
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                        stock = GetStockFromReader(reader);
-                }
+                while (reader.Read())
+                    stock = this.GetStockFromReader(reader);
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "Stock", stock));
-            _connection.Close();
-            return stock;
         }
 
-        public ObservableCollection<Stock> Get<TValue>(Expression<Func<Stock, bool>> predicate = null,
-            Expression<Func<Stock, TValue>> orderBy = null)
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSingle"), "Stock", stock));
+        this._connection.Close();
+        return stock;
+    }
+
+    public ObservableCollection<Stock> Get<TValue>(Expression<Func<Stock, bool>> predicate = null,
+        Expression<Func<Stock, TValue>> orderBy = null)
+    {
+        if (predicate == null && orderBy == null)
+            return this.GetNoPredicateNoOrderBy();
+        if (predicate != null && orderBy == null)
+            return this.GetPredicateOnly(predicate);
+        return predicate == null ? this.GetOrderByOnly(orderBy) : this.GetPredicateAndOrderBy(predicate, orderBy);
+    }
+
+    private ObservableCollection<Stock> GetNoPredicateNoOrderBy()
+    {
+        var result = this.Get().ToCollection();
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Stock", null, null,
+            string.Join(";", result)));
+        return result;
+    }
+
+    private ObservableCollection<Stock> GetPredicateOnly(Expression<Func<Stock, bool>> predicate = null)
+    {
+        var result = this.GetQueryable().Where(predicate).ToCollection();
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Stock", predicate, null,
+            string.Join(";", result)));
+        return result;
+    }
+
+    private ObservableCollection<Stock> GetOrderByOnly<TValue>(Expression<Func<Stock, TValue>> orderBy = null)
+    {
+        var result = this.GetQueryable().OrderBy(orderBy).ToCollection();
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Stock", null, orderBy,
+            string.Join(";", result)));
+        return result;
+    }
+
+    private ObservableCollection<Stock> GetPredicateAndOrderBy<TValue>(
+        Expression<Func<Stock, bool>> predicate = null,
+        Expression<Func<Stock, TValue>> orderBy = null)
+    {
+        var result = this.GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Stock", predicate,
+            orderBy, string.Join(";", result)));
+        return result;
+    }
+
+    public Stock Get(Expression<Func<Stock, bool>> predicate)
+    {
+        var result = this.GetQueryable().Where(predicate).FirstOrDefault();
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Stock", predicate,
+            string.Join(";", result)));
+        return result;
+    }
+
+    public int Insert(Stock entity)
+    {
+        int result;
+        this._connection.Open();
+
+        using (var command = new SQLiteCommand(this._connection))
         {
-            if (predicate == null && orderBy == null)
-                return GetNoPredicateNoOrderBy();
-            if (predicate != null && orderBy == null)
-                return GetPredicateOnly(predicate);
-            return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
+            this.PrepareCommandInsert(command, entity);
+            result = command.ExecuteNonQuery();
         }
 
-        private ObservableCollection<Stock> GetNoPredicateNoOrderBy()
-        {
-            var result = Get().ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Stock", null, null,
-                string.Join(";", result)));
-            return result;
-        }
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedInsert"), "Stock", entity, result));
+        this._connection.Close();
+        return result;
+    }
 
-        private ObservableCollection<Stock> GetPredicateOnly(Expression<Func<Stock, bool>> predicate = null)
+    public int Update(Stock entity)
+    {
+        int result;
+        this._connection.Open();
+        using (var command = new SQLiteCommand(this._connection))
         {
-            var result = GetQueryable().Where(predicate).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Stock", predicate, null,
-                string.Join(";", result)));
-            return result;
+            this.PrepareCommandUpdate(command, entity);
+            result = command.ExecuteNonQuery();
         }
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedUpdate"), "Stock", entity, result));
+        this._connection.Close();
+        return result;
+    }
 
-        private ObservableCollection<Stock> GetOrderByOnly<TValue>(Expression<Func<Stock, TValue>> orderBy = null)
+    public int Delete(Stock entity)
+    {
+        int result;
+        this._connection.Open();
+        using (var command = new SQLiteCommand(this._connection))
         {
-            var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Stock", null, orderBy,
-                string.Join(";", result)));
-            return result;
+            this.PrepareDeleteCommand(command, entity);
+            result = command.ExecuteNonQuery();
         }
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedDelete"), "Stock", entity, result));
+        this._connection.Close();
+        return result;
+    }
 
-        private ObservableCollection<Stock> GetPredicateAndOrderBy<TValue>(
-            Expression<Func<Stock, bool>> predicate = null,
-            Expression<Func<Stock, TValue>> orderBy = null)
-        {
-            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Stock", predicate,
-                orderBy, string.Join(";", result)));
-            return result;
-        }
+    public int Count(Expression<Func<Stock, bool>> predicate = null)
+    {
+        return predicate == null ? this.CountNoPredicate() : this.CountPredicate(predicate);
+    }
 
-        public Stock Get(Expression<Func<Stock, bool>> predicate)
+    private int CountNoPredicate()
+    {
+        var count = 0;
+        const string sql = "SELECT COUNT(Id) FROM Stock";
+        this._connection.Open();
+        using (var command = new SQLiteCommand(sql, this._connection))
         {
-            var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Stock", predicate,
-                string.Join(";", result)));
-            return result;
-        }
-
-        public int Insert(Stock entity)
-        {
-            int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            using (var reader = command.ExecuteReader())
             {
-                PrepareCommandInsert(command, entity);
-                result = command.ExecuteNonQuery();
+                while (reader != null && reader.Read())
+
+                    count = Convert.ToInt32(reader[0].ToString());
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "Stock", entity, result));
-            _connection.Close();
-            return result;
         }
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Stock", null, count));
+        this._connection.Close();
+        return count;
+    }
 
-        public int Update(Stock entity)
+    private int CountPredicate(Expression<Func<Stock, bool>> predicate = null)
+    {
+        var count = this.GetQueryable().Where(predicate).Count();
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Stock", predicate, count));
+        return count;
+    }
+
+    private string GetCreateTableSQL()
+    {
+        return "CREATE TABLE IF NOT EXISTS Stock (" +
+               "Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
+               "Name TEXT NOT NULL," +
+               "CreatedAt TEXT NOT NULL," +
+               "Total INTEGER NOT NULL," +
+               "Deleted BOOLEAN NOT NULL," +
+               "Used INTEGER NOT NULL," +
+               "ModifiedAt TEXT NOT NULL," +
+               "StockMarketId INTEGER NOT NULL)";
+    }
+
+    private void PrepareCommandSelect(SQLiteCommand command, long id)
+    {
+        command.Prepare();
+        command.Parameters.AddWithValue("@Id", id);
+    }
+
+    private Stock GetStockFromReader(SQLiteDataReader reader)
+    {
+        return new Stock
         {
-            int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
-            {
-                PrepareCommandUpdate(command, entity);
-                result = command.ExecuteNonQuery();
-            }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "Stock", entity, result));
-            _connection.Close();
-            return result;
-        }
+            Id = Convert.ToInt64(reader["Id"].ToString()),
+            Name = reader["Name"].ToString(),
+            CreatedAt = Convert.ToDateTime(reader["CreatedAt"].ToString()),
+            Total = Convert.ToInt64(reader["Total"].ToString()),
+            Deleted = Convert.ToBoolean(reader["Deleted"].ToString()),
+            Used = Convert.ToInt64(reader["Used"].ToString()),
+            ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString()),
+            StockMarketId = Convert.ToInt64(reader["StockMarketId"].ToString())
+        };
+    }
 
-        public int Delete(Stock entity)
+    private void PrepareCommandInsert(SQLiteCommand command, Stock stock)
+    {
+        command.CommandText = "INSERT INTO Stock (Id, Name, CreatedAt, Total, Deleted, Used, " +
+                              "ModifiedAt, StockMarketId) VALUES (@Id, @Name, @CreatedAt, @Total, @Deleted, " +
+                              "@Used, @ModifiedAt, @StockMarketId)";
+        command.Prepare();
+        this.AddParametersUpdateInsert(command, stock);
+    }
+
+    private void AddParametersUpdateInsert(SQLiteCommand command, Stock stock)
+    {
+        command.Parameters.AddWithValue("@Id", stock.Id);
+        command.Parameters.AddWithValue("@Name", stock.Name);
+        command.Parameters.AddWithValue("@CreatedAt", stock.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+        command.Parameters.AddWithValue("@Total", stock.Total);
+        command.Parameters.AddWithValue("@Deleted", stock.Deleted);
+        command.Parameters.AddWithValue("@Used", stock.Used);
+        command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+        command.Parameters.AddWithValue("@StockMarketId", stock.StockMarketId);
+    }
+
+    private void PrepareCommandUpdate(SQLiteCommand command, Stock stock)
+    {
+        command.CommandText =
+            "UPDATE Stock SET Name = @Name, CreatedAt = @CreatedAt, Total = @Total," +
+            " Deleted = @Deleted, Used = @Used, ModifiedAt = @ModifiedAt, StockMarketId " +
+            "= @StockMarketId WHERE Id = @Id";
+        command.Prepare();
+        this.AddParametersUpdateInsert(command, stock);
+    }
+
+    private void PrepareDeleteCommand(SQLiteCommand command, Stock stock)
+    {
+        command.CommandText = "UPDATE Stock SET Deleted = true, ModifiedAt = @ModifiedAt WHERE Id = @Id";
+        command.Prepare();
+        command.Parameters.AddWithValue("@Id", stock.Id);
+        command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+    }
+
+    private IQueryable<Stock> GetQueryable()
+    {
+        return this.Get().AsQueryable();
+    }
+
+    public void Truncate()
+    {
+        const string sql = "DELETE FROM Stock";
+        this._connection.Open();
+        using (var command = new SQLiteCommand(sql, this._connection))
         {
-            int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
-            {
-                PrepareDeleteCommand(command, entity);
-                result = command.ExecuteNonQuery();
-            }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "Stock", entity, result));
-            _connection.Close();
-            return result;
+            command.ExecuteNonQuery();
         }
-
-        public int Count(Expression<Func<Stock, bool>> predicate = null)
-        {
-            return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
-        }
-
-        private int CountNoPredicate()
-        {
-            var count = 0;
-            const string sql = "SELECT COUNT(Id) FROM Stock";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
-            {
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader != null && reader.Read())
-
-                        count = Convert.ToInt32(reader[0].ToString());
-                }
-            }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Stock", null, count));
-            _connection.Close();
-            return count;
-        }
-
-        private int CountPredicate(Expression<Func<Stock, bool>> predicate = null)
-        {
-            var count = GetQueryable().Where(predicate).Count();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Stock", predicate, count));
-            return count;
-        }
-
-        private string GetCreateTableSQL()
-        {
-            return "CREATE TABLE IF NOT EXISTS Stock (" +
-                   "Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                   "Name TEXT NOT NULL," +
-                   "CreatedAt TEXT NOT NULL," +
-                   "Total INTEGER NOT NULL," +
-                   "Deleted BOOLEAN NOT NULL," +
-                   "Used INTEGER NOT NULL," +
-                   "ModifiedAt TEXT NOT NULL," +
-                   "StockMarketId INTEGER NOT NULL)";
-        }
-
-        private void PrepareCommandSelect(SQLiteCommand command, long id)
-        {
-            command.Prepare();
-            command.Parameters.AddWithValue("@Id", id);
-        }
-
-        private Stock GetStockFromReader(SQLiteDataReader reader)
-        {
-            return new Stock
-            {
-                Id = Convert.ToInt64(reader["Id"].ToString()),
-                Name = reader["Name"].ToString(),
-                CreatedAt = Convert.ToDateTime(reader["CreatedAt"].ToString()),
-                Total = Convert.ToInt64(reader["Total"].ToString()),
-                Deleted = Convert.ToBoolean(reader["Deleted"].ToString()),
-                Used = Convert.ToInt64(reader["Used"].ToString()),
-                ModifiedAt = Convert.ToDateTime(reader["ModifiedAt"].ToString()),
-                StockMarketId = Convert.ToInt64(reader["StockMarketId"].ToString())
-            };
-        }
-
-        private void PrepareCommandInsert(SQLiteCommand command, Stock stock)
-        {
-            command.CommandText = "INSERT INTO Stock (Id, Name, CreatedAt, Total, Deleted, Used, " +
-                                  "ModifiedAt, StockMarketId) VALUES (@Id, @Name, @CreatedAt, @Total, @Deleted, " +
-                                  "@Used, @ModifiedAt, @StockMarketId)";
-            command.Prepare();
-            AddParametersUpdateInsert(command, stock);
-        }
-
-        private void AddParametersUpdateInsert(SQLiteCommand command, Stock stock)
-        {
-            command.Parameters.AddWithValue("@Id", stock.Id);
-            command.Parameters.AddWithValue("@Name", stock.Name);
-            command.Parameters.AddWithValue("@CreatedAt", stock.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@Total", stock.Total);
-            command.Parameters.AddWithValue("@Deleted", stock.Deleted);
-            command.Parameters.AddWithValue("@Used", stock.Used);
-            command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-            command.Parameters.AddWithValue("@StockMarketId", stock.StockMarketId);
-        }
-
-        private void PrepareCommandUpdate(SQLiteCommand command, Stock stock)
-        {
-            command.CommandText =
-                "UPDATE Stock SET Name = @Name, CreatedAt = @CreatedAt, Total = @Total," +
-                " Deleted = @Deleted, Used = @Used, ModifiedAt = @ModifiedAt, StockMarketId " +
-                "= @StockMarketId WHERE Id = @Id";
-            command.Prepare();
-            AddParametersUpdateInsert(command, stock);
-        }
-
-        private void PrepareDeleteCommand(SQLiteCommand command, Stock stock)
-        {
-            command.CommandText = "UPDATE Stock SET Deleted = true, ModifiedAt = @ModifiedAt WHERE Id = @Id";
-            command.Prepare();
-            command.Parameters.AddWithValue("@Id", stock.Id);
-            command.Parameters.AddWithValue("@ModifiedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
-        }
-
-        private IQueryable<Stock> GetQueryable()
-        {
-            return Get().AsQueryable();
-        }
-
-        public void Truncate()
-        {
-            const string sql = "DELETE FROM Stock";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
-            {
-                command.ExecuteNonQuery();
-            }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "Stock"));
-            _connection.Close();
-        }
+        this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedTruncate"), "Stock"));
+        this._connection.Close();
     }
 }

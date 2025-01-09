@@ -19,37 +19,37 @@ namespace StockExchangeGame.Database.Models
 
         public DateTime CreatedAt
         {
-            get => _createdAt;
+            get => this._createdAt;
             set
             {
-                if (value.Equals(_createdAt))
+                if (value.Equals(this._createdAt))
                     return;
-                _createdAt = value;
-                OnPropertyChanged();
+                this._createdAt = value;
+                this.OnPropertyChanged();
             }
         }
 
         public DateTime ModifiedAt
         {
-            get => _modifiedAt;
+            get => this._modifiedAt;
             set
             {
-                if (value.Equals(_modifiedAt))
+                if (value.Equals(this._modifiedAt))
                     return;
-                _modifiedAt = value;
-                OnPropertyChanged();
+                this._modifiedAt = value;
+                this.OnPropertyChanged();
             }
         }
 
         public bool Deleted
         {
-            get => _deleted;
+            get => this._deleted;
             set
             {
-                if (value.Equals(_deleted))
+                if (value.Equals(this._deleted))
                     return;
-                _deleted = value;
-                OnPropertyChanged();
+                this._deleted = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -58,7 +58,7 @@ namespace StockExchangeGame.Database.Models
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
-            ModifiedAt = DateTime.Now;
+            this.ModifiedAt = DateTime.Now;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }

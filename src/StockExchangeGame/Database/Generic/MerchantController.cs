@@ -19,31 +19,31 @@ namespace StockExchangeGame.Database.Generic
 
         public MerchantController(SQLiteConnection connection)
         {
-            _connection = connection;
+            this._connection = connection;
         }
 
         public void SetCurrentLanguage(ILanguage language)
         {
-            _currentLanguage = language;
-            _log.Info(string.Format(_currentLanguage.GetWord("LanguageSet"), "Merchant", language.Identifier));
+            this._currentLanguage = language;
+            this._log.Info(string.Format(this._currentLanguage.GetWord("LanguageSet"), "Merchant", language.Identifier));
         }
 
         public ILanguage GetCurrentLanguage()
         {
-            return _currentLanguage;
+            return this._currentLanguage;
         }
 
         public int CreateTable()
         {
             int result;
-            var sql = GetCreateTableSQL();
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            var sql = this.GetCreateTableSQL();
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("TableCreated"), "Merchant", result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("TableCreated"), "Merchant", result));
+            this._connection.Close();
             return result;
         }
 
@@ -51,20 +51,20 @@ namespace StockExchangeGame.Database.Generic
         {
             var list = new List<Merchant>();
             var sql = "SELECT * FROM Merchant";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var merchant = GetMerchantFromReader(reader);
+                        var merchant = this.GetMerchantFromReader(reader);
                         list.Add(merchant);
                     }
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGet"), "Merchant", string.Join("; ", list)));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGet"), "Merchant", string.Join("; ", list)));
+            this._connection.Close();
             return list;
         }
 
@@ -72,18 +72,18 @@ namespace StockExchangeGame.Database.Generic
         {
             Merchant merchant = null;
             var sql = "SELECT * FROM Merchant WHERE Id = @Id";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
-                PrepareCommandSelect(command, id);
+                this.PrepareCommandSelect(command, id);
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
-                        merchant = GetMerchantFromReader(reader);
+                        merchant = this.GetMerchantFromReader(reader);
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSingle"), "Merchant", merchant));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSingle"), "Merchant", merchant));
+            this._connection.Close();
             return merchant;
         }
 
@@ -91,32 +91,32 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<Merchant, TValue>> orderBy = null)
         {
             if (predicate == null && orderBy == null)
-                return GetNoPredicateNoOrderBy();
+                return this.GetNoPredicateNoOrderBy();
             if (predicate != null && orderBy == null)
-                return GetPredicateOnly(predicate);
-            return predicate == null ? GetOrderByOnly(orderBy) : GetPredicateAndOrderBy(predicate, orderBy);
+                return this.GetPredicateOnly(predicate);
+            return predicate == null ? this.GetOrderByOnly(orderBy) : this.GetPredicateAndOrderBy(predicate, orderBy);
         }
 
         private ObservableCollection<Merchant> GetNoPredicateNoOrderBy()
         {
-            var result = Get().ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", null, null,
+            var result = this.Get().ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", null, null,
                 string.Join(";", result)));
             return result;
         }
 
         private ObservableCollection<Merchant> GetPredicateOnly(Expression<Func<Merchant, bool>> predicate = null)
         {
-            var result = GetQueryable().Where(predicate).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", predicate,
+            var result = this.GetQueryable().Where(predicate).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", predicate,
                 null, string.Join(";", result)));
             return result;
         }
 
         private ObservableCollection<Merchant> GetOrderByOnly<TValue>(Expression<Func<Merchant, TValue>> orderBy = null)
         {
-            var result = GetQueryable().OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", null, orderBy,
+            var result = this.GetQueryable().OrderBy(orderBy).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", null, orderBy,
                 string.Join(";", result)));
             return result;
         }
@@ -125,16 +125,16 @@ namespace StockExchangeGame.Database.Generic
             Expression<Func<Merchant, bool>> predicate = null,
             Expression<Func<Merchant, TValue>> orderBy = null)
         {
-            var result = GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", predicate,
+            var result = this.GetQueryable().Where(predicate).OrderBy(orderBy).ToCollection();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetPredicateOrderBy"), "Merchant", predicate,
                 orderBy, string.Join(";", result)));
             return result;
         }
 
         public Merchant Get(Expression<Func<Merchant, bool>> predicate)
         {
-            var result = GetQueryable().Where(predicate).FirstOrDefault();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Merchant", predicate,
+            var result = this.GetQueryable().Where(predicate).FirstOrDefault();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedGetSinglePredicate"), "Merchant", predicate,
                 string.Join(";", result)));
             return result;
         }
@@ -142,56 +142,56 @@ namespace StockExchangeGame.Database.Generic
         public int Insert(Merchant entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandInsert(command, entity);
+                this.PrepareCommandInsert(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedInsert"), "Merchant", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedInsert"), "Merchant", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Update(Merchant entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareCommandUpdate(command, entity);
+                this.PrepareCommandUpdate(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedUpdate"), "Merchant", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedUpdate"), "Merchant", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Delete(Merchant entity)
         {
             int result;
-            _connection.Open();
-            using (var command = new SQLiteCommand(_connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(this._connection))
             {
-                PrepareDeleteCommand(command, entity);
+                this.PrepareDeleteCommand(command, entity);
                 result = command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedDelete"), "Merchant", entity, result));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedDelete"), "Merchant", entity, result));
+            this._connection.Close();
             return result;
         }
 
         public int Count(Expression<Func<Merchant, bool>> predicate = null)
         {
-            return predicate == null ? CountNoPredicate() : CountPredicate(predicate);
+            return predicate == null ? this.CountNoPredicate() : this.CountPredicate(predicate);
         }
 
         private int CountNoPredicate()
         {
             var count = 0;
             const string sql = "SELECT COUNT(Id) FROM Merchant";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
@@ -200,15 +200,15 @@ namespace StockExchangeGame.Database.Generic
                         count = Convert.ToInt32(reader[0].ToString());
                 }
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Merchant", null, count));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Merchant", null, count));
+            this._connection.Close();
             return count;
         }
 
         private int CountPredicate(Expression<Func<Merchant, bool>> predicate = null)
         {
-            var count = GetQueryable().Where(predicate).Count();
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedCount"), "Merchant", predicate, count));
+            var count = this.GetQueryable().Where(predicate).Count();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedCount"), "Merchant", predicate, count));
             return count;
         }
 
@@ -247,7 +247,7 @@ namespace StockExchangeGame.Database.Generic
                 "INSERT INTO Merchant (Id, Name, CreatedAt, Deleted, ModifiedAt, LiquidFundsInEuro) " +
                 "VALUES (@Id, @Name, @CreatedAt, @Deleted, @ModifiedAt, @LiquidFundsInEuro)";
             command.Prepare();
-            AddParametersUpdateInsert(command, merchant);
+            this.AddParametersUpdateInsert(command, merchant);
         }
 
         private void AddParametersUpdateInsert(SQLiteCommand command, Merchant merchant)
@@ -266,7 +266,7 @@ namespace StockExchangeGame.Database.Generic
                 "UPDATE Merchant SET Name = @Name, CreatedAt = @CreatedAt, Deleted = @Deleted, " +
                 "ModifiedAt = @ModifiedAt, LiquidFundsInEuro = @LiquidFundsInEuro WHERE Id = @Id";
             command.Prepare();
-            AddParametersUpdateInsert(command, merchant);
+            this.AddParametersUpdateInsert(command, merchant);
         }
 
         private void PrepareDeleteCommand(SQLiteCommand command, Merchant merchant)
@@ -279,19 +279,19 @@ namespace StockExchangeGame.Database.Generic
 
         private IQueryable<Merchant> GetQueryable()
         {
-            return Get().AsQueryable();
+            return this.Get().AsQueryable();
         }
 
         public void Truncate()
         {
             const string sql = "DELETE FROM Merchant";
-            _connection.Open();
-            using (var command = new SQLiteCommand(sql, _connection))
+            this._connection.Open();
+            using (var command = new SQLiteCommand(sql, this._connection))
             {
                 command.ExecuteNonQuery();
             }
-            _log.Info(string.Format(_currentLanguage.GetWord("ExecutedTruncate"), "Merchant"));
-            _connection.Close();
+            this._log.Info(string.Format(this._currentLanguage.GetWord("ExecutedTruncate"), "Merchant"));
+            this._connection.Close();
         }
     }
 }

@@ -88,31 +88,31 @@ namespace SQLite
 		/// </param>
 		public SQLiteAsyncConnection (SQLiteConnectionString connectionString)
 		{
-			_connectionString = connectionString;
+            this._connectionString = connectionString;
 		}
 
 		/// <summary>
 		/// Gets the database path used by this connection.
 		/// </summary>
-		public string DatabasePath => GetConnection ().DatabasePath;
+		public string DatabasePath => this.GetConnection ().DatabasePath;
 
 		/// <summary>
 		/// Gets the SQLite library version number. 3007014 would be v3.7.14
 		/// </summary>
-		public int LibVersionNumber => GetConnection ().LibVersionNumber;
+		public int LibVersionNumber => this.GetConnection ().LibVersionNumber;
 
 		/// <summary>
 		/// The format to use when storing DateTime properties as strings. Ignored if StoreDateTimeAsTicks is true.
 		/// </summary>
 		/// <value>The date time string format.</value>
-		public string DateTimeStringFormat => GetConnection ().DateTimeStringFormat;
+		public string DateTimeStringFormat => this.GetConnection ().DateTimeStringFormat;
 
 		/// <summary>
 		/// The amount of time to wait for a table to become unlocked.
 		/// </summary>
 		public TimeSpan GetBusyTimeout ()
 		{
-			return GetConnection ().BusyTimeout;
+			return this.GetConnection ().BusyTimeout;
 		}
 
 		/// <summary>
@@ -120,7 +120,7 @@ namespace SQLite
 		/// </summary>
 		public Task SetBusyTimeoutAsync (TimeSpan value)
 		{
-			return ReadAsync<object> (conn => {
+			return this.ReadAsync<object> (conn => {
 				conn.BusyTimeout = value;
 				return null;
 			});
@@ -133,7 +133,7 @@ namespace SQLite
 		/// </summary>
 		public Task EnableWriteAheadLoggingAsync ()
 		{
-			return WriteAsync<object> (conn => {
+			return this.WriteAsync<object> (conn => {
 				conn.EnableWriteAheadLogging ();
 				return null;
 			});
@@ -142,20 +142,20 @@ namespace SQLite
 		/// <summary>
 		/// Whether to store DateTime properties as ticks (true) or strings (false).
 		/// </summary>
-		public bool StoreDateTimeAsTicks => GetConnection ().StoreDateTimeAsTicks;
+		public bool StoreDateTimeAsTicks => this.GetConnection ().StoreDateTimeAsTicks;
 		
 		/// <summary>
 		/// Whether to store TimeSpan properties as ticks (true) or strings (false).
 		/// </summary>
-		public bool StoreTimeSpanAsTicks => GetConnection ().StoreTimeSpanAsTicks;
+		public bool StoreTimeSpanAsTicks => this.GetConnection ().StoreTimeSpanAsTicks;
 
 		/// <summary>
 		/// Whether to writer queries to <see cref="Tracer"/> during execution.
 		/// </summary>
 		/// <value>The tracer.</value>
 		public bool Trace {
-			get { return GetConnection ().Trace; }
-			set { GetConnection ().Trace = value; }
+			get { return this.GetConnection ().Trace; }
+			set { this.GetConnection ().Trace = value; }
 		}
 
 		/// <summary>
@@ -163,23 +163,23 @@ namespace SQLite
 		/// </summary>
 		/// <value>The tracer.</value>
 		public Action<string> Tracer {
-			get { return GetConnection ().Tracer; }
-			set { GetConnection ().Tracer = value; }
+			get { return this.GetConnection ().Tracer; }
+			set { this.GetConnection ().Tracer = value; }
 		}
 
 		/// <summary>
 		/// Whether Trace lines should be written that show the execution time of queries.
 		/// </summary>
 		public bool TimeExecution {
-			get { return GetConnection ().TimeExecution; }
-			set { GetConnection ().TimeExecution = value; }
+			get { return this.GetConnection ().TimeExecution; }
+			set { this.GetConnection ().TimeExecution = value; }
 		}
 
 		/// <summary>
 		/// Returns the mappings from types to tables that the connection
 		/// currently understands.
 		/// </summary>
-		public IEnumerable<TableMapping> TableMappings => GetConnection ().TableMappings;
+		public IEnumerable<TableMapping> TableMappings => this.GetConnection ().TableMappings;
 
 		/// <summary>
 		/// Closes all connections to all async databases.
@@ -200,7 +200,7 @@ namespace SQLite
 		/// </summary>
 		public SQLiteConnectionWithLock GetConnection ()
 		{
-			return SQLiteConnectionPool.Shared.GetConnection (_connectionString);
+			return SQLiteConnectionPool.Shared.GetConnection (this._connectionString);
 		}
 
 		/// <summary>
@@ -209,14 +209,14 @@ namespace SQLite
 		public Task CloseAsync ()
 		{
 			return Task.Factory.StartNew (() => {
-				SQLiteConnectionPool.Shared.CloseConnection (_connectionString);
+				SQLiteConnectionPool.Shared.CloseConnection (this._connectionString);
 			}, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
 		}
 
 		Task<T> ReadAsync<T> (Func<SQLiteConnectionWithLock, T> read)
 		{
 			return Task.Factory.StartNew (() => {
-				var conn = GetConnection ();
+				var conn = this.GetConnection ();
 				using (conn.Lock ()) {
 					return read (conn);
 				}
@@ -226,7 +226,7 @@ namespace SQLite
 		Task<T> WriteAsync<T> (Func<SQLiteConnectionWithLock, T> write)
 		{
 			return Task.Factory.StartNew (() => {
-				var conn = GetConnection ();
+				var conn = this.GetConnection ();
 				using (conn.Lock ()) {
 					return write (conn);
 				}
@@ -238,7 +238,7 @@ namespace SQLite
 		/// </summary>
 		public Task EnableLoadExtensionAsync (bool enabled)
 		{
-			return WriteAsync<object> (conn => {
+			return this.WriteAsync<object> (conn => {
 				conn.EnableLoadExtension (enabled);
 				return null;
 			});
@@ -256,7 +256,7 @@ namespace SQLite
 		public Task<CreateTableResult> CreateTableAsync<T> (CreateFlags createFlags = CreateFlags.None)
 			where T : new()
 		{
-			return WriteAsync (conn => conn.CreateTable<T> (createFlags));
+			return this.WriteAsync (conn => conn.CreateTable<T> (createFlags));
 		}
 
 		/// <summary>
@@ -272,7 +272,7 @@ namespace SQLite
 		/// </returns>
 		public Task<CreateTableResult> CreateTableAsync (Type ty, CreateFlags createFlags = CreateFlags.None)
 		{
-			return WriteAsync (conn => conn.CreateTable (ty, createFlags));
+			return this.WriteAsync (conn => conn.CreateTable (ty, createFlags));
 		}
 
 		/// <summary>
@@ -288,7 +288,7 @@ namespace SQLite
 			where T : new()
 			where T2 : new()
 		{
-			return CreateTablesAsync (createFlags, typeof (T), typeof (T2));
+			return this.CreateTablesAsync (createFlags, typeof (T), typeof (T2));
 		}
 
 		/// <summary>
@@ -305,7 +305,7 @@ namespace SQLite
 			where T2 : new()
 			where T3 : new()
 		{
-			return CreateTablesAsync (createFlags, typeof (T), typeof (T2), typeof (T3));
+			return this.CreateTablesAsync (createFlags, typeof (T), typeof (T2), typeof (T3));
 		}
 
 		/// <summary>
@@ -323,7 +323,7 @@ namespace SQLite
 			where T3 : new()
 			where T4 : new()
 		{
-			return CreateTablesAsync (createFlags, typeof (T), typeof (T2), typeof (T3), typeof (T4));
+			return this.CreateTablesAsync (createFlags, typeof (T), typeof (T2), typeof (T3), typeof (T4));
 		}
 
 		/// <summary>
@@ -342,7 +342,7 @@ namespace SQLite
 			where T4 : new()
 			where T5 : new()
 		{
-			return CreateTablesAsync (createFlags, typeof (T), typeof (T2), typeof (T3), typeof (T4), typeof (T5));
+			return this.CreateTablesAsync (createFlags, typeof (T), typeof (T2), typeof (T3), typeof (T4), typeof (T5));
 		}
 
 		/// <summary>
@@ -356,7 +356,7 @@ namespace SQLite
 		/// </returns>
 		public Task<CreateTablesResult> CreateTablesAsync (CreateFlags createFlags = CreateFlags.None, params Type[] types)
 		{
-			return WriteAsync (conn => conn.CreateTables (createFlags, types));
+			return this.WriteAsync (conn => conn.CreateTables (createFlags, types));
 		}
 
 		/// <summary>
@@ -365,7 +365,7 @@ namespace SQLite
 		public Task<int> DropTableAsync<T> ()
 			where T : new()
 		{
-			return WriteAsync (conn => conn.DropTable<T> ());
+			return this.WriteAsync (conn => conn.DropTable<T> ());
 		}
 
 		/// <summary>
@@ -376,7 +376,7 @@ namespace SQLite
 		/// </param>
 		public Task<int> DropTableAsync (TableMapping map)
 		{
-			return WriteAsync (conn => conn.DropTable (map));
+			return this.WriteAsync (conn => conn.DropTable (map));
 		}
 
 		/// <summary>
@@ -387,7 +387,7 @@ namespace SQLite
 		/// <param name="unique">Whether the index should be unique</param>
 		public Task<int> CreateIndexAsync (string tableName, string columnName, bool unique = false)
 		{
-			return WriteAsync (conn => conn.CreateIndex (tableName, columnName, unique));
+			return this.WriteAsync (conn => conn.CreateIndex (tableName, columnName, unique));
 		}
 
 		/// <summary>
@@ -399,7 +399,7 @@ namespace SQLite
 		/// <param name="unique">Whether the index should be unique</param>
 		public Task<int> CreateIndexAsync (string indexName, string tableName, string columnName, bool unique = false)
 		{
-			return WriteAsync (conn => conn.CreateIndex (indexName, tableName, columnName, unique));
+			return this.WriteAsync (conn => conn.CreateIndex (indexName, tableName, columnName, unique));
 		}
 
 		/// <summary>
@@ -410,7 +410,7 @@ namespace SQLite
 		/// <param name="unique">Whether the index should be unique</param>
 		public Task<int> CreateIndexAsync (string tableName, string[] columnNames, bool unique = false)
 		{
-			return WriteAsync (conn => conn.CreateIndex (tableName, columnNames, unique));
+			return this.WriteAsync (conn => conn.CreateIndex (tableName, columnNames, unique));
 		}
 
 		/// <summary>
@@ -422,7 +422,7 @@ namespace SQLite
 		/// <param name="unique">Whether the index should be unique</param>
 		public Task<int> CreateIndexAsync (string indexName, string tableName, string[] columnNames, bool unique = false)
 		{
-			return WriteAsync (conn => conn.CreateIndex (indexName, tableName, columnNames, unique));
+			return this.WriteAsync (conn => conn.CreateIndex (indexName, tableName, columnNames, unique));
 		}
 
 		/// <summary>
@@ -434,7 +434,7 @@ namespace SQLite
 		/// <param name="unique">Whether the index should be unique</param>
 		public Task<int> CreateIndexAsync<T> (Expression<Func<T, object>> property, bool unique = false)
 		{
-			return WriteAsync (conn => conn.CreateIndex (property, unique));
+			return this.WriteAsync (conn => conn.CreateIndex (property, unique));
 		}
 
 		/// <summary>
@@ -449,7 +449,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertAsync (object obj)
 		{
-			return WriteAsync (conn => conn.Insert (obj));
+			return this.WriteAsync (conn => conn.Insert (obj));
 		}
 
 		/// <summary>
@@ -468,7 +468,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertAsync (object obj, Type objType)
 		{
-			return WriteAsync (conn => conn.Insert (obj, objType));
+			return this.WriteAsync (conn => conn.Insert (obj, objType));
 		}
 
 		/// <summary>
@@ -487,7 +487,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertAsync (object obj, string extra)
 		{
-			return WriteAsync (conn => conn.Insert (obj, extra));
+			return this.WriteAsync (conn => conn.Insert (obj, extra));
 		}
 
 		/// <summary>
@@ -509,7 +509,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertAsync (object obj, string extra, Type objType)
 		{
-			return WriteAsync (conn => conn.Insert (obj, extra, objType));
+			return this.WriteAsync (conn => conn.Insert (obj, extra, objType));
 		}
 
 		/// <summary>
@@ -528,7 +528,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertOrReplaceAsync (object obj)
 		{
-			return WriteAsync (conn => conn.InsertOrReplace (obj));
+			return this.WriteAsync (conn => conn.InsertOrReplace (obj));
 		}
 
 		/// <summary>
@@ -550,7 +550,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertOrReplaceAsync (object obj, Type objType)
 		{
-			return WriteAsync (conn => conn.InsertOrReplace (obj, objType));
+			return this.WriteAsync (conn => conn.InsertOrReplace (obj, objType));
 		}
 
 		/// <summary>
@@ -566,7 +566,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> UpdateAsync (object obj)
 		{
-			return WriteAsync (conn => conn.Update (obj));
+			return this.WriteAsync (conn => conn.Update (obj));
 		}
 
 		/// <summary>
@@ -585,7 +585,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> UpdateAsync (object obj, Type objType)
 		{
-			return WriteAsync (conn => conn.Update (obj, objType));
+			return this.WriteAsync (conn => conn.Update (obj, objType));
 		}
 
 		/// <summary>
@@ -602,7 +602,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> UpdateAllAsync (IEnumerable objects, bool runInTransaction = true)
 		{
-			return WriteAsync (conn => conn.UpdateAll (objects, runInTransaction));
+			return this.WriteAsync (conn => conn.UpdateAll (objects, runInTransaction));
 		}
 
 		/// <summary>
@@ -616,7 +616,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> DeleteAsync (object objectToDelete)
 		{
-			return WriteAsync (conn => conn.Delete (objectToDelete));
+			return this.WriteAsync (conn => conn.Delete (objectToDelete));
 		}
 
 		/// <summary>
@@ -633,7 +633,7 @@ namespace SQLite
 		/// </typeparam>
 		public Task<int> DeleteAsync<T> (object primaryKey)
 		{
-			return WriteAsync (conn => conn.Delete<T> (primaryKey));
+			return this.WriteAsync (conn => conn.Delete<T> (primaryKey));
 		}
 
 		/// <summary>
@@ -650,7 +650,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> DeleteAsync (object primaryKey, TableMapping map)
 		{
-			return WriteAsync (conn => conn.Delete (primaryKey, map));
+			return this.WriteAsync (conn => conn.Delete (primaryKey, map));
 		}
 
 		/// <summary>
@@ -666,7 +666,7 @@ namespace SQLite
 		/// </typeparam>
 		public Task<int> DeleteAllAsync<T> ()
 		{
-			return WriteAsync (conn => conn.DeleteAll<T> ());
+			return this.WriteAsync (conn => conn.DeleteAll<T> ());
 		}
 
 		/// <summary>
@@ -682,7 +682,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> DeleteAllAsync (TableMapping map)
 		{
-			return WriteAsync (conn => conn.DeleteAll (map));
+			return this.WriteAsync (conn => conn.DeleteAll (map));
 		}
 
 		/// <summary>
@@ -692,7 +692,7 @@ namespace SQLite
 		/// <param name="databaseName">The name of the database to backup (usually "main").</param>
 		public Task BackupAsync (string destinationDatabasePath, string databaseName = "main")
 		{
-			return WriteAsync (conn => {
+			return this.WriteAsync (conn => {
 				conn.Backup (destinationDatabasePath, databaseName);
 				return 0;
 			});
@@ -713,7 +713,7 @@ namespace SQLite
 		public Task<T> GetAsync<T> (object pk)
 			where T : new()
 		{
-			return ReadAsync (conn => conn.Get<T> (pk));
+			return this.ReadAsync (conn => conn.Get<T> (pk));
 		}
 
 		/// <summary>
@@ -733,7 +733,7 @@ namespace SQLite
 		/// </returns>
 		public Task<object> GetAsync (object pk, TableMapping map)
 		{
-			return ReadAsync (conn => conn.Get (pk, map));
+			return this.ReadAsync (conn => conn.Get (pk, map));
 		}
 
 		/// <summary>
@@ -750,7 +750,7 @@ namespace SQLite
 		public Task<T> GetAsync<T> (Expression<Func<T, bool>> predicate)
 			where T : new()
 		{
-			return ReadAsync (conn => conn.Get<T> (predicate));
+			return this.ReadAsync (conn => conn.Get<T> (predicate));
 		}
 
 		/// <summary>
@@ -768,7 +768,7 @@ namespace SQLite
 		public Task<T> FindAsync<T> (object pk)
 			where T : new()
 		{
-			return ReadAsync (conn => conn.Find<T> (pk));
+			return this.ReadAsync (conn => conn.Find<T> (pk));
 		}
 
 		/// <summary>
@@ -788,7 +788,7 @@ namespace SQLite
 		/// </returns>
 		public Task<object> FindAsync (object pk, TableMapping map)
 		{
-			return ReadAsync (conn => conn.Find (pk, map));
+			return this.ReadAsync (conn => conn.Find (pk, map));
 		}
 
 		/// <summary>
@@ -805,7 +805,7 @@ namespace SQLite
 		public Task<T> FindAsync<T> (Expression<Func<T, bool>> predicate)
 			where T : new()
 		{
-			return ReadAsync (conn => conn.Find<T> (predicate));
+			return this.ReadAsync (conn => conn.Find<T> (predicate));
 		}
 
 		/// <summary>
@@ -825,7 +825,7 @@ namespace SQLite
 		public Task<T> FindWithQueryAsync<T> (string query, params object[] args)
 			where T : new()
 		{
-			return ReadAsync (conn => conn.FindWithQuery<T> (query, args));
+			return this.ReadAsync (conn => conn.FindWithQuery<T> (query, args));
 		}
 
 		/// <summary>
@@ -847,7 +847,7 @@ namespace SQLite
 		/// </returns>
 		public Task<object> FindWithQueryAsync (TableMapping map, string query, params object[] args)
 		{
-			return ReadAsync (conn => conn.FindWithQuery (map, query, args));
+			return this.ReadAsync (conn => conn.FindWithQuery (map, query, args));
 		}
 
 		/// <summary>
@@ -865,7 +865,7 @@ namespace SQLite
 		/// </returns>
 		public Task<TableMapping> GetMappingAsync (Type type, CreateFlags createFlags = CreateFlags.None)
 		{
-			return ReadAsync (conn => conn.GetMapping (type, createFlags));
+			return this.ReadAsync (conn => conn.GetMapping (type, createFlags));
 		}
 
 		/// <summary>
@@ -881,7 +881,7 @@ namespace SQLite
 		public Task<TableMapping> GetMappingAsync<T> (CreateFlags createFlags = CreateFlags.None)
 			where T : new()
 		{
-			return ReadAsync (conn => conn.GetMapping<T> (createFlags));
+			return this.ReadAsync (conn => conn.GetMapping<T> (createFlags));
 		}
 
 		/// <summary>
@@ -891,7 +891,7 @@ namespace SQLite
 		/// <param name="tableName">Table name.</param>
 		public Task<List<SQLiteConnection.ColumnInfo>> GetTableInfoAsync (string tableName)
 		{
-			return ReadAsync (conn => conn.GetTableInfo (tableName));
+			return this.ReadAsync (conn => conn.GetTableInfo (tableName));
 		}
 
 		/// <summary>
@@ -913,7 +913,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> ExecuteAsync (string query, params object[] args)
 		{
-			return WriteAsync (conn => conn.Execute (query, args));
+			return this.WriteAsync (conn => conn.Execute (query, args));
 		}
 
 		/// <summary>
@@ -929,7 +929,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertAllAsync (IEnumerable objects, bool runInTransaction = true)
 		{
-			return WriteAsync (conn => conn.InsertAll (objects, runInTransaction));
+			return this.WriteAsync (conn => conn.InsertAll (objects, runInTransaction));
 		}
 
 		/// <summary>
@@ -949,7 +949,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertAllAsync (IEnumerable objects, string extra, bool runInTransaction = true)
 		{
-			return WriteAsync (conn => conn.InsertAll (objects, extra, runInTransaction));
+			return this.WriteAsync (conn => conn.InsertAll (objects, extra, runInTransaction));
 		}
 
 		/// <summary>
@@ -969,7 +969,7 @@ namespace SQLite
 		/// </returns>
 		public Task<int> InsertAllAsync (IEnumerable objects, Type objType, bool runInTransaction = true)
 		{
-			return WriteAsync (conn => conn.InsertAll (objects, objType, runInTransaction));
+			return this.WriteAsync (conn => conn.InsertAll (objects, objType, runInTransaction));
 		}
 
 		/// <summary>
@@ -984,7 +984,7 @@ namespace SQLite
 		/// </param>
 		public Task RunInTransactionAsync (Action<SQLiteConnection> action)
 		{
-			return WriteAsync<object> (conn => {
+			return this.WriteAsync<object> (conn => {
 				conn.BeginTransaction ();
 				try {
 					action (conn);
@@ -1012,7 +1012,7 @@ namespace SQLite
 			// This isn't async as the underlying connection doesn't go out to the database
 			// until the query is performed. The Async methods are on the query iteself.
 			//
-			var conn = GetConnection ();
+			var conn = this.GetConnection ();
 			return new AsyncTableQuery<T> (conn.Table<T> ());
 		}
 
@@ -1034,7 +1034,7 @@ namespace SQLite
 		/// </returns>
 		public Task<T> ExecuteScalarAsync<T> (string query, params object[] args)
 		{
-			return WriteAsync (conn => {
+			return this.WriteAsync (conn => {
 				var command = conn.CreateCommand (query, args);
 				return command.ExecuteScalar<T> ();
 			});
@@ -1058,7 +1058,7 @@ namespace SQLite
 		public Task<List<T>> QueryAsync<T> (string query, params object[] args)
 			where T : new()
 		{
-			return ReadAsync (conn => conn.Query<T> (query, args));
+			return this.ReadAsync (conn => conn.Query<T> (query, args));
 		}
 
 		/// <summary>
@@ -1083,7 +1083,7 @@ namespace SQLite
 		/// </returns>
 		public Task<List<object>> QueryAsync (TableMapping map, string query, params object[] args)
 		{
-			return ReadAsync (conn => conn.Query (map, query, args));
+			return this.ReadAsync (conn => conn.Query (map, query, args));
 		}
 
 		/// <summary>
@@ -1106,7 +1106,7 @@ namespace SQLite
 		public Task<IEnumerable<T>> DeferredQueryAsync<T> (string query, params object[] args)
 			where T : new()
 		{
-			return ReadAsync (conn => (IEnumerable<T>)conn.DeferredQuery<T> (query, args).ToList ());
+			return this.ReadAsync (conn => (IEnumerable<T>)conn.DeferredQuery<T> (query, args).ToList ());
 		}
 
 		/// <summary>
@@ -1133,7 +1133,7 @@ namespace SQLite
 		/// </returns>
 		public Task<IEnumerable<object>> DeferredQueryAsync (TableMapping map, string query, params object[] args)
 		{
-			return ReadAsync (conn => (IEnumerable<object>)conn.DeferredQuery (map, query, args).ToList ());
+			return this.ReadAsync (conn => (IEnumerable<object>)conn.DeferredQuery (map, query, args).ToList ());
 		}
 	}
 
@@ -1150,13 +1150,13 @@ namespace SQLite
 		/// </summary>
 		public AsyncTableQuery (TableQuery<T> innerQuery)
 		{
-			_innerQuery = innerQuery;
+            this._innerQuery = innerQuery;
 		}
 
 		Task<U> ReadAsync<U> (Func<SQLiteConnectionWithLock, U> read)
 		{
 			return Task.Factory.StartNew (() => {
-				var conn = (SQLiteConnectionWithLock)_innerQuery.Connection;
+				var conn = (SQLiteConnectionWithLock)this._innerQuery.Connection;
 				using (conn.Lock ()) {
 					return read (conn);
 				}
@@ -1166,7 +1166,7 @@ namespace SQLite
 		Task<U> WriteAsync<U> (Func<SQLiteConnectionWithLock, U> write)
 		{
 			return Task.Factory.StartNew (() => {
-				var conn = (SQLiteConnectionWithLock)_innerQuery.Connection;
+				var conn = (SQLiteConnectionWithLock)this._innerQuery.Connection;
 				using (conn.Lock ()) {
 					return write (conn);
 				}
@@ -1178,7 +1178,7 @@ namespace SQLite
 		/// </summary>
 		public AsyncTableQuery<T> Where (Expression<Func<T, bool>> predExpr)
 		{
-			return new AsyncTableQuery<T> (_innerQuery.Where (predExpr));
+			return new AsyncTableQuery<T> (this._innerQuery.Where (predExpr));
 		}
 
 		/// <summary>
@@ -1186,7 +1186,7 @@ namespace SQLite
 		/// </summary>
 		public AsyncTableQuery<T> Skip (int n)
 		{
-			return new AsyncTableQuery<T> (_innerQuery.Skip (n));
+			return new AsyncTableQuery<T> (this._innerQuery.Skip (n));
 		}
 
 		/// <summary>
@@ -1194,7 +1194,7 @@ namespace SQLite
 		/// </summary>
 		public AsyncTableQuery<T> Take (int n)
 		{
-			return new AsyncTableQuery<T> (_innerQuery.Take (n));
+			return new AsyncTableQuery<T> (this._innerQuery.Take (n));
 		}
 
 		/// <summary>
@@ -1202,7 +1202,7 @@ namespace SQLite
 		/// </summary>
 		public AsyncTableQuery<T> OrderBy<U> (Expression<Func<T, U>> orderExpr)
 		{
-			return new AsyncTableQuery<T> (_innerQuery.OrderBy<U> (orderExpr));
+			return new AsyncTableQuery<T> (this._innerQuery.OrderBy<U> (orderExpr));
 		}
 
 		/// <summary>
@@ -1210,7 +1210,7 @@ namespace SQLite
 		/// </summary>
 		public AsyncTableQuery<T> OrderByDescending<U> (Expression<Func<T, U>> orderExpr)
 		{
-			return new AsyncTableQuery<T> (_innerQuery.OrderByDescending<U> (orderExpr));
+			return new AsyncTableQuery<T> (this._innerQuery.OrderByDescending<U> (orderExpr));
 		}
 
 		/// <summary>
@@ -1218,7 +1218,7 @@ namespace SQLite
 		/// </summary>
 		public AsyncTableQuery<T> ThenBy<U> (Expression<Func<T, U>> orderExpr)
 		{
-			return new AsyncTableQuery<T> (_innerQuery.ThenBy<U> (orderExpr));
+			return new AsyncTableQuery<T> (this._innerQuery.ThenBy<U> (orderExpr));
 		}
 
 		/// <summary>
@@ -1226,7 +1226,7 @@ namespace SQLite
 		/// </summary>
 		public AsyncTableQuery<T> ThenByDescending<U> (Expression<Func<T, U>> orderExpr)
 		{
-			return new AsyncTableQuery<T> (_innerQuery.ThenByDescending<U> (orderExpr));
+			return new AsyncTableQuery<T> (this._innerQuery.ThenByDescending<U> (orderExpr));
 		}
 
 		/// <summary>
@@ -1234,7 +1234,7 @@ namespace SQLite
 		/// </summary>
 		public Task<List<T>> ToListAsync ()
 		{
-			return ReadAsync (conn => _innerQuery.ToList ());
+			return this.ReadAsync (conn => this._innerQuery.ToList ());
 		}
 
 		/// <summary>
@@ -1242,7 +1242,7 @@ namespace SQLite
 		/// </summary>
 		public Task<T[]> ToArrayAsync ()
 		{
-			return ReadAsync (conn => _innerQuery.ToArray ());
+			return this.ReadAsync (conn => this._innerQuery.ToArray ());
 		}
 
 		/// <summary>
@@ -1250,7 +1250,7 @@ namespace SQLite
 		/// </summary>
 		public Task<int> CountAsync ()
 		{
-			return ReadAsync (conn => _innerQuery.Count ());
+			return this.ReadAsync (conn => this._innerQuery.Count ());
 		}
 
 		/// <summary>
@@ -1258,7 +1258,7 @@ namespace SQLite
 		/// </summary>
 		public Task<int> CountAsync (Expression<Func<T, bool>> predExpr)
 		{
-			return ReadAsync (conn => _innerQuery.Count (predExpr));
+			return this.ReadAsync (conn => this._innerQuery.Count (predExpr));
 		}
 
 		/// <summary>
@@ -1266,7 +1266,7 @@ namespace SQLite
 		/// </summary>
 		public Task<T> ElementAtAsync (int index)
 		{
-			return ReadAsync (conn => _innerQuery.ElementAt (index));
+			return this.ReadAsync (conn => this._innerQuery.ElementAt (index));
 		}
 
 		/// <summary>
@@ -1274,7 +1274,7 @@ namespace SQLite
 		/// </summary>
 		public Task<T> FirstAsync ()
 		{
-			return ReadAsync (conn => _innerQuery.First ());
+			return this.ReadAsync (conn => this._innerQuery.First ());
 		}
 
 		/// <summary>
@@ -1282,7 +1282,7 @@ namespace SQLite
 		/// </summary>
 		public Task<T> FirstOrDefaultAsync ()
 		{
-			return ReadAsync (conn => _innerQuery.FirstOrDefault ());
+			return this.ReadAsync (conn => this._innerQuery.FirstOrDefault ());
 		}
 
 		/// <summary>
@@ -1290,7 +1290,7 @@ namespace SQLite
 		/// </summary>
 		public Task<T> FirstAsync (Expression<Func<T, bool>> predExpr)
 		{
-			return ReadAsync (conn => _innerQuery.First (predExpr));
+			return this.ReadAsync (conn => this._innerQuery.First (predExpr));
 		}
 
 		/// <summary>
@@ -1298,7 +1298,7 @@ namespace SQLite
 		/// </summary>
 		public Task<T> FirstOrDefaultAsync (Expression<Func<T, bool>> predExpr)
 		{
-			return ReadAsync (conn => _innerQuery.FirstOrDefault (predExpr));
+			return this.ReadAsync (conn => this._innerQuery.FirstOrDefault (predExpr));
 		}
 
 		/// <summary>
@@ -1306,7 +1306,7 @@ namespace SQLite
 		/// </summary>
 		public Task<int> DeleteAsync (Expression<Func<T, bool>> predExpr)
 		{
-			return WriteAsync (conn => _innerQuery.Delete (predExpr));
+			return this.WriteAsync (conn => this._innerQuery.Delete (predExpr));
 		}
 
 		/// <summary>
@@ -1314,7 +1314,7 @@ namespace SQLite
 		/// </summary>
 		public Task<int> DeleteAsync ()
 		{
-			return WriteAsync (conn => _innerQuery.Delete ());
+			return this.WriteAsync (conn => this._innerQuery.Delete ());
 		}
 	}
 
@@ -1328,33 +1328,33 @@ namespace SQLite
 
 			public Entry (SQLiteConnectionString connectionString)
 			{
-				ConnectionString = connectionString;
+                this.ConnectionString = connectionString;
 			}
 
 			public SQLiteConnectionWithLock Connect ()
 			{
 				SQLiteConnectionWithLock c = null;
-				var wc = connection;
+				var wc = this.connection;
 				if (wc == null || !wc.TryGetTarget (out c)) {
-					c = new SQLiteConnectionWithLock (ConnectionString);
+					c = new SQLiteConnectionWithLock (this.ConnectionString);
 
 					// If the database is FullMutex, then we don't need to bother locking
-					if (ConnectionString.OpenFlags.HasFlag (SQLiteOpenFlags.FullMutex)) {
+					if (this.ConnectionString.OpenFlags.HasFlag (SQLiteOpenFlags.FullMutex)) {
 						c.SkipLock = true;
 					}
 
-					connection = new WeakReference<SQLiteConnectionWithLock> (c);
+                    this.connection = new WeakReference<SQLiteConnectionWithLock> (c);
 				}
 				return c;
 			}
 
 			public void Close ()
 			{
-				var wc = connection;
+				var wc = this.connection;
 				if (wc != null && wc.TryGetTarget (out var c)) {
 					c.Close ();
 				}
-				connection = null;
+                this.connection = null;
 			}
 		}
 
@@ -1376,10 +1376,10 @@ namespace SQLite
 		{
 			var key = connectionString.UniqueKey;
 			Entry entry;
-			lock (_entriesLock) {
-				if (!_entries.TryGetValue (key, out entry)) {
+			lock (this._entriesLock) {
+				if (!this._entries.TryGetValue (key, out entry)) {
 					entry = new Entry (connectionString);
-					_entries[key] = entry;
+                    this._entries[key] = entry;
 				}
 			}
 			return entry.Connect ();
@@ -1389,9 +1389,9 @@ namespace SQLite
 		{
 			var key = connectionString.UniqueKey;
 			Entry entry;
-			lock (_entriesLock) {
-				if (_entries.TryGetValue (key, out entry)) {
-					_entries.Remove (key);
+			lock (this._entriesLock) {
+				if (this._entries.TryGetValue (key, out entry)) {
+                    this._entries.Remove (key);
 				}
 			}
 			entry?.Close ();
@@ -1403,9 +1403,9 @@ namespace SQLite
 		public void Reset ()
 		{
 			List<Entry> entries;
-			lock (_entriesLock) {
-				entries = new List<Entry> (_entries.Values);
-				_entries.Clear ();
+			lock (this._entriesLock) {
+				entries = new List<Entry> (this._entries.Values);
+                this._entries.Clear ();
 			}
 
 			foreach (var e in entries) {
@@ -1445,7 +1445,7 @@ namespace SQLite
 		/// <returns>The lock.</returns>
 		public IDisposable Lock ()
 		{
-			return SkipLock ? (IDisposable)new FakeLockWrapper() : new LockWrapper (_lockPoint);
+			return this.SkipLock ? (IDisposable)new FakeLockWrapper() : new LockWrapper (this._lockPoint);
 		}
 
 		class LockWrapper : IDisposable
@@ -1454,13 +1454,13 @@ namespace SQLite
 
 			public LockWrapper (object lockPoint)
 			{
-				_lockPoint = lockPoint;
-				Monitor.Enter (_lockPoint);
+                this._lockPoint = lockPoint;
+				Monitor.Enter (this._lockPoint);
 			}
 
 			public void Dispose ()
 			{
-				Monitor.Exit (_lockPoint);
+				Monitor.Exit (this._lockPoint);
 			}
 		}
 		class FakeLockWrapper : IDisposable
